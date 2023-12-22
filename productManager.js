@@ -5,6 +5,7 @@ class ProductManager {
     
     getProducts() {
         console.log(this.products);
+        return this.products;
     }
     
     getProductById(id) {          
@@ -14,6 +15,7 @@ class ProductManager {
             console.log('Not found');
         } else {
             console.log(foundProduct);
+            return foundProduct;
         }
     }
     
@@ -30,16 +32,16 @@ class ProductManager {
 
         // Valido que el producto tenga todas las propiedades. Si no las tiene, frena la ejecucion.
 
-        if(product.title && product.description && product.price && product.thumbnail && product.code && product.stock === undefined){
+        if(product.title === undefined || product.description === undefined || product.price === undefined  || product.thumbnail === undefined  || product.code === undefined  || product.stock === undefined){
             console.log('Por favor, proporcione todos los parámetros: title, description, price, thumbnail, code y stock.');
             return;
         }
 
 
         // Si el producto no existe, lo agrega.
-        let productFind = this.products.find((el) => el.code === product.code);
+        let productExists = this.products.find((el) => el.code === product.code);
         
-        if (!productFind) {
+        if (!productExists) {
             this.setId(product);
             this.products.push(product);
             console.log(`El producto ${product.title} se agrego correctamente.`);
@@ -79,5 +81,5 @@ productManager.getProductById(1); // Devuelve el producto con id 1.
 productManager.getProductById(10); // Devuelve que no existe el producto con ese id.
 productManager.addProduct(product1); // Devuelve que el producto ya existe.
 
-const product3 = new Producto('Descripcion 3', 300, 'https://cdn3.iconfinder.com/data/icons/education-209/64/bus-vehicle-transport-school-128.png', '0003', 10);
+const product3 = new Producto('Prueba producto', 'Descripcion 3', 300, 'https://cdn3.iconfinder.com/data/icons/education-209/64/bus-vehicle-transport-school-128.png', '0003', 10);
 productManager.addProduct(product3); // Devuelve que faltan propiedades.
