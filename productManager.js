@@ -27,6 +27,15 @@ class ProductManager {
     }
     
     addProduct(product) {
+
+        // Valido que el producto tenga todas las propiedades. Si no las tiene, frena la ejecucion.
+
+        if(product.title && product.description && product.price && product.thumbnail && product.code && product.stock === undefined){
+            console.log('Por favor, proporcione todos los parámetros: title, description, price, thumbnail, code y stock.');
+            return;
+        }
+
+
         // Si el producto no existe, lo agrega.
         let productFind = this.products.find((el) => el.code === product.code);
         
@@ -69,3 +78,6 @@ productManager.getProducts(); // Devuelve los productos.
 productManager.getProductById(1); // Devuelve el producto con id 1.
 productManager.getProductById(10); // Devuelve que no existe el producto con ese id.
 productManager.addProduct(product1); // Devuelve que el producto ya existe.
+
+const product3 = new Producto('Descripcion 3', 300, 'https://cdn3.iconfinder.com/data/icons/education-209/64/bus-vehicle-transport-school-128.png', '0003', 10);
+productManager.addProduct(product3); // Devuelve que faltan propiedades.
