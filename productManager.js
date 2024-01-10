@@ -13,21 +13,26 @@ class ProductManager {
         })
     }
     
-    getProducts = () => {
-        const data = fs.readFile(this.path, 'utf-8')
-        .then((data) => {
-            console.log(`Archivo leido correctamente \n${data}`)
-        })
-        .catch((err) => {
-            console.log(`Error al leer el archivo. Por favor revise que la ruta sea correcta ${err}`)
-        })
-
-        return data;
+    getProducts = async () => {
+        try {
+            const data = await fs.readFile(this.path, 'utf-8');
+            console.log(`Archivo leido correctamente`);
+            return data;
+        } catch (err) {
+            console.log(`Error al leer el archivo. Por favor revise que la ruta sea correcta ${err}`);
+        }
     }
     
-    getProductById(id) {          
-        const product = this.products.find((product) => product.id === id) || null;
-        return product;
+    async getProductById(id) {  
+        try {
+            const data = await fs.readFile(this.path, 'utf-8');
+            const products = JSON.parse(data);
+            const product = products.find((el) => el.id === id) || null;
+            return product;
+        } catch (err) {
+            console.log(`Error al leer el archivo. Por favor revise que la ruta sea correcta ${err}`);
+            return null;
+        }
     }
     
     setId(product) {
@@ -78,10 +83,7 @@ class ProductManager {
     }
 
     deleteProduct(id) {
-
-        //LEER ANTES CON FS Y DE AHI FILTRAR PORQUE SINO DEPENDE DE LA EJECUCION PORQUE LEE EL ARRAY.
-
-        const data = fs.readFile(this.path, 'utf-8')
+        fs.readFile(this.path, 'utf-8')
         .then((data) => {
             this.products = JSON.parse(data);
             this.products = this.products.filter((el) => el !== this.getProductById(id));
@@ -108,7 +110,7 @@ const product1 = {
     thumbnail: 'https://cdn3.iconfinder.com/data/icons/education-209/64/bus-vehicle-transport-school-128.png',
     code: ' ASUSROGG15-3070',
     stock: 50};
-productManager.addProduct(product1);
+// productManager.addProduct(product1);
 
 // Producto 2
 const product2 = {
@@ -119,13 +121,13 @@ const product2 = {
     code: 'SAMG7-32QLED',
     stock: 30
 };
-productManager.addProduct(product2);
+// productManager.addProduct(product2);
 
 // Get products
 // productManager.getProducts();
 
 // Get product by ID
-// console.log(productManager.getProductById(1))
+productManager.getProductById(2)
 
 // Update product
 // productManager.updateProduct(2, 'Monitor Curvo Samsung Odyssey G7 - 32 pulgadas, QLED, 240Hz, 1ms, G-Sync, FreeSync Premium Pro','Sumérgete en la acción con el monitor curvo Samsung Odyssey G7. Con una pantalla QLED de 32 pulgadas y una frecuencia de actualización de 240Hz junto con un tiempo de respuesta de 1ms, este monitor ofrece una experiencia de juego sin igual. La tecnología G-Sync y FreeSync Premium Pro garantizan imágenes fluidas y libres de tearing. El diseño curvo 1000R proporciona una inmersión completa en tus juegos favoritos y trabajos creativos. Además, cuenta con un elegante sistema de iluminación ambiental en la parte trasera.', 1299.99, 'https://cdn3.iconfinder.com/data/icons/education-209/64bus-vehicle-transport-school-128.png', 'SAMG7-32QLED', 25)
