@@ -59,11 +59,9 @@ app.get('/products', (req, res) => {
     }
 })
 
-//            '/products/:pid => Debe recibir por req.params el id y devolver solo el producto solicitado.
-
 
 app.get('/products/:pid', (req, res) => {
-    const id = req.params.pid;
+    const id = parseInt(req.params.pid);
     PM.getProductById(id)
     .then((product) => {
         if (product) {

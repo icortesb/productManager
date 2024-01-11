@@ -98,7 +98,7 @@ class ProductManager {
 module.exports = ProductManager;
 
 
-// Ejemplo
+// Ejemplos
 
 const productManager = new ProductManager();
 
@@ -121,16 +121,3 @@ const product2 = {
     code: 'SAMG7-32QLED',
     stock: 30
 };
-// productManager.addProduct(product2);
-
-// Get products
-// productManager.getProducts();
-
-// Get product by ID
-productManager.getProductById(2)
-
-// Update product
-// productManager.updateProduct(2, 'Monitor Curvo Samsung Odyssey G7 - 32 pulgadas, QLED, 240Hz, 1ms, G-Sync, FreeSync Premium Pro','Sumérgete en la acción con el monitor curvo Samsung Odyssey G7. Con una pantalla QLED de 32 pulgadas y una frecuencia de actualización de 240Hz junto con un tiempo de respuesta de 1ms, este monitor ofrece una experiencia de juego sin igual. La tecnología G-Sync y FreeSync Premium Pro garantizan imágenes fluidas y libres de tearing. El diseño curvo 1000R proporciona una inmersión completa en tus juegos favoritos y trabajos creativos. Además, cuenta con un elegante sistema de iluminación ambiental en la parte trasera.', 1299.99, 'https://cdn3.iconfinder.com/data/icons/education-209/64bus-vehicle-transport-school-128.png', 'SAMG7-32QLED', 25)
-
-// Delete product
-// productManager.deleteProduct(2);
