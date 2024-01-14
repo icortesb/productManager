@@ -1,7 +1,9 @@
-const fs = require('fs/promises')
-class ProductManager {
-    constructor() {
-        this.path = './productos.json';
+import { promises as fs } from 'fs';
+import { v4 as uuidv4 } from 'uuid';
+
+export class ProductManager {
+    constructor(path) {
+        this.path = path;
         this.products = [];
     }
 
@@ -27,7 +29,7 @@ class ProductManager {
         try {
             const data = await fs.readFile(this.path, 'utf-8');
             const products = JSON.parse(data);
-            const product = products.find((el) => el.id === id) || null;
+            const product = products.find((el) => el.id === parseInt(id)) || null;
             return product;
         } catch (err) {
             console.log(`Error al leer el archivo. Por favor revise que la ruta sea correcta ${err}`);
@@ -35,13 +37,9 @@ class ProductManager {
         }
     }
     
+    // Modificar para que no depende del array
     setId(product) {
-        // Si el array esta vacio, el id es 1, sino, el id es el ultimo id + 1.
-        if (this.products.length === 0) {
-            product.id = 1;
-        } else {
-            product.id = this.products[this.products.length - 1].id + 1;
-        }
+        product.id = uuidv4();
     }
     
     addProduct(product) {
@@ -94,30 +92,3 @@ class ProductManager {
         })
     }
 }
-
-module.exports = ProductManager;
-
-
-// Ejemplos
-
-const productManager = new ProductManager();
-
-// Producto 1
-const product1 = {
-    title: 'Laptop Gaming ASUS ROG Strix G15 - Intel i7, 16GB RAM, NVIDIA RTX 3070, 1TB SSD',
-    description: 'Experimenta el rendimiento excepcional con la Laptop Gaming ASUS ROG Strix G15. Equipada con un potente procesador Intel Core i7, 16GB de RAM para multitareas fluidas y una tarjeta gráfica NVIDIA GeForce RTX 3070 para una experiencia de juego inmersiva. Almacenamiento ultrarrápido de 1TB SSD para tiempos de carga rápidos. La pantalla Full HD de 15.6 pulgadas con una alta tasa de refresco te sumerge en tus juegos favoritos. Diseño estilizado y teclado retroiluminado para una experiencia gaming completa.',
-    price: 1899.99,
-    thumbnail: 'https://cdn3.iconfinder.com/data/icons/education-209/64/bus-vehicle-transport-school-128.png',
-    code: ' ASUSROGG15-3070',
-    stock: 50};
-// productManager.addProduct(product1);
-
-// Producto 2
-const product2 = {
-    title : 'Monitor Curvo Samsung Odyssey G7 - 32 pulgadas, QLED, 240Hz, 1ms, G-Sync, FreeSync Premium Pro',
-    description: 'Sumérgete en la acción con el monitor curvo Samsung Odyssey G7. Con una pantalla QLED de 32 pulgadas y una frecuencia de actualización de 240Hz junto con un tiempo de respuesta de 1ms, este monitor ofrece una experiencia de juego sin igual. La tecnología G-Sync y FreeSync Premium Pro garantizan imágenes fluidas y libres de tearing. El diseño curvo 1000R proporciona una inmersión completa en tus juegos favoritos y trabajos creativos. Además, cuenta con un elegante sistema de iluminación ambiental en la parte trasera.',
-    price: 799.99,
-    thumbnail: 'https://cdn3.iconfinder.com/data/icons/education-209/64bus-vehicle-transport-school-128.png',
-    code: 'SAMG7-32QLED',
-    stock: 30
-};
