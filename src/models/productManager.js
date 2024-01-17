@@ -10,8 +10,8 @@ export class ProductManager {
         try {
             const data = await fs.readFile(this.path, 'utf-8');
             return data;
-        } catch (err) {
-            console.log(`Error al leer el archivo. Por favor revise que la ruta sea correcta ${err}`);
+        } catch (error) {
+            console.log(`Error al leer el archivo. Por favor revise que la ruta sea correcta ${error.message}`);
         }
     }
     
@@ -21,7 +21,8 @@ export class ProductManager {
             const product = products.find((el) => el.id === parseInt(id)) || null;
             return product;
         } catch (err) {
-            console.log(`Error al leer el archivo. Por favor revise que la ruta sea correcta ${err.message}`);
+            console.log(`Error al obtener el producto. Por favor, revise que el id sea correcto ${err.message}`);
+            return false;
         }
     }
         

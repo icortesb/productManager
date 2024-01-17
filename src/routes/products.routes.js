@@ -10,7 +10,6 @@ const routerProd = Router();
 
 routerProd.get('/', async (req, res) => {
     const { limit } = req.query;
-    console.log(limit)
 
     if(!limit) {
         try {

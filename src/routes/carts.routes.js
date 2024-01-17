@@ -1,9 +1,68 @@
-import e, { Router } from "express";
+import { Router } from "express";
+import { CartManager } from "../models/cartsManager.js";
 
 const routerCarts = Router();
+const CM = new CartManager('./src/models/carts.json');
 
-routerCarts.get('/', (req, res) => {
-    res.send('GET /api/carts')
+routerCarts.post('/', async (req, res) => {
+    try {
+        const cart = await CM.newCart()
+
+        if (cart) {
+            res.status(201).json(
+                {
+                    message: `Se ha creado un nuevo carrito`,
+                    id: cart.id
+                }
+            )
+        } else {
+            res.status(400).json(
+                {
+                    message: `Error al crear el carrito. Por favor, revisar que la ruta sea correcta.`
+                }
+            )
+        }
+        
+    } catch (error) {
+        res.status(400).json(
+            {
+                message: `Error al crear el carrito. Intente nuevamente: ${error.message}`
+            }
+        )        
+    }
 })
+
+routerCarts.get('/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const cart = await CM.getCartById(id)
+        if (cart) {
+            res.status(200).json(
+                {
+                    message: `Se muestra el carrito con el id ${cart.id}`,
+                    carrito: cart.products
+                }
+            )
+        } else {
+            res.status(401).json(
+                {
+                    message: `Error al obtener el carrito. Por favor, revise que el id sea correcto.`
+                }
+            )
+        }
+        
+    } catch (error) {
+        res.status(400).json(
+            {
+                message: `Error al obtener el carrito. Intente nuevamente: ${error.message}`
+            }
+        )        
+    }
+
+})
+
+    routerCarts.post('/:cid/product/:pid', async (req, res) => {
+        const { cid, pid } = req.params
+    })
 
 export default routerCarts;
