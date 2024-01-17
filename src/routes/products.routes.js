@@ -18,7 +18,7 @@ routerProd.get('/', async (req, res) => {
             console.log(products)
             res.json(
                 {
-                    message: 'Se muestran todos los productos',
+                    message: `Se muestran todos los productos`,
                     products: JSON.parse(products, null, 4)
                 }
             )
@@ -26,7 +26,7 @@ routerProd.get('/', async (req, res) => {
         catch (error) {
             res.status(500).json(
                 {
-                    message: 'Error al obtener los productos',
+                    message: `Error al obtener los productos`,
                     error: error.message
                 }
             )        
@@ -48,7 +48,7 @@ routerProd.get('/', async (req, res) => {
         catch (error) {
             res.status(500).json(
                 {
-                    message: 'Error al obtener los productos',
+                    message: `Error al obtener los productos`,
                     error: error.message
                 }
             )            
@@ -86,7 +86,85 @@ routerProd.get('/:id', async (req, res)  => {
 })
 
 routerProd.post('/', async (req, res) => {
-    const id = PM.setId()
+    const product = req.body;
+    try {
+        const addedProduct = await PM.addProduct(product);
+        if (addedProduct) {
+            res.json(
+                {
+                    message: `Producto agregado correctamente.`,
+                }
+            )
+        } else {
+            res.status(400).json(
+                {
+                    message: `El producto ya existe.`
+                }
+            )
+        }
+    } catch (error) {
+        res.status(500).json(
+            {
+                message: `Error al agregar el producto.`,
+                error: error.message
+            }
+        )
+    }
+})
+
+routerProd.put('/:id', async (req, res) => {
+    const { id } = req.params;
+    const product = req.body;
+    try {
+        const updatedProduct = await PM.updateProduct(id, product);
+        if (updatedProduct) {
+            res.json(
+                {
+                    message: `Producto actualizado correctamente.`,
+                }
+            )
+        } else {
+            res.status(404).json(
+                {
+                    message: `Producto no encontrado.`
+                }
+            )
+        }
+    } catch (error) {
+        res.status(500).json(
+            {
+                message: `Error al actualizar el producto.`,
+                error: error.message
+            }
+        )
+    }
+})
+
+routerProd.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const deletedProduct = await PM.deleteProduct(id);
+        if (deletedProduct) {
+            res.json(
+                {
+                    message: `Producto eliminado correctamente.`,
+                }
+            )
+        } else {
+            res.status(404).json(
+                {
+                    message: `Producto no encontrado.`
+                }
+            )
+        }
+    } catch (error) {
+        res.status(500).json(
+            {
+                message: `Error al eliminar el producto.`,
+                error: error.message
+            }
+        )
+    }
 })
 
 export default routerProd;
