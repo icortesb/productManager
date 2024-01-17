@@ -4,21 +4,11 @@ import { v4 as uuidv4 } from 'uuid';
 export class ProductManager {
     constructor(path) {
         this.path = path;
-        this.products = [];
-    }
-
-    saveDataToFile = () => {     
-        const data = JSON.stringify(this.products, null, 4);
-        fs.writeFile(this.path, data, 'utf-8')
-        .catch((err) => {
-            console.log(`Error al guardar el archivo. Por favor revise que la ruta sea correcta ${err}`)
-        })
     }
     
     getProducts = async () => {
         try {
             const data = await fs.readFile(this.path, 'utf-8');
-            console.log(`Archivo leido correctamente`);
             return data;
         } catch (err) {
             console.log(`Error al leer el archivo. Por favor revise que la ruta sea correcta ${err}`);
@@ -27,68 +17,75 @@ export class ProductManager {
     
     async getProductById(id) {  
         try {
-            const data = await fs.readFile(this.path, 'utf-8');
-            const products = JSON.parse(data);
+            const products = JSON.parse(await this.getProducts());
             const product = products.find((el) => el.id === parseInt(id)) || null;
             return product;
         } catch (err) {
-            console.log(`Error al leer el archivo. Por favor revise que la ruta sea correcta ${err}`);
-            return null;
+            console.log(`Error al leer el archivo. Por favor revise que la ruta sea correcta ${err.message}`);
         }
     }
-    
-    // Modificar para que no depende del array
-    setId(product) {
-        product.id = uuidv4();
-    }
-    
-    addProduct(product) {
-        // Valido que el producto tenga todas las propiedades. Si no las tiene, frena la ejecucion.
+        
 
-        if(product.title === undefined || product.description === undefined || product.price === undefined || product.thumbnail === undefined || product.code === undefined || product.stock === undefined) {
-            return 'Por favor, proporcione todos los parámetros: title, description, price, thumbnail, code y stock.'
+    addProduct = async (product) => {
+        const { title, description, category, price, thumbnails, code, stock } = product;
+        const status = product.status !== undefined ? product.status : true;
+
+        if (title === undefined || description === undefined || category === undefined || price === undefined || code === undefined || stock === undefined) {
+            console.log('Por favor, proporcione todos los parámetros: title, description, category, price, code y stock.');
+            return false;
         }
 
-        // Si el producto no existe, lo agrega.
+        try {
+            const prods = JSON.parse(await this.getProducts());
+            const productExists = prods.find((el) => el.code === product.code);
 
-        const productExists = this.products.find((el) => el.code === product.code);
+            if (!productExists) {
+                const id = uuidv4();
+                const newProduct = { id, title, description, category, price, thumbnails, code, stock, status };
+                prods.push(newProduct);
+                await fs.writeFile(this.path, JSON.stringify(prods, null, 4));
+                console.log('Producto agregado correctamente.');
+                return true;
+            } else {
+                console.log('El producto ya existe.');
+                return false;
+            }
+        } catch (error) {
+            console.log(`Error al leer el archivo. Por favor revise que la ruta sea correcta ${error}`);
+        }
+    }
 
-        if (!productExists) {
-            this.setId(product);
-            this.products.push(product);
-            this.saveDataToFile();
+    updateProduct = async (id, product) => {
+        const products = JSON.parse(await this.getProducts(), null);
+        const prod = await this.getProductById(id);
+
+        if (prod) {
+            Object.keys(product).forEach((key) => {
+                prod[key] = product[key] || prod[key];
+            });
+            const filteredProducts = products.filter((el) => el.id !== parseInt(id));
+            filteredProducts.push(prod);
+            filteredProducts.sort((a, b) => a.id - b.id);
+            await fs.writeFile(this.path, JSON.stringify(filteredProducts, null, 4));
+            return true;
         } else {
-            console.log(`El producto ${product.title} ya existe.`)
+            return false;
         }
     }
 
-    updateProduct(id, title, description, price, thumbnail, code, stock) {
-        const producto = this.getProductById(id);
-
-        if (producto) {
-            producto.title = title;
-            producto.description = description;
-            producto.price = price;
-            producto.thumbnail = thumbnail;
-            producto.code = code;
-            producto.stock = stock;
-            
-            this.saveDataToFile();
-            console.log(`El producto ${producto.title} se guardó correctamente.`)
-        } else {
-            console.log(`El producto con el id ${id} no existe.`)
+    deleteProduct = async (id) => {
+        try {
+            const products = JSON.parse(await this.getProducts());
+            const product = products.find((el) => el.id === parseInt(id)) || null;
+            if (product) {
+                await fs.writeFile(this.path, JSON.stringify(products.filter((el) => el.id !== parseInt(id)), null, 4));
+                return true;
+            } else {
+                return false;
+            }
+        } catch (err) {
+            console.log(`Error al leer el archivo. Por favor revise que la ruta sea correcta ${err.message}`);
+            return false;
         }
-    }
-
-    deleteProduct(id) {
-        fs.readFile(this.path, 'utf-8')
-        .then((data) => {
-            this.products = JSON.parse(data);
-            this.products = this.products.filter((el) => el !== this.getProductById(id));
-            this.saveDataToFile()
-        })
-        .catch((err) => {
-            console.log(`No se pudo eliminar el producto. Error: ${err}`);
-        })
     }
 }
