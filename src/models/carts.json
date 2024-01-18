@@ -1,5 +1,9 @@
 [
     {
+        "id": "42e720c9-7ce6-4231-babe-41a56cda7b39",
+        "products": []
+    },
+    {
         "id": "0ac28ad5-95ba-448f-8102-8d6299d7f8f8",
         "products": []
     },
@@ -10,14 +14,5 @@
     {
         "id": "768c986d-c35d-474e-abd4-fb49a5813017",
         "products": []
-    },
-    {
-        "id": "42e720c9-7ce6-4231-babe-41a56cda7b39",
-        "products": [
-            {
-                "productId": "5",
-                "quantity": 2
-            }
-        ]
     }
 ]
