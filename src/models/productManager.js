@@ -57,7 +57,7 @@ export class ProductManager {
     }
 
     updateProduct = async (id, product) => {
-        const products = JSON.parse(await this.getProducts(), null);
+        const products = JSON.parse(await this.getProducts());
         const prod = await this.getProductById(id);
 
         if (prod) {
@@ -66,7 +66,7 @@ export class ProductManager {
             });
             const filteredProducts = products.filter((el) => el.id !== id);
             filteredProducts.push(prod);
-            filteredProducts.sort((a, b) => a.id - b.id);
+            filteredProducts.sort((a, b) => a.id.localeCompare(b.id));
             await fs.writeFile(this.path, JSON.stringify(filteredProducts, null, 4));
             return true;
         } else {

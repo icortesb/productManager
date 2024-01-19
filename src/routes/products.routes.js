@@ -12,13 +12,13 @@ routerProd.get('/', async (req, res) => {
     const { limit } = req.query;
 
     try {
-        const products = await PM.getProducts();
+        const products = JSON.parse(await PM.getProducts());
         let limitedProducts = [];
 
         if (!limit) {
             res.status(200).json({
                 message: `Se muestran todos los productos`,
-                products: JSON.parse(products, null, 4)
+                products: products
             });
         } else {
             for (let i = 0; i < limit; i++) {
@@ -73,13 +73,13 @@ routerProd.post('/', async (req, res) => {
         if (addedProduct) {
             res.json(
                 {
-                    message: `Producto agregado correctamente.`,
+                    message: `Producto agregado correctamente.`
                 }
             )
         } else {
             res.status(400).json(
                 {
-                    message: `El producto ya existe.`
+                    message: `El producto ya existe o faltan parametros..`
                 }
             )
         }
