@@ -11,49 +11,31 @@ const routerProd = Router();
 routerProd.get('/', async (req, res) => {
     const { limit } = req.query;
 
-    if(!limit) {
-        try {
-            const products = await PM.getProducts()
-            console.log(products)
-            res.json(
-                {
-                    message: `Se muestran todos los productos`,
-                    products: JSON.parse(products, null, 4)
-                }
-            )
-        }        
-        catch (error) {
-            res.status(500).json(
-                {
-                    message: `Error al obtener los productos`,
-                    error: error.message
-                }
-            )        
-        }
-    } else {
-        try {
-            const products = JSON.parse(await PM.getProducts(), null, 4);
-            let limitedProducts = [];
+    try {
+        const products = await PM.getProducts();
+        let limitedProducts = [];
+
+        if (!limit) {
+            res.status(200).json({
+                message: `Se muestran todos los productos`,
+                products: JSON.parse(products, null, 4)
+            });
+        } else {
             for (let i = 0; i < limit; i++) {
-                limitedProducts.push(products[i])                
+                limitedProducts.push(products[i]);
             }
-            res.json(
-                {
-                    message: `Se muestran los primeros ${limit} resultados.`,
-                    data: limitedProducts
-                }
-            )
-        }           
-        catch (error) {
-            res.status(500).json(
-                {
-                    message: `Error al obtener los productos`,
-                    error: error.message
-                }
-            )            
+            res.status(200).json({
+                message: `Se muestran los primeros ${limit} resultados.`,
+                data: limitedProducts
+            });
         }
+    } catch (error) {
+        res.status(500).json({
+            message: `Error al obtener los productos`,
+            error: error.message
+        });
     }
-})
+});
 
 routerProd.get('/:id', async (req, res)  => {
     const { id } = req.params;

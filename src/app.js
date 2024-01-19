@@ -5,9 +5,14 @@ import routerProd from './routes/products.routes.js'
 import routerCarts from './routes/carts.routes.js'
 import routerHome from './routes/home.routes.js'
 import { engine } from 'express-handlebars';
+import { Server } from "socket.io";
+import { createServer } from 'node:http';
+
+let messages = [];
 
 const PORT = 8080;
 const app = express();
+const server = createServer(app);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -31,6 +36,26 @@ app.use('/api/products', routerProd)
 app.use('/api/carts', routerCarts)
 app.use('/api/home', routerHome)
 
-app.listen(PORT, () => {
+// Socket.io
+
+const io = new Server(server);
+io.on('connection', (socket) => {
+    console.log('Usuario conectado');
+    socket.emit('mensaje', 'Bienvenido al chat!');
+    socket.on('mensaje', (data) => {
+        console.log(data);
+    })
+    socket.on('disconnect', () => {
+        console.log('Usuario desconectado');
+    })
+
+    socket.on('newMessage', (data) => {
+        messages.push(data);
+        io.sockets.emit('chatMessage', messages);
+    })
+})
+
+
+server.listen(PORT, () => {
     console.log(`Servidor arriba. Puerto ${PORT}`)
 })

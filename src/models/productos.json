@@ -1,5 +1,6 @@
 [
     {
+        "id": "db094826-0e05-4cce-80f1-1910144372a7",
         "title": "Laptop Gaming ASUS ROG Strix G15 - Intel i7, 16GB RAM, NVIDIA RTX 3070, 1TB SSD",
         "description": "Experimenta el rendimiento excepcional con la Laptop Gaming ASUS ROG Strix G15. Equipada con un potente procesador Intel Core i7, 16GB de RAM para multitareas fluidas y una tarjeta gráfica NVIDIA GeForce RTX 3070 para una experiencia de juego inmersiva. Almacenamiento ultrarrápido de 1TB SSD para tiempos de carga rápidos. La pantalla Full HD de 15.6 pulgadas con una alta tasa de refresco te sumerge en tus juegos favoritos. Diseño estilizado y teclado retroiluminado para una experiencia gaming completa.",
         "category": "Laptops",
@@ -9,10 +10,10 @@
         ],
         "code": "ASUSROGG15-3070",
         "stock": 50,
-        "status": true,
-        "id": 1
+        "status": true
     },
     {
+        "id": "f41aa5b6-087f-4b88-baf2-d499af99646d",
         "title": "Monitor Curvo Samsung Odyssey G7 - 32 pulgadas, QLED, 240Hz, 1ms, G-Sync, FreeSync Premium Pro",
         "description": "Sumérgete en la acción con el monitor curvo Samsung Odyssey G7. Con una pantalla QLED de 32 pulgadas y una frecuencia de actualización de 240Hz junto con un tiempo de respuesta de 1ms, este monitor ofrece una experiencia de juego sin igual. La tecnología G-Sync y FreeSync Premium Pro garantizan imágenes fluidas y libres de tearing. El diseño curvo 1000R proporciona una inmersión completa en tus juegos favoritos y trabajos creativos. Además, cuenta con un elegante sistema de iluminación ambiental en la parte trasera.",
         "category": "Monitores",
@@ -22,10 +23,10 @@
         ],
         "code": "SAMG7-32QLED",
         "stock": 30,
-        "status": true,
-        "id": 2
+        "status": true
     },
     {
+        "id": "a3d98b40-b64a-4431-bcd4-922a6afb573e",
         "title": "Teclado Mecánico Corsair K70 RGB MK.2",
         "description": "Disfruta de una experiencia de escritura única con el teclado mecánico Corsair K70 RGB MK.2. Equipado con interruptores Cherry MX, retroiluminación RGB personalizable y estructura de aluminio para una durabilidad excepcional.",
         "category": "Periféricos",
@@ -35,10 +36,10 @@
         ],
         "code": "CORSAIRK70-RGB",
         "stock": 20,
-        "status": true,
-        "id": 3
+        "status": true
     },
     {
+        "id": "0e4f5086-81de-4862-8090-1042c1c89b4a",
         "title": "Monitor LG UltraGear 27GL850-B - 27 pulgadas, QHD, 144Hz, 1ms",
         "description": "Sumérgete en la acción con el monitor LG UltraGear 27GL850-B. Con una resolución QHD, una alta frecuencia de actualización de 144Hz y un tiempo de respuesta de 1ms para una experiencia de juego fluida y sin desenfoques.",
         "category": "Monitores",
@@ -48,10 +49,10 @@
         ],
         "code": "LG27GL850-QHD",
         "stock": 35,
-        "status": true,
-        "id": 4
+        "status": true
     },
     {
+        "id": "95efcd71-17e9-41ab-9fe6-ef5ed151c04c",
         "title": "Tarjeta Gráfica NVIDIA GeForce RTX 3080",
         "description": "Potencia tu experiencia de juego con la tarjeta gráfica NVIDIA GeForce RTX 3080. Ofrece un rendimiento excepcional con tecnología de trazado de rayos en tiempo real para gráficos asombrosos.",
         "category": "Placas de video",
@@ -61,10 +62,10 @@
         ],
         "code": "NVIDIARTX3080",
         "stock": 15,
-        "status": true,
-        "id": 5
+        "status": true
     },
     {
+        "id": "116548ed-bb60-4d2f-abe2-73d901670169",
         "title": "Mouse Inalámbrico Logitech G Pro X Superlight",
         "description": "Experimenta la libertad de movimiento con el mouse inalámbrico Logitech G Pro X Superlight. Diseñado para gamers, cuenta con tecnología inalámbrica LIGHTSPEED y un peso ultraligero para un rendimiento excepcional.",
         "category": "Periféricos",
@@ -74,10 +75,10 @@
         ],
         "code": "LOGITECHPROX",
         "stock": 25,
-        "status": true,
-        "id": 6
+        "status": true
     },
     {
+        "id": "0cfbec66-d56b-4986-aec1-493e0468c2c5",
         "title": "Auriculares HyperX Cloud II - Sonido Envolvente 7.1",
         "description": "Sumérgete en un audio envolvente con los auriculares HyperX Cloud II. Equipados con sonido envolvente virtual 7.1, almohadillas de piel sintética y un micrófono desmontable con cancelación de ruido.",
         "category": "Periféricos",
@@ -87,10 +88,10 @@
         ],
         "code": "HYPERXCLOUDII",
         "stock": 30,
-        "status": true,
-        "id": 7
+        "status": true
     },
     {
+        "id": "5e1cb24b-c3a8-4354-a0bb-9ac1fefd1971",
         "title": "SSD Samsung 970 EVO Plus 1TB - NVMe M.2",
         "description": "Aumenta la velocidad de tu sistema con el SSD Samsung 970 EVO Plus. Ofrece velocidades de lectura y escritura ultrarrápidas, perfecto para mejorar el rendimiento de tu computadora.",
         "category": "Almacenamiento",
@@ -100,11 +101,11 @@
         ],
         "code": "SAMSUNG970EVO-1TB",
         "stock": 40,
-        "status": true,
-        "id": 8
+        "status": true
     },
     {
-        "title": "Procesador AMD Ryzen 9 5900X - 12 núcleos, 24 hilos",
+        "id": "fc21365f-b8c6-4567-99af-a7e860124c01",
+        "title": "SAMSUNG970EVO-1TB",
         "description": "Desata el máximo rendimiento con el procesador AMD Ryzen 9 5900X. Con 12 núcleos y 24 hilos, disfruta de un rendimiento excepcional en aplicaciones y juegos exigentes.",
         "category": "Procesadores",
         "price": 549.99,
@@ -113,10 +114,10 @@
         ],
         "code": "AMD5900X-12C",
         "stock": 10,
-        "status": true,
-        "id": 9
+        "status": true
     },
     {
+        "id": "49bf8cd2-5fac-4ddd-9ac2-060533eaea61",
         "title": "Memoria RAM Corsair Vengeance RGB Pro 32GB (2x16GB) DDR4 3200MHz",
         "description": "Potencia tu sistema con la memoria RAM Corsair Vengeance RGB Pro. Con una capacidad de 32GB y una velocidad de 3200MHz, experimenta un rendimiento fluido y una iluminación RGB personalizable.",
         "category": "Memorias RAM",
@@ -126,7 +127,6 @@
         ],
         "code": "CORSAIRVRGB-32GB",
         "stock": 18,
-        "status": true,
-        "id": 10
+        "status": true
     }
 ]

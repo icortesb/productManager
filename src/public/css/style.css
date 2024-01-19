@@ -1,7 +1,9 @@
-* {
-    background-color: red;
+body {
+    display: grid;
+    place-items: center;
+    background-color: #303030;
 }
 
 h1{
-    color: blue;
+    color: #f0f0f0;
 }

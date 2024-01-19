@@ -18,7 +18,7 @@ export class ProductManager {
     async getProductById(id) {  
         try {
             const products = JSON.parse(await this.getProducts());
-            const product = products.find((el) => el.id === parseInt(id)) || null;
+            const product = products.find((el) => el.id === id) || null;
             return product;
         } catch (err) {
             console.log(`Error al obtener el producto. Por favor, revise que el id sea correcto ${err.message}`);
@@ -64,7 +64,7 @@ export class ProductManager {
             Object.keys(product).forEach((key) => {
                 prod[key] = product[key] || prod[key];
             });
-            const filteredProducts = products.filter((el) => el.id !== parseInt(id));
+            const filteredProducts = products.filter((el) => el.id !== id);
             filteredProducts.push(prod);
             filteredProducts.sort((a, b) => a.id - b.id);
             await fs.writeFile(this.path, JSON.stringify(filteredProducts, null, 4));
@@ -77,9 +77,9 @@ export class ProductManager {
     deleteProduct = async (id) => {
         try {
             const products = JSON.parse(await this.getProducts());
-            const product = products.find((el) => el.id === parseInt(id)) || null;
+            const product = products.find((el) => el.id === id) || null;
             if (product) {
-                await fs.writeFile(this.path, JSON.stringify(products.filter((el) => el.id !== parseInt(id)), null, 4));
+                await fs.writeFile(this.path, JSON.stringify(products.filter((el) => el.id !== id), null, 4));
                 return true;
             } else {
                 return false;

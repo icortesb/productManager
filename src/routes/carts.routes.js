@@ -66,12 +66,7 @@ routerCarts.get('/:id', async (req, res) => {
         try {
             const carrito = await CM.getCartById(cid);
             if (carrito) {
-                carrito.products.push({
-                    productId: pid,
-                    quantity: carrito.products.length + 1
-                });
-                await CM.saveCartsById(cid, carrito.products);
-
+                await CM.saveCartsById(cid, pid);
                 res.status(201).json(
                     {
                         message: 'Producto agregado correctamente',
