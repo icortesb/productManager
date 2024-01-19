@@ -1,8 +1,10 @@
 import { Router } from "express";
 import { CartManager } from "../models/cartsManager.js";
+import { ProductManager } from "../models/productManager.js";
 
 const routerCarts = Router();
 const CM = new CartManager('./src/models/carts.json');
+const PM = new ProductManager('./src/models/productos.json');
 
 routerCarts.post('/', async (req, res) => {
     try {
@@ -63,28 +65,38 @@ routerCarts.get('/:id', async (req, res) => {
 
     routerCarts.post('/:cid/product/:pid', async (req, res) => {
         const { cid, pid } = req.params;
-        try {
-            const carrito = await CM.getCartById(cid);
-            if (carrito) {
-                await CM.saveCartsById(cid, pid);
-                res.status(201).json(
+        const pidExists = await PM.getProductById(pid);
+        if (pidExists) {
+            try {
+                const carrito = await CM.getCartById(cid);
+                if (carrito) {
+                    await CM.saveCartsById(cid, pid);
+                    res.status(201).json(
+                        {
+                            message: 'Producto agregado correctamente',
+                        }
+                    )
+    
+                } else {
+                    res.status(400).json(
+                        {
+                            message: 'Error'
+                        }
+                    )    
+                }
+                
+            } catch (error) {
+                res.status(500).json(
                     {
-                        message: 'Producto agregado correctamente',
+                        message: `Error al agregar el producto. Intente nuevamente: ${error.message}`
                     }
                 )
-
-            } else {
-                res.status(400).json(
-                    {
-                        message: 'Error'
-                    }
-                )    
             }
-            
-        } catch (error) {
-            res.status(500).json(
+
+        } else {
+            res.status(404).json(
                 {
-                    message: `Error al agregar el producto. Intente nuevamente: ${error.message}`
+                    message: `El producto no existe.`
                 }
             )
         }
