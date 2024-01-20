@@ -3,8 +3,10 @@ import { CartManager } from "../models/cartsManager.js";
 import { ProductManager } from "../models/productManager.js";
 
 const routerCarts = Router();
-const CM = new CartManager('./src/models/carts.json');
-const PM = new ProductManager('./src/models/productos.json');
+
+const rootPath = process.cwd();
+const CM = new CartManager(`${rootPath}/src/models/carts.json`);
+const PM = new ProductManager(`${rootPath}/src/models/productos.json`);
 
 routerCarts.post('/', async (req, res) => {
     try {
