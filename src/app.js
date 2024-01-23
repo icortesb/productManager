@@ -10,7 +10,7 @@ import { createServer } from 'node:http';
 
 let messages = [];
 
-const PORT = 8080;
+const PORT = 8080 || process.env.PORT;
 const app = express();
 const server = createServer(app);
 const __filename = fileURLToPath(import.meta.url);
@@ -41,10 +41,6 @@ app.use('/api/home', routerHome)
 const io = new Server(server);
 io.on('connection', (socket) => {
     console.log('Usuario conectado');
-    socket.emit('mensaje', 'Bienvenido al chat!');
-    socket.on('mensaje', (data) => {
-        console.log(data);
-    })
     socket.on('disconnect', () => {
         console.log('Usuario desconectado');
     })
