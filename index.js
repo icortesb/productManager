@@ -1,9 +1,9 @@
 import express from 'express';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import routerProd from './routes/products.routes.js'
-import routerCarts from './routes/carts.routes.js'
-import routerHome from './routes/home.routes.js'
+import routerProd from './src/routes/products.routes.js'
+import routerCarts from './src/routes/carts.routes.js'
+import routerHome from './src/routes/home.routes.js'
 import { engine } from 'express-handlebars';
 import { Server } from "socket.io";
 import { createServer } from 'node:http';
