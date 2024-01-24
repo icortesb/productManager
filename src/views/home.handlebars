@@ -3,17 +3,17 @@
     <h2>Bienvenido {{nombre}}</h2>
     <form onsubmit="return addMessage()">
         <input type="text" name="nombre" id="nombre" placeholder="Nombre">
-        <div class="chat" id="chat">
-            <ul id="lista_mensajes" style="height: 40vh; width: 40vw; border: 1px solid white; overflow-y: auto">
-            </ul>
-        </div>
-        <input type="text" name="mensaje" id="mensaje" placeholder="Tu mensaje..."><br><br>
+        <input type="text" name="mensaje" id="mensaje" placeholder="Tu mensaje...">
         <input type="submit" value="Enviar">
     </form>
+    <div class="chat" id="chat">
+        <ul id="lista_mensajes">
+        </ul>
+    </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    const socket = io();
+  const socket = io();
 </script>
 <script src="/js/index.js"></script>
