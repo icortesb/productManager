@@ -6,6 +6,7 @@
         "category": "Periféricos",
         "price": 99.99,
         "thumbnails": [
+            "https://picsum.photos/200/300",
             "https://example.com/hyperx-headphones.jpg"
         ],
         "code": "HYPERXCLOUDII",
@@ -19,6 +20,7 @@
         "category": "Monitores",
         "price": 449.99,
         "thumbnails": [
+            "https://picsum.photos/200/300",
             "https://example.com/lg-monitor.jpg"
         ],
         "code": "LG27GL850-QHD",
@@ -32,6 +34,7 @@
         "category": "Periféricos",
         "price": 129.99,
         "thumbnails": [
+            "https://picsum.photos/200/300",
             "https://example.com/logitech-mouse.jpg"
         ],
         "code": "LOGITECHPROX",
@@ -45,6 +48,7 @@
         "category": "Memorias RAM",
         "price": 189.99,
         "thumbnails": [
+            "https://picsum.photos/200/300",
             "https://example.com/corsair-ram.jpg"
         ],
         "code": "CORSAIRVRGB-32GB",
@@ -58,6 +62,7 @@
         "category": "Almacenamiento",
         "price": 199.99,
         "thumbnails": [
+            "https://picsum.photos/200/300",
             "https://example.com/samsung-ssd.jpg"
         ],
         "code": "SAMSUNG970EVO-1TB",
@@ -71,6 +76,7 @@
         "category": "Placas de video",
         "price": 799.99,
         "thumbnails": [
+            "https://picsum.photos/200/300",
             "https://example.com/rtx-3080.jpg"
         ],
         "code": "NVIDIARTX3080",
@@ -84,6 +90,7 @@
         "category": "Periféricos",
         "price": 149.99,
         "thumbnails": [
+            "https://picsum.photos/200/300",
             "https://example.com/keyboard.jpg"
         ],
         "code": "CORSAIRK70-RGB",
@@ -97,6 +104,7 @@
         "category": "Laptops",
         "price": 1899.99,
         "thumbnails": [
+            "https://picsum.photos/200/300",
             "https://example.com/laptop-gaming.jpg"
         ],
         "code": "ASUSROGG15-3070",
@@ -110,6 +118,7 @@
         "category": "Monitores",
         "price": 799.99,
         "thumbnails": [
+            "https://picsum.photos/200/300",
             "https://cdn3.iconfinder.com/data/icons/education-209/64bus-vehicle-transport-school-128.png"
         ],
         "code": "SAMG7-32QLED",
@@ -123,6 +132,7 @@
         "category": "Procesadores",
         "price": 549.99,
         "thumbnails": [
+            "https://picsum.photos/200/300",
             "https://example.com/amd-ryzen.jpg"
         ],
         "code": "AMD5900X-12C",

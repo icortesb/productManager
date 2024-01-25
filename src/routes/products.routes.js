@@ -1,7 +1,10 @@
 import { Router } from "express";
 import { ProductManager } from "../models/productManager.js";
+import { io } from "../app.js";
+
 
 const PM = new ProductManager('./src/models/productos.json');
+
 //CRUD PRODUCTOS
 
 const routerProd = Router();
@@ -16,6 +19,7 @@ routerProd.get('/', async (req, res) => {
         let limitedProducts = [];
 
         if (!limit) {
+            io.emit('getProducts', { products: products });
             res.status(200).json({
                 message: `Se muestran todos los productos`,
                 products: products
@@ -24,11 +28,13 @@ routerProd.get('/', async (req, res) => {
             for (let i = 0; i < limit; i++) {
                 limitedProducts.push(products[i]);
             }
+            io.emit('getProducts', { products: limitedProducts });
             res.status(200).json({
                 message: `Se muestran los primeros ${limit} resultados.`,
                 data: limitedProducts
             });
         }
+        
     } catch (error) {
         res.status(500).json({
             message: `Error al obtener los productos`,
@@ -67,13 +73,16 @@ routerProd.get('/:id', async (req, res)  => {
 })
 
 routerProd.post('/', async (req, res) => {
-    const product = req.body;
     try {
+        const product = req.body;
         const addedProduct = await PM.addProduct(product);
+        const products = JSON.parse(await PM.getProducts());
         if (addedProduct) {
+            io.emit('getProducts', { products: products });
             res.json(
                 {
                     message: `Producto agregado correctamente.`
+                    
                 }
             )
         } else {

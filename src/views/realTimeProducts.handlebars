@@ -1,0 +1,56 @@
+<div>
+    <h1>Agregar productos</h1>
+    <form onsubmit="return false">
+        <div id="form_container">
+            <label>Title
+                <input type="text" name="title" id="title">
+            </label>
+            <label>Description
+                <input type="text" name="description" id="description">
+            </label>
+            <label>
+                Category
+                <input type="text" name="category" id="category">
+            </label>
+            <label>
+                Price
+                <input type="number" name="price" id="price">
+            </label>
+            <label>
+                Thumbnails
+                <input type="text" name="thumbnails" id="thumbnails" placeholder="En formato array []">
+            </label>
+            <label>
+                Code
+                <input type="text" name="code" id="code">
+            </label>
+            <label>
+                Stock
+                <input type="number" name="stock" id="stock">
+            </label>
+            <label>
+                Status
+                <input type="radio" name="status" id="true" value="true">True
+                <input type="radio" name="status" id="false" value="false">False
+            </label>
+            <input type="submit" value="Enviar">
+        </div>
+    </form>
+
+    <section>
+        <div id="lista_products">
+        </div>
+    </section>
+
+</div>
+
+
+
+
+
+
+
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/realTimeProducts.js"></script>

@@ -1,10 +1,5 @@
 console.log('Hola mundo');
 
-// socket.on('mensaje', (data) => {
-//     console.log(data);
-//     socket.emit('mensaje', 'Hola servidor, te saluda el cliente')
-// })
-
 const addMessage = () => {
     const mensaje = {
         nombre: document.getElementById('nombre').value,
@@ -17,7 +12,6 @@ const addMessage = () => {
 }
 
 socket.on('chatMessage', (data) => {
-    console.log(data);
     render(data);
 })
 
