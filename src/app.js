@@ -8,6 +8,9 @@ import routerRealTimeProducts from './routes/realTimeProducts.routes.js'
 import { engine } from 'express-handlebars';
 import { Server } from "socket.io";
 import { createServer } from 'node:http';
+import { connect }  from './db/index.js';
+import route  from './routes/product.routes.js';
+
 
 let messages = [];
 
@@ -37,6 +40,7 @@ app.use('/api/products', routerProd)
 app.use('/api/carts', routerCarts)
 app.use('/api/home', routerHome)
 app.use('/api/realTimeProducts', routerRealTimeProducts)
+app.use('/api/product', route)
 
 // Socket.io
 
@@ -54,6 +58,7 @@ io.on('connection', (socket) => {
 
 server.listen(PORT, () => {
     console.log(`Servidor arriba. Puerto ${PORT}`)
+    connect();
 })
 
 export {io};
