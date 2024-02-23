@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { ProductManager } from "../models/productManager.js";
+import { ProductManager } from "../dao/fileSystem/productManager.js";
 import { io } from "../app.js";
 
 

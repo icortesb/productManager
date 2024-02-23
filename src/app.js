@@ -8,7 +8,7 @@ import routerRealTimeProducts from './routes/realTimeProducts.routes.js'
 import { engine } from 'express-handlebars';
 import { Server } from "socket.io";
 import { createServer } from 'node:http';
-import { connect }  from './db/index.js';
+import Database  from './db/index.js';
 import route  from './routes/product.routes.js';
 
 
@@ -34,13 +34,16 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/views');
 
-// Routes
+// fileSystem
 
 app.use('/api/products', routerProd)
 app.use('/api/carts', routerCarts)
 app.use('/api/home', routerHome)
 app.use('/api/realTimeProducts', routerRealTimeProducts)
-app.use('/api/product', route)
+
+//  MongoDB
+
+app.use('/api', route)
 
 // Socket.io
 
@@ -58,7 +61,7 @@ io.on('connection', (socket) => {
 
 server.listen(PORT, () => {
     console.log(`Servidor arriba. Puerto ${PORT}`)
-    connect();
+    Database.connect();
 })
 
 export {io};

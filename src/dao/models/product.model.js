@@ -5,24 +5,36 @@ const ProductSchema = new mongoose.Schema(
         title: {
             type: String,
             unique: true,
-            require: true
-        },
-        price: {
-            type: Number,
-            require: true
+            required: true
         },
         description: {
             type: String,
-            require: true
+            required: true
         },
         category: {
             type: String,
-            require: true,
+            required: true,
             enum: ['Monitores', 'Periféricos', 'Procesadores',"Memorias RAM", "Almacenamiento", "Placas de video", "Laptops"]  
+        },
+        price: {
+            type: Number,
+            required: true
+        },
+        thumbnails: {
+            type: String,
+            required: true
+        },
+        code: {
+            type: String,
+            required: true
         },
         stock: {
             type: Number,
             default: 10
+        },
+        status: {
+            type: Boolean,
+            default: true
         }
     }
 )
