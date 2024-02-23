@@ -1,15 +1,13 @@
 import express from 'express';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import routerProd from './routes/products.routes.js'
-import routerCarts from './routes/carts.routes.js'
-import routerHome from './routes/home.routes.js'
-import routerRealTimeProducts from './routes/realTimeProducts.routes.js'
+import routerChat from './routes/chat.routes.js'
 import { engine } from 'express-handlebars';
 import { Server } from "socket.io";
 import { createServer } from 'node:http';
 import Database  from './db/index.js';
-import route  from './routes/product.routes.js';
+import routerProducts  from './routes/product.routes.js';
+import routerCarts  from './routes/mongoCarts.routes.js';
 
 
 let messages = [];
@@ -34,16 +32,14 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/views');
 
-// fileSystem
 
-app.use('/api/products', routerProd)
+//  MongoDB Routes
+
+app.use('/api/products', routerProducts)
 app.use('/api/carts', routerCarts)
-app.use('/api/home', routerHome)
-app.use('/api/realTimeProducts', routerRealTimeProducts)
 
-//  MongoDB
-
-app.use('/api', route)
+// Chat Routes
+app.use('/chat', routerChat);
 
 // Socket.io
 
