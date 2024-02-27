@@ -14,7 +14,8 @@ const ProductSchema = new mongoose.Schema(
         category: {
             type: String,
             required: true,
-            enum: ['Monitores', 'Periféricos', 'Procesadores',"Memorias RAM", "Almacenamiento", "Placas de video", "Laptops"]  
+            enum: ['Monitores', 'Periféricos', 'Procesadores',"Memorias RAM", "Almacenamiento", "Placas de video", "Laptops"]  ,
+            index: true
         },
         price: {
             type: Number,
@@ -39,6 +40,6 @@ const ProductSchema = new mongoose.Schema(
     }
 )
 
-const Product = mongoose.model('products', ProductSchema)
+const Product = mongoose.model('products', ProductSchema, 'products')
 
 export default Product

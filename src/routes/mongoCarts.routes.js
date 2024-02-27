@@ -66,11 +66,19 @@ routerCarts.post('/:cid/product/:pid', async (req, res) => {
             }, { new: true });
             return res.status(200).json(updatedCart);
         } else {
-            const updatedCart = await Cart.findByIdAndUpdate(cid, {
-                $set: {
-                    products: [...cart.products, { id: pid, quantity: 1 }]
-                }
-            }, { new: true });
+            // const updatedCart = await Cart.findByIdAndUpdate(cid, {
+            //     $set: {
+            //         products: [...cart.products, { id: pid, quantity: 1 }]
+            //     }
+            // }, { new: true });
+            const updatedCart = await Cart.findOne({ _id: cid }).populate('products.product');
+            updatedCart.products.push({product: pid});
+
+
+            await Cart.updateOne({ _id:
+                cid }, updatedCart);
+
+            console.log(JSON.stringify(updatedCart, null, 2));
             return res.status(200).json(updatedCart);
         
         }
