@@ -30,19 +30,49 @@ export default {
 
             // await cart1.populate('products.product').execPopulate();
 
-            let cart1 = await Cart.findOne({_id: '65de1183a005e2cf4c545d56'})
+            // let cart1 = await Cart.findOne({_id: '65de1183a005e2cf4c545d56'})
 
-            cart1.products.push({
-                product: '65d7e03a9a75431e13112b6f'
-            });
+            // cart1.products.push({
+            //     product: '65d7e03a9a75431e13112b6f'
+            // });
 
-            await cart1.save();
+            // await cart1.save();
 
-            cart1 = await Cart.findOne({_id: '65de1183a005e2cf4c545d56'})
-                // .populate('products.product')
-                // .exec();
+            // cart1 = await Cart.findOne({_id: '65de1183a005e2cf4c545d56'})
+            //     // .populate('products.product')
+            //     // .exec();
 
-            console.log(JSON.stringify(cart1, null, '\t'));
+            // console.log(JSON.stringify(cart1, null, '\t'));
+
+            // PIZZA
+
+            // let order = await Pizza.aggregate(
+            //     [ 
+            //         {
+            //             $match: { size: 'medium' } // Filtro para dejar solo las medianas
+            //         },
+            //         {
+            //            $group: { _id: '$toppings', total: { $sum: 'quantity' } } // Agrupar por ingredientes y sumar la cantidad
+            //         },
+            //         {
+            //             $sort: { total: -1 } // Ordenar de mayor a menor
+            //         },
+            //         {
+            //             $group: { _id: 1, orders: { $push: '$$ROOT' } } // Agrupar todo en un solo documento
+            //         },
+            //         {
+            //             $project: { _id: 0, orders: '$orders' } // Proyectar solo el campo orders
+            //         },
+            //         {
+            //             $merge: { into: 'reports'}
+            //         }
+            //     ]
+            // )
+
+            // Paginate
+
+            let products = await Product.paginate({ price: { $gt: 300 } }, { limit: 2, page: 2 });
+            console.log(products);
 
 
 
