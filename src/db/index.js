@@ -71,8 +71,8 @@ export default {
 
             // Paginate
 
-            let products = await Product.paginate({ price: { $gt: 300 } }, { limit: 2, page: 2 });
-            console.log(products);
+            // let products = await Product.paginate({ price: { $gt: 300 } }, { limit: 2, page: 2 });
+            // console.log(products.totalPages);
 
 
 

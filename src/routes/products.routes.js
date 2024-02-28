@@ -1,54 +1,71 @@
 import { Router } from "express";
+import Product from "../dao/models/product.model.js";
 import { ProductManager } from "../dao/fileSystem/productManager.js";
-import { io } from "../app.js";
+import paginate from 'mongoose-paginate-v2';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-const PM = new ProductManager('./src/models/productos.json');
+const routerProducts = new Router();
+const PM = new ProductManager();
 
-//CRUD PRODUCTOS
+routerProducts.get('/', async(req, res) => {
 
-const routerProd = Router();
+    const { limit, page, sort, query } = req.query;
 
-// Limit
+    let options = {
+        limit: limit || 10,
+        page: page || 1,
+    };
 
-routerProd.get('/', async (req, res) => {
-    const { limit } = req.query;
+    if (sort == 'asc') {
+        options.sort = { price: 1 }
+    }
+    else if (sort == 'desc') {
+        options.sort = { price: -1 }
+    }
+
+    let productsQuery = {};
+
+    if (query) {
+        productsQuery.name = query;
+    }
 
     try {
-        const products = JSON.parse(await PM.getProducts());
-        let limitedProducts = [];
+        let products = await Product.paginate(productsQuery, options);
 
-        if (!limit) {
-            io.emit('getProducts', { products: products });
-            res.status(200).json({
-                message: `Se muestran todos los productos`,
-                products: products
-            });
-        } else {
-            for (let i = 0; i < limit; i++) {
-                limitedProducts.push(products[i]);
+        res.status(200).json(
+            {
+                status: 'success',
+                payload: products.docs,
+                totalPages: products.totalPages,
+                prevPage: products.hasPrevPage ? products.prevPage : false,
+                nextPage: products.hasNextPage ? products.nextPage : false,
+                page: products.page,
+                hasPrevPage: products.hasPrevPage,
+                hasNextPage: products.hasNextPage,
+                prevLink: products.hasPrevPage ? `${__dirname}/api/products?limit=${options.limit}&page=${products.prevPage}` : null,
+                nextLink: products.hasNextPage ? `${__dirname}/api/products?limit=${options.limit}&page=${products.nextPage}` : null
             }
-            io.emit('getProducts', { products: limitedProducts });
-            res.status(200).json({
-                message: `Se muestran los primeros ${limit} resultados.`,
-                data: limitedProducts
-            });
-        }
-        
+        )
     } catch (error) {
-        res.status(500).json({
-            message: `Error al obtener los productos`,
-            error: error.message
-        });
+        res.status(500).json(
+            {
+               status: 'error',
+               message: error.message
+            }
+        )
     }
-});
+})
 
-routerProd.get('/:id', async (req, res)  => {
+routerProducts.get('/:id', async(req, res) => {
     const { id } = req.params;
-    try{
-        const product = await PM.getProductById(id);
+    try {
+        const product = await Product.findById(id);
         if (product) {
-            res.json(
+            res.status(200).json(
                 {
                     message: `Producto encontrado`,
                     product: product
@@ -61,100 +78,89 @@ routerProd.get('/:id', async (req, res)  => {
                 }
             )
         }
-    }
-    catch(error) {
-        res.status(500).json(
-            {
-                message: `Error al obtener el producto`,
-                error: error.message
-            }
-        )
-    }
-})
-
-routerProd.post('/', async (req, res) => {
-    try {
-        const product = req.body;
-        const addedProduct = await PM.addProduct(product);
-        const products = JSON.parse(await PM.getProducts());
-        if (addedProduct) {
-            io.emit('getProducts', { products: products });
-            res.json(
-                {
-                    message: `Producto agregado correctamente.`
-                    
-                }
-            )
-        } else {
-            res.status(400).json(
-                {
-                    message: `El producto ya existe o faltan parametros..`
-                }
-            )
-        }
     } catch (error) {
         res.status(500).json(
             {
-                message: `Error al agregar el producto.`,
+                message: `Error al buscar el producto`,
                 error: error.message
             }
         )
     }
 })
 
-routerProd.put('/:id', async (req, res) => {
-    const { id } = req.params;
-    const product = req.body;
+routerProducts.post('/', async(req, res) => {
     try {
-        const updatedProduct = await PM.updateProduct(id, product);
-        if (updatedProduct) {
-            res.json(
+        await Product.create(req.body);
+        res.status(201).json(
+            {
+                message: `Producto creado`,
+                data: req.body
+            }
+        )
+    } catch (error) {
+        res.status(400).json(
+            {
+                message: `Error al crear el producto`,
+                error: error.message
+            }
+        )
+    }
+})
+
+routerProducts.put('/:id', async(req, res) => {
+    const { id } = req.params;
+    try {
+        const product = await Product.findByIdAndUpdate(id, req.body, { new: true });
+        if (product) {
+            res.status(200).json(
                 {
-                    message: `Producto actualizado correctamente.`,
+                    message: `Producto actualizado`,
+                    product: product
                 }
             )
         } else {
             res.status(404).json(
                 {
-                    message: `Producto no encontrado.`
+                    message: `Producto no encontrado`
                 }
             )
         }
     } catch (error) {
         res.status(500).json(
             {
-                message: `Error al actualizar el producto.`,
+                message: `Error al actualizar el producto`,
                 error: error.message
             }
         )
     }
 })
 
-routerProd.delete('/:id', async (req, res) => {
+routerProducts.delete('/:id', async(req, res) => {
     const { id } = req.params;
     try {
-        const deletedProduct = await PM.deleteProduct(id);
-        if (deletedProduct) {
-            res.json(
+        const product = await Product.findByIdAndDelete(id);
+        if (product) {
+            res.status(200).json(
                 {
-                    message: `Producto eliminado correctamente.`,
+                    message: `Producto eliminado`,
+                    product: product
                 }
             )
         } else {
             res.status(404).json(
                 {
-                    message: `Producto no encontrado.`
+                    message: `Producto no encontrado`
                 }
             )
         }
     } catch (error) {
         res.status(500).json(
             {
-                message: `Error al eliminar el producto.`,
+                message: `Error al eliminar el producto`,
                 error: error.message
             }
         )
     }
 })
 
-export default routerProd;
+export default routerProducts;

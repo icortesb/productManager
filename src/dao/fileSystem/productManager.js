@@ -1,91 +1,54 @@
-import { promises as fs } from 'fs';
-import { v4 as uuidv4 } from 'uuid';
+import mongoose from "mongoose";
+import Product from "../models/product.model.js";
 
 export class ProductManager {
-    constructor(path) {
-        this.path = path;
-    }
-    
+       
     getProducts = async () => {
         try {
-            const data = await fs.readFile(this.path, 'utf-8');
-            return data;
+            const products = await Product.find();
+            return products;
         } catch (error) {
-            console.log(`Error al leer el archivo. Por favor revise que la ruta sea correcta ${error.message}`);
+            console.log(`Error al leer los productos: ${error.message}`);
         }
     }
     
     async getProductById(id) {  
         try {
-            const products = JSON.parse(await this.getProducts());
-            const product = products.find((el) => el.id === id) || null;
+            const product = await Product.findById(id);
             return product;
-        } catch (err) {
-            console.log(`Error al obtener el producto. Por favor, revise que el id sea correcto ${err.message}`);
+        } catch (error) {
+            console.log(`Error al leer el producto: ${error.message}`);
             return false;
         }
     }
         
 
     addProduct = async (product) => {
-        const { title, description, category, price, thumbnails, code, stock } = product;
-        const status = product.status !== undefined ? product.status : true;
-
-        if (title === undefined || description === undefined || category === undefined || price === undefined || code === undefined || stock === undefined) {
-            console.log('Por favor, proporcione todos los parámetros: title, description, category, price, code y stock.');
-            return false;
-        }
-
         try {
-            const prods = JSON.parse(await this.getProducts());
-            const productExists = prods.find((el) => el.code === product.code);
-
-            if (!productExists) {
-                const id = uuidv4();
-                const newProduct = { id, title, description, category, price, thumbnails, code, stock, status };
-                prods.push(newProduct);
-                await fs.writeFile(this.path, JSON.stringify(prods, null, 4));
-                console.log('Producto agregado correctamente.');
-                return true;
-            } else {
-                console.log('El producto ya existe.');
-                return false;
-            }
+            const newProduct = await Product.create(product);
+            return newProduct;
         } catch (error) {
-            console.log(`Error al leer el archivo. Por favor revise que la ruta sea correcta ${error}`);
+            console.log(`Error al crear el producto: ${error.message}`);
+            return false;
         }
     }
 
     updateProduct = async (id, product) => {
-        const products = JSON.parse(await this.getProducts());
-        const prod = await this.getProductById(id);
-
-        if (prod) {
-            Object.keys(product).forEach((key) => {
-                prod[key] = product[key] || prod[key];
-            });
-            const filteredProducts = products.filter((el) => el.id !== id);
-            filteredProducts.push(prod);
-            filteredProducts.sort((a, b) => a.id.localeCompare(b.id));
-            await fs.writeFile(this.path, JSON.stringify(filteredProducts, null, 4));
-            return true;
-        } else {
+        try {
+            const updatedProduct = await Product.findByIdAndUpdate(id, product, { new: true });
+            return updatedProduct;
+        } catch (error) {
+            console.log(`Error al actualizar el producto: ${error.message}`);
             return false;
         }
-    }
+}
 
     deleteProduct = async (id) => {
         try {
-            const products = JSON.parse(await this.getProducts());
-            const product = products.find((el) => el.id === id) || null;
-            if (product) {
-                await fs.writeFile(this.path, JSON.stringify(products.filter((el) => el.id !== id), null, 4));
-                return true;
-            } else {
-                return false;
-            }
-        } catch (err) {
-            console.log(`Error al leer el archivo. Por favor revise que la ruta sea correcta ${err.message}`);
+            const deletedProduct = await Product.findByIdAndDelete(id);
+            return deletedProduct;
+        } catch (error) {
+            console.log(`Error al eliminar el producto: ${error.message}`);
             return false;
         }
     }

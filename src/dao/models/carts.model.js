@@ -3,29 +3,28 @@ import mongoose, { version } from "mongoose";
 const CartSchema = new mongoose.Schema(
     {
         date: {
-            type: String,
+            type: Date,
             required: true
         },
-        // products: {
-        //     type: Array,
-        //     required: true
-            
-        // }
         products: {
             type: [
                 {
                     product: {
                         type: mongoose.Schema.Types.ObjectId,
                         ref: 'products'
+                    },
+                    quantity: {
+                        type: Number,
+                        default: 1
                     }
                 }
-            ]
+            ],
         }
     },
     {versionKey: false}
 )
 
-CartSchema.pre('findOne', function(next) {
+CartSchema.pre(['find', 'findOne', 'findById'], function(next) {
     this.populate('products.product');
     next();
 });

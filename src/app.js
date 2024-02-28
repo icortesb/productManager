@@ -6,8 +6,8 @@ import { engine } from 'express-handlebars';
 import { Server } from "socket.io";
 import { createServer } from 'node:http';
 import Database  from './db/index.js';
-import routerProducts  from './routes/product.routes.js';
-import routerCarts  from './routes/mongoCarts.routes.js';
+import routerProducts  from './routes/products.routes.js';
+import routerCarts  from './routes/carts.routes.js';
 
 
 let messages = [];

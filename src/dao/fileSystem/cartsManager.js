@@ -1,6 +1,6 @@
-import { promises as fs } from 'fs';
-import { v4 as uuidv4 } from 'uuid';
-
+import mongoose from "mongoose";
+import Cart from "../models/carts.model.js";
+import Product from "../models/product.model.js";
 export class CartManager {
     constructor(path) {
         this.path = path;
@@ -8,65 +8,132 @@ export class CartManager {
 
     getCarts = async () => {
         try {
-            const carts = await fs.readFile(this.path, 'utf-8')
-            return carts;            
+            const carts = await Cart.find();
+            return carts;
         } catch (error) {
-            console.log(`Error al leer el archivo. Por favor revise que la ruta sea correcta ${error.message}`);            
+            console.log(`Error al leer los carritos: ${error.message}`);
         }
     }
 
     getCartById = async (id) => {
-        const carts = JSON.parse(await this.getCarts());
-        const cart = carts.find((el) => el.id == id) || null;
-        return cart;          
-    }
-
-    newCart = async () => {
-        const cart = {
-            id: uuidv4(),
-            products: []
-        }
-
         try {
-            const carts = JSON.parse(await this.getCarts());
-            carts.push(cart);
-            await fs.writeFile(this.path, JSON.stringify(carts, null, 4), 'utf-8');
+            const cart = await Cart.findById(id)
             return cart;
         } catch (error) {
-            console.log(`Error al crear el carrito. Por favor, revisar que la ruta sea correcta: ${error.message}`);
-            return false;                      
+            console.log(`Error al leer el carrito: ${error.message}`);
+            return false;
+        }
+    }
+
+    newCart = async () => { 
+        try {
+            const cart = await Cart.create(
+                {
+                    date: new Date().toISOString()
+                }
+            )
+            return cart;
+        } catch (error) {
+            console.log(`Error al crear el carrito: ${error.message}`);
+            return false;
         }
     }
 
     saveCartsById = async (cid, pid) => {
-
         try {
-            const carts = JSON.parse(await this.getCarts());
-            const cart = await this.getCartById(cid);
-            const productInCart = cart.products.find(product => product.id === pid);
-
-            if (productInCart) {
-                productInCart.quantity++;
-            } else {
-                cart.products.push(
-                    {
-                        id: pid,
-                        quantity: 1
-                    }
-                )
+            const cart = await Cart.findById(cid);
+            const productById = await Product.findById(pid);
+            if (!cart || !productById) {
+                return false;
             }
-
-            const newCarts = carts.filter(cart => cart.id !== cid);
-            newCarts.push(cart);
-            newCarts.sort((a, b) => a.id.localeCompare(b.id));
-
-            fs.writeFile(this.path, JSON.stringify(newCarts, null, 4), 'utf-8');
-            return true;
             
+            const productIndex = cart.products.findIndex(prod => prod.product.title === productById.title);
+            if (productIndex !== -1) {
+                cart.products[productIndex].quantity++;
+            } else {
+                cart.products.push({ product: pid, quantity: 1 });
+            }
+    
+            const updatedCart = (await cart.save()).populate('products.product');
+            return updatedCart;
         } catch (error) {
             console.log(`Error al guardar el carrito: ${error.message}`);
+            return false;
+        }
+    }
+    
+
+    deleteProductById = async (cid, pid) =>  {
+        try {
+            const cart = await Cart.findById(cid);
+            const productById = await Product.findById(pid);
+            if (!cart || !productById) {
+                return false;
+            }
+            const productIndex = cart.products.findIndex(prod => prod.product.title === productById.title);
+            if (productIndex !== -1) {
+                cart.products.splice(productIndex, 1);
+                const updatedCart = await cart.save();
+                return updatedCart;
+            } else {
+                return false;
+            }   
+        } catch (error) {
+            console.log(`Error al eliminar el producto: ${error.message}`);
             return false;            
         }
-    
     }
+
+    updateProductById = async (cid, pid, quantity) => {
+        try {
+            const cart = await Cart.findById(cid);
+            const productById = await Product.findById(pid);
+            if (!cart || !productById) {
+                return false;
+            }
+            
+            const productIndex = cart.products.findIndex(prod => prod.product.title === productById.title);
+            if (productIndex !== -1) {
+                cart.products[productIndex].quantity = quantity;
+                const updatedCart = await cart.save();
+                console.log(updatedCart);
+                return updatedCart;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            console.log(`Error al actualizar el producto: ${error.message}`);
+            return false;
+        }
+    }
+    
+
+    updateCart = async (id, data) => {
+        try {
+            const cart = await Cart.findOneAndUpdate(
+                { _id: id },
+                { $push: { products: data } },
+                { new: true }
+            );
+            return cart;
+        } catch (error) {
+            console.log(`Error al actualizar el carrito: ${error.message}`);
+            return false;
+        }
+    }
+    
+
+    deleteAllProducts = async (id) => {
+        try {
+            const cart = await Cart.findByIdAndUpdate(id, {
+                $set: {
+                    products: []
+                }
+            }, { new: true });
+            return cart;
+        } catch (error) {
+            console.log(`Error al eliminar todos los productos: ${error.message}`);
+            return false;
+        }
+    }    
 }
