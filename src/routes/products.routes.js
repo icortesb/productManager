@@ -12,7 +12,6 @@ const routerProducts = new Router();
 const PM = new ProductManager();
 
 routerProducts.get('/', async(req, res) => {
-
     const { limit, page, sort, query } = req.query;
 
     let options = {
