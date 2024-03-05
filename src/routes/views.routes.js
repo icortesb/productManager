@@ -45,7 +45,8 @@ routerViews.get('/register-view', (req, res) => {
     res.render('register', {})})
 
 routerViews.get('/profile-view', auth, (req, res) => {
-    res.render('profile', {})
+    const user = req.session.user;
+    res.render('profile', {user})
 })
 
 export default routerViews;
