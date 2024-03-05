@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { CartManager } from "../dao/fileSystem/cartsManager.js";
-import { ProductManager } from "../dao/fileSystem/productManager.js";
+import { CartManager } from "../dao/mongoManagers/cartsManager.js";
+import { ProductManager } from "../dao/mongoManagers/productManager.js";
 
 const routerCarts = Router();
 const CM = new CartManager('./src/models/carts.json');
@@ -12,7 +12,7 @@ routerCarts.post('/', async (req, res) => {
         res.status(201).json(
             {
                 message: `Se ha creado un nuevo carrito`,
-                id: cart.id
+                id: cart._id
             }
         );
     } catch (error) {
@@ -53,12 +53,13 @@ routerCarts.post('/:cid/products/:pid', async (req, res) => {
         });
     } else {
         cart = await CM.saveCartsById(cid, pid);
-        res.status(201).json(
-            {
-                message: 'Producto agregado correctamente',
-                cart: cart
-            }
-        )
+        // res.status(201).json(
+        //     {
+        //         message: 'Producto agregado correctamente',
+        //         cart: cart
+        //     }
+        // )
+        res.redirect(`/view/carts/${cid}`);
     }
 })
 

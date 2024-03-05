@@ -17,7 +17,7 @@ export class CartManager {
 
     getCartById = async (id) => {
         try {
-            const cart = await Cart.findById(id)
+            const cart = await Cart.findById(id).lean();
             return cart;
         } catch (error) {
             console.log(`Error al leer el carrito: ${error.message}`);
@@ -27,11 +27,12 @@ export class CartManager {
 
     newCart = async () => { 
         try {
-            const cart = await Cart.create(
+            const newCart = await Cart.create(
                 {
                     date: new Date().toISOString()
                 }
-            )
+            );
+            const cart = await Cart.findById(newCart._id).lean();
             return cart;
         } catch (error) {
             console.log(`Error al crear el carrito: ${error.message}`);

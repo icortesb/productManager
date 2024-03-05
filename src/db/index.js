@@ -8,74 +8,7 @@ export default {
             await mongoose.connect("mongodb+srv://ivancb97:Soz47261@proyectocoder.iu36jco.mongodb.net/ecommerce");
             console.log('Conectado a la base de datos');
 
-            // Cart.create(
-            //     {
-            //         date: '2021-08-10'
-            //     }
-            // )
-
-            // Product.create(
-            //     {
-            //         title: 'Monitor 1',
-            //         description: 'Monitor 1',
-            //         category: 'Monitores',
-            //         price: 10000,
-            //         code: 'MON1',
-            //         stock: 10
-            //     }
-            // )
-
-
-            // let cart1 = await Cart.findById('65de1183a005e2cf4c545d56').populate('products.product').exec();
-
-            // await cart1.populate('products.product').execPopulate();
-
-            // let cart1 = await Cart.findOne({_id: '65de1183a005e2cf4c545d56'})
-
-            // cart1.products.push({
-            //     product: '65d7e03a9a75431e13112b6f'
-            // });
-
-            // await cart1.save();
-
-            // cart1 = await Cart.findOne({_id: '65de1183a005e2cf4c545d56'})
-            //     // .populate('products.product')
-            //     // .exec();
-
-            // console.log(JSON.stringify(cart1, null, '\t'));
-
-            // PIZZA
-
-            // let order = await Pizza.aggregate(
-            //     [ 
-            //         {
-            //             $match: { size: 'medium' } // Filtro para dejar solo las medianas
-            //         },
-            //         {
-            //            $group: { _id: '$toppings', total: { $sum: 'quantity' } } // Agrupar por ingredientes y sumar la cantidad
-            //         },
-            //         {
-            //             $sort: { total: -1 } // Ordenar de mayor a menor
-            //         },
-            //         {
-            //             $group: { _id: 1, orders: { $push: '$$ROOT' } } // Agrupar todo en un solo documento
-            //         },
-            //         {
-            //             $project: { _id: 0, orders: '$orders' } // Proyectar solo el campo orders
-            //         },
-            //         {
-            //             $merge: { into: 'reports'}
-            //         }
-            //     ]
-            // )
-
-            // Paginate
-
-            // let products = await Product.paginate({ price: { $gt: 300 } }, { limit: 2, page: 2 });
-            // console.log(products.totalPages);
-
-
-
+           
         } catch (error) {
             console.log(`Error al conectar a la base de datos: ${error}`);
         }

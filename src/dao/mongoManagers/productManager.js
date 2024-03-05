@@ -5,7 +5,7 @@ export class ProductManager {
        
     getProducts = async () => {
         try {
-            const products = await Product.find();
+            const products = await Product.find().lean();
             return products;
         } catch (error) {
             console.log(`Error al leer los productos: ${error.message}`);

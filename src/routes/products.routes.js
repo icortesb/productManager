@@ -1,6 +1,6 @@
 import { Router } from "express";
 import Product from "../dao/models/product.model.js";
-import { ProductManager } from "../dao/fileSystem/productManager.js";
+import { ProductManager } from "../dao/mongoManagers/productManager.js";
 import paginate from 'mongoose-paginate-v2';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
