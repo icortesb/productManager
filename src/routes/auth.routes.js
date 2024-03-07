@@ -38,7 +38,7 @@ routerAuth.post('/login', async (req, res) => {
             req.session.user.role = 'user';
             req.session.user.cart = userExists.cart;
             console.log(req.session)
-            res.redirect('/view/products-view');
+            res.redirect('/products');
         } else {
             res.status(401).json({error: 'Usuario o contraseña incorrectos'});
         }
