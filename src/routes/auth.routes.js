@@ -16,7 +16,7 @@ routerAuth.post('/register', async (req, res) => {
     await user.save();
 
 
-    res.redirect('/view/login-view');
+    res.redirect('/login');
 })
 
 
@@ -28,7 +28,7 @@ routerAuth.post('/login', async (req, res) => {
         req.session.user.role = 'admin';
         req.session.user.cart = '65e79b297bdc4ccc194cbc5d'
         
-        res.redirect('/view/products-view');
+        res.redirect('/products');
     } else {
         // Verificar si usuario en BBDD
         let userExists = await userManager.getUser(user);
@@ -40,7 +40,7 @@ routerAuth.post('/login', async (req, res) => {
             console.log(req.session)
             res.redirect('/view/products-view');
         } else {
-            res.send('Usuario o contraseña incorrectos');
+            res.status(401).json({error: 'Usuario o contraseña incorrectos'});
         }
 
     }
@@ -50,7 +50,7 @@ routerAuth.post('/login', async (req, res) => {
 
 routerAuth.get('/logout', (req, res) => {
     req.session.destroy(err => {
-        err ? res.json({err}) : res.redirect('/view/login-view');
+        err ? res.json({err}) : res.redirect('/login');
     })
 })
 

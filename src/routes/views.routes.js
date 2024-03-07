@@ -12,11 +12,12 @@ function auth(req, res, next) {
     if(req.session.user) {
         next()
     } else {
-        res.redirect('/view/login-view')
+        // res.redirect('/login')
+        res.status(403).redirect('/login')
     }
 }
 
-routerViews.get('/products-view', auth, async (req, res) => {
+routerViews.get('/products', auth, async (req, res) => {
     try {
         const products = await PM.getProducts();
         const user = req.session.user;
@@ -37,14 +38,14 @@ routerViews.get('/carts/:cid', auth, async (req, res) => {
 })
 
 
-routerViews.get('/login-view', (req, res) => {
+routerViews.get('/login', (req, res) => {
     res.render('login', {})
 })
 
-routerViews.get('/register-view', (req, res) => {
+routerViews.get('/register', (req, res) => {
     res.render('register', {})})
 
-routerViews.get('/profile-view', auth, (req, res) => {
+routerViews.get('/profile', auth, (req, res) => {
     const user = req.session.user;
     res.render('profile', {user})
 })

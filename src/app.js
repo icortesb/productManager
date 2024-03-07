@@ -15,6 +15,7 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo'
 import routerViews from './routes/views.routes.js';
 import routerAuth from './routes/auth.routes.js';
+import bcrypt from 'bcrypt';
 
 
 const PORT = 8080 || process.env.PORT;
@@ -57,7 +58,7 @@ app.use('/api/carts', routerCarts)
 app.use('/chat', routerChat);
 
 // Views
-app.use('/view', routerViews);
+app.use('/', routerViews);
 
 // Auth
 app.use('/auth', routerAuth);
