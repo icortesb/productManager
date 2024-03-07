@@ -59,7 +59,7 @@ routerCarts.post('/:cid/products/:pid', async (req, res) => {
         //         cart: cart
         //     }
         // )
-        res.redirect(`/view/carts/${cid}`);
+        res.redirect(`/carts/${cid}`);
     }
 })
 
