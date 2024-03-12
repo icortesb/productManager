@@ -15,7 +15,8 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo'
 import routerViews from './routes/views.routes.js';
 import routerAuth from './routes/auth.routes.js';
-import bcrypt from 'bcrypt';
+import passport from 'passport';
+import { initializePassport } from './passport/passport.js';
 
 
 const PORT = 8080 || process.env.PORT;
@@ -24,6 +25,10 @@ const server = createServer(app);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// Passport
+initializePassport();
+app.use(passport.initialize());
+// app.use(passport.session());
 // Session
 
 app.use(session({

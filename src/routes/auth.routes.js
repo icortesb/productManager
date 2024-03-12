@@ -1,28 +1,36 @@
 import { Router } from "express";
 import { UserManager } from "../dao/mongoManagers/usersManager.js";
 import { CartManager } from "../dao/mongoManagers/cartsManager.js";
+import { isValidPassword } from "../utils/bcrypt.js";
+import passport from "passport";
 
 const routerAuth = Router();
 const userManager = new UserManager();
 const cartManager = new CartManager();
 
-routerAuth.post('/register', async (req, res) => {
-    let newUser = req.body;
+// routerAuth.post('/register', async (req, res) => {
+//     let newUser = req.body;
 
-    const user = await userManager.createUser(newUser);
+//     const user = await userManager.createUser(newUser);
     
-    const newCart = await cartManager.newCart();
-    user.cart = newCart._id;
-    await user.save();
+//     const newCart = await cartManager.newCart();
+//     user.cart = newCart._id;
+//     await user.save();
 
+//     res.redirect('/login');
+// })
 
+routerAuth.post('/register', passport.authenticate('register', {
+    failureRedirect: '/failedRegister',
+}), (req, res) => {
     res.redirect('/login');
 })
 
 
 routerAuth.post('/login', async (req, res) => {
-    let user = req.body;
-
+    const user = req.body;
+    const userExists = await userManager.getUser(user);
+    
     if (user.user === 'adminCoder@coder.com' || user.password === 'adminCod3r123') {
         req.session.user = user;
         req.session.user.role = 'admin';
@@ -30,10 +38,10 @@ routerAuth.post('/login', async (req, res) => {
         
         res.redirect('/products');
     } else {
-        // Verificar si usuario en BBDD
-        let userExists = await userManager.getUser(user);
+        const isValid = await isValidPassword(user, userExists.password);
+        console.log(`User: ${user}, UserExists: ${userExists}`)
         
-        if(userExists) {
+        if(isValid) {
             req.session.user = user;
             req.session.user.role = 'user';
             req.session.user.cart = userExists.cart;
@@ -44,8 +52,13 @@ routerAuth.post('/login', async (req, res) => {
         }
 
     }
-
 })
+
+// routerAuth.post('/login', passport.authenticate('login', {
+//     failureRedirect: '/failedLogin',
+// }), (req, res) => {
+//     res.redirect('/products');
+// })
 
 
 routerAuth.get('/logout', (req, res) => {
