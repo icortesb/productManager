@@ -60,7 +60,7 @@ export const initializePassport = () => {
         },
         async (accesToken, refreshToken, profile, done) => {
             try {
-                let email = profile._json.email || profile._json.login;
+                let email = profile._json.email || profile._json.login; // En mi caso, email estaba como null, por lo que use el login como email
                 console.log(`email: ${email}`)
                 let userExists = await User.findOne({user: email});
 
