@@ -3,10 +3,7 @@ import Product from "../dao/models/product.model.js";
 import { ProductManager } from "../dao/mongoManagers/productManager.js";
 import paginate from 'mongoose-paginate-v2';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import __dirname from '../utils/dirname.js';
 
 const routerProducts = new Router();
 const PM = new ProductManager();

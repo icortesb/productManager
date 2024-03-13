@@ -16,7 +16,7 @@ import MongoStore from 'connect-mongo'
 import routerViews from './routes/views.routes.js';
 import routerAuth from './routes/auth.routes.js';
 import passport from 'passport';
-import { initializePassport } from './passport/passport.js';
+import { initializePassport } from './config/passport.config.js';
 
 
 const PORT = 8080 || process.env.PORT;

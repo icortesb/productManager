@@ -16,6 +16,10 @@ function auth(req, res, next) {
     }
 }
 
+routerViews.get('/', (req, res) => {
+    res.redirect('/login');
+})
+
 routerViews.get('/products', auth, async (req, res) => {
     try {
         const products = await PM.getProducts();

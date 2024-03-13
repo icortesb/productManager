@@ -3,6 +3,7 @@ import { Strategy } from "passport-local";
 import { UserManager } from "../dao/mongoManagers/usersManager.js";
 import { createHash, isValidPassword } from "../utils/bcrypt.js";
 import User from "../dao/models/users.model.js";
+import github from "passport-github2";
 
 const userManager = new UserManager();
 
@@ -50,9 +51,24 @@ export const initializePassport = () => {
     
     ))
 
+    passport.use('github', new github.Strategy(
+        {
+            clientID: "Iv1.74e4afe284ae1121",
+            clientSecret: "f1fbaa829224017dccbf2680fe7e02f039e5b041",
+            callbackURL: "http://localhost:8080/api/sessions/callbackGithub"
+        },
+        async (accesToken, refreshToken, profile, done) => {
+            try {
+                console.log(profile);                                    
+            } catch (error) {
+                return done(error)                    
+            }
+        }
+    ))
+
 
     passport.serializeUser(function(user, done) {
-        done(null, user.id);
+        done(null, user._id);
     });
 
     passport.deserializeUser(function(id, done) {
