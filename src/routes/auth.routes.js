@@ -3,6 +3,7 @@ import { UserManager } from "../dao/mongoManagers/usersManager.js";
 import { CartManager } from "../dao/mongoManagers/cartsManager.js";
 import { isValidPassword } from "../utils/bcrypt.js";
 import passport from "passport";
+import bcrypt from 'bcrypt';
 
 const routerAuth = Router();
 const userManager = new UserManager();
@@ -27,38 +28,34 @@ routerAuth.post('/register', passport.authenticate('register', {
 })
 
 
-routerAuth.post('/login', async (req, res) => {
-    const user = req.body;
-    const userExists = await userManager.getUser(user);
-    
-    if (user.user === 'adminCoder@coder.com' || user.password === 'adminCod3r123') {
-        req.session.user = user;
+routerAuth.post('/login', function(req, res, next) {
+
+    if (req.body.user === 'adminCoder@coder.com' || req.body.password === 'adminCod3r123') {
+        req.session.user = req.body;
         req.session.user.role = 'admin';
         req.session.user.cart = '65e79b297bdc4ccc194cbc5d'
         
-        res.redirect('/products');
-    } else {
-        const isValid = await isValidPassword(user, userExists.password);
-        console.log(`User: ${user}, UserExists: ${userExists}`)
-        
-        if(isValid) {
-            req.session.user = user;
-            req.session.user.role = 'user';
-            req.session.user.cart = userExists.cart;
-            console.log(req.session)
-            res.redirect('/products');
-        } else {
-            res.status(401).json({error: 'Usuario o contraseña incorrectos'});
-        }
-
+        return res.redirect('/products');
     }
-})
-
-// routerAuth.post('/login', passport.authenticate('login', {
-//     failureRedirect: '/failedLogin',
-// }), (req, res) => {
-//     res.redirect('/products');
-// })
+    passport.authenticate('login', function(err, user) {
+        if (err) { 
+            return next(err); 
+        }
+        if (!user) { 
+            return res.redirect('/failedLogin'); 
+        }
+        req.logIn(user, function(err) {
+            if (err) { 
+                return next(err); 
+            }
+            req.session.user = req.body;
+            req.session.user.role = 'user';
+            req.session.user.cart = user.cart;
+            console.log(req.session);
+            return res.redirect('/products');
+        });
+    })(req, res, next);
+});
 
 
 routerAuth.get('/logout', (req, res) => {

@@ -8,10 +8,13 @@ export class UserManager {
     createUser = async (user) => {
         try {
             const newUser = await User.create(user);
+            console.log(newUser.password);
             newUser.password = await createHash(newUser.password);
+            console.log(`Reemplazado: ${newUser.password}`)
             const newCart = await cartManager.newCart();
             newUser.cart = newCart._id;
-            await newUser.save();            
+            await newUser.save();  
+            console.log(`Final: ${newUser.password}`)          
             return newUser;
         } catch (error) {
             console.log(`Error al crear el usuario: ${error.message}`);
@@ -30,7 +33,7 @@ export class UserManager {
 
     async getUser(user) {
         try {
-            const userExists = await User.findOne(user.username).lean();
+            const userExists = await User.findOne({user: user.user}).lean();
             return userExists;    
         } catch (error) {
             console.log(`Error al verificar el usuario: ${error.message}`);
