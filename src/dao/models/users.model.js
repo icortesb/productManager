@@ -20,6 +20,9 @@ const userSchema = new mongoose.Schema(
             default: ''
         }
     }
+    ,{
+        strict: false
+    }
 )
 
 const User = mongoose.model('users', userSchema, 'users')

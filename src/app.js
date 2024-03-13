@@ -15,6 +15,7 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo'
 import routerViews from './routes/views.routes.js';
 import routerAuth from './routes/auth.routes.js';
+import routerSessions from './routes/sessions.routes.js';
 import passport from 'passport';
 import { initializePassport } from './config/passport.config.js';
 
@@ -28,7 +29,7 @@ const __dirname = dirname(__filename);
 // Passport
 initializePassport();
 app.use(passport.initialize());
-// app.use(passport.session());
+// app.use(passport.session()); Comentado porque sino no funciona
 // Session
 
 app.use(session({
@@ -64,6 +65,7 @@ app.use('/chat', routerChat);
 
 // Views
 app.use('/', routerViews);
+app.use('/api/sessions', routerSessions);
 
 // Auth
 app.use('/auth', routerAuth);

@@ -9,18 +9,6 @@ const routerAuth = Router();
 const userManager = new UserManager();
 const cartManager = new CartManager();
 
-// routerAuth.post('/register', async (req, res) => {
-//     let newUser = req.body;
-
-//     const user = await userManager.createUser(newUser);
-    
-//     const newCart = await cartManager.newCart();
-//     user.cart = newCart._id;
-//     await user.save();
-
-//     res.redirect('/login');
-// })
-
 routerAuth.post('/register', passport.authenticate('register', {
     failureRedirect: '/failedRegister',
 }), (req, res) => {

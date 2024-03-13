@@ -4,6 +4,7 @@ import { UserManager } from "../dao/mongoManagers/usersManager.js";
 import { createHash, isValidPassword } from "../utils/bcrypt.js";
 import User from "../dao/models/users.model.js";
 import github from "passport-github2";
+import crypto from "crypto";
 
 const userManager = new UserManager();
 
@@ -59,7 +60,16 @@ export const initializePassport = () => {
         },
         async (accesToken, refreshToken, profile, done) => {
             try {
-                console.log(profile);                                    
+                let email = profile._json.email || profile._json.login;
+                console.log(`email: ${email}`)
+                let userExists = await User.findOne({user: email});
+
+                if (!userExists) {
+                    userExists = await User.create({ user: email, password: await createHash(crypto.randomBytes(8).toString('hex')) }); // Pass aleatoria para mantener consistencia con el modelo
+                }
+
+                return done(null, userExists);
+
             } catch (error) {
                 return done(error)                    
             }
