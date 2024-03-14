@@ -2,18 +2,22 @@ import { Router } from "express";
 import { ProductManager } from "../dao/mongoManagers/productManager.js";
 import { UserManager } from "../dao/mongoManagers/usersManager.js";
 import { CartManager } from "../dao/mongoManagers/cartsManager.js";
+import { auth } from "../middleware/auth.js";
 
 const routerViews = Router();
 const PM = new ProductManager();
 const userManager = new UserManager();
 const CM = new CartManager();
 
-function auth(req, res, next) {
-    if(req.session.user) {
-        next()
-    } else {
-        res.status(403).redirect('/login')
-    }
+// function auth(req, res, next) {
+//     if(req.session.user) {
+//         next()
+//     } else {
+//         res.status(403).redirect('/login')
+//     }
+// }
+function auth(req, res, next){
+    req.session.user ? next() : res.redirect('/login');
 }
 
 routerViews.get('/', (req, res) => {

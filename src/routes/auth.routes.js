@@ -45,7 +45,6 @@ routerAuth.post('/login', function(req, res, next) {
     })(req, res, next);
 });
 
-
 routerAuth.get('/logout', (req, res) => {
     req.session.destroy(err => {
         err ? res.json({err}) : res.redirect('/login');
