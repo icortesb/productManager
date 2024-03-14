@@ -1,6 +1,5 @@
 import express from 'express';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import __dirname from './utils/dirname.js';
 import routerChat from './routes/chat.routes.js'
 import { engine } from 'express-handlebars';
 import { Server } from "socket.io";
@@ -23,8 +22,6 @@ import { initializePassport } from './config/passport.config.js';
 const PORT = 8080 || process.env.PORT;
 const app = express();
 const server = createServer(app);
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 // Passport
 initializePassport();
