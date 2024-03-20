@@ -14,7 +14,7 @@ routerViews.get('/', (req, res) => {
     res.redirect('/login');
 })
 
-routerViews.get('/products', passport.authenticate('jwt', {session: false, failureRedirect: '/login'}), auth, async (req, res) => {
+routerViews.get('/products', passport.authenticate('jwt', {session: false, failureRedirect: '/login'}), async (req, res) => {
     try {
         const products = await PM.getProducts();
         const user = await userManager.getUser(req.user.user) || req.user.user;
@@ -41,5 +41,9 @@ routerViews.get('/login', (req, res) => {
 
 routerViews.get('/register', (req, res) => {
     res.render('register', {})})
+
+routerViews.get('/profile', passport.authenticate('jwt', {session: false, failureRedirect: '/login'}), auth, async (req, res) => {
+    res.send('profile')
+})
 
 export default routerViews;
