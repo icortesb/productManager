@@ -56,3 +56,8 @@ section {
     overflow: hidden;
     padding: 5px;
 }
+
+a {
+    text-decoration: none;
+    color: #2d8cf0;
+}

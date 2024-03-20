@@ -3,11 +3,12 @@ import { UserManager } from "../dao/mongoManagers/usersManager.js";
 import { CartManager } from "../dao/mongoManagers/cartsManager.js";
 import { isValidPassword } from "../utils/bcrypt.js";
 import passport from "passport";
-import bcrypt from 'bcrypt';
+import generateJWT from "../utils/jwt.js";
+import jwt from "jsonwebtoken";
+
 
 const routerAuth = Router();
 const userManager = new UserManager();
-const cartManager = new CartManager();
 
 routerAuth.post('/register', passport.authenticate('register', {
     failureRedirect: '/failedRegister',
@@ -15,40 +16,36 @@ routerAuth.post('/register', passport.authenticate('register', {
     res.redirect('/login');
 })
 
+routerAuth.post('/login', async (req, res) => {
+    const { user, password } = req.body;
 
-routerAuth.post('/login', function(req, res, next) {
-
-    if (req.body.user === 'adminCoder@coder.com' || req.body.password === 'adminCod3r123') {
-        req.session.user = req.body;
-        req.session.user.role = 'admin';
-        req.session.user.cart = '65e79b297bdc4ccc194cbc5d'
-        
+    if (user === 'adminCoder@coder.com' || password === 'adminCod3r123') {
+        const token = jwt.sign({user: 'adminCoder@coder.com', role: 'admin'}, 'Coder123', { expiresIn: '1h' });
+        res.cookie('jwt', token, { maxAge: 3600000, httpOnly: true });
         return res.redirect('/products');
     }
-    passport.authenticate('login', function(err, user) {
-        if (err) { 
-            return next(err); 
+
+    try {
+        const userExists = await userManager.getUser(user);
+
+        if (!userExists || !await isValidPassword(password, userExists.password)) {
+            return res.status(401).json({ message: 'Invalid username or password' });
         }
-        if (!user) { 
-            return res.redirect('/failedLogin'); 
-        }
-        req.logIn(user, function(err) {
-            if (err) { 
-                return next(err); 
-            }
-            req.session.user = req.body;
-            req.session.user.role = 'user';
-            req.session.user.cart = user.cart;
-            console.log(req.session);
-            return res.redirect('/products');
-        });
-    })(req, res, next);
+
+        const token = generateJWT({user: userExists.user, role: userExists.role});
+
+        res.cookie('jwt', token, { maxAge: 3600000, httpOnly: true });
+        return res.redirect('/products');
+    } catch (error) {
+        console.error('Error during login:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 });
 
+
 routerAuth.get('/logout', (req, res) => {
-    req.session.destroy(err => {
-        err ? res.json({err}) : res.redirect('/login');
-    })
+    res.clearCookie('jwt');
+    res.redirect('/login');
 })
 
 

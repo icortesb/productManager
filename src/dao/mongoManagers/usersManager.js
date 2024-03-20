@@ -33,7 +33,7 @@ export class UserManager {
 
     async getUser(user) {
         try {
-            const userExists = await User.findOne({user: user.user}).lean();
+            const userExists = await User.findOne({user: user}).lean();
             return userExists;    
         } catch (error) {
             console.log(`Error al verificar el usuario: ${error.message}`);
