@@ -22,5 +22,9 @@ routerSessions.get('/callbackGithub', passport.authenticate('github', {}), async
 
 })
 
+routerSessions.get('/current', passport.authenticate('current', {session: false}), (req, res) => {
+    res.send(req.user);
+})
+
 
 export default routerSessions;

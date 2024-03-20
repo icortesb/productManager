@@ -100,7 +100,7 @@ export const initializePassport = () => {
         new JwtStrategy(
             {
                 jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
-                secretOrKey: "Coder123",
+                secretOrKey: "Coder123"
             },
             async (payload, done) => {
                 try {
@@ -111,6 +111,29 @@ export const initializePassport = () => {
             }
         )
     );
+
+    passport.use(
+        "current",
+        new JwtStrategy(
+            {
+                jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+                secretOrKey: "Coder123"
+            },
+            async (payload, done) => {
+                try {
+                    console.log(`En current: ${JSON.stringify(payload)}`);
+                    let user = await userManager.getUser(payload.user);
+                    if (!user) {
+                        return done(null, false);
+                    }
+                    console.log(`En current, user encontrado: ${JSON.stringify(user)}`)
+                    return done(null, user);
+                } catch (error) {
+                    return done (`Error al buscar el usuario: ${error}`)
+                }
+            }
+        )
+    )
 };
 
 passport.serializeUser((user, done) => {
