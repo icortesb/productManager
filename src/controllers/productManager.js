@@ -58,8 +58,6 @@ export class ProductManager {
         }
     }
 
-        
-
     addProduct = async (req, res) => {
         let product = req.body;
         product = await createProduct(product);
