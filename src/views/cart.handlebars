@@ -1,15 +1,19 @@
 <div>
-    <h1>CART</h1>
+    <h1>CART ID: {{cart._id}}</h1>
     {{#each cart.products}}
+    {{#if this.quantity}}
     <div>
-        <p>{{this.product.title}} - Quantity: {{this.quantity}}</p>
+        <p>{{this.product.title}} - Quantity: {{this.quantity}} - ID: {{this._id}}</p>
         <form method="POST" action="/api/carts/{{../cart._id}}/products/{{this.product._id}}?_method=DELETE">
             <input type="hidden" name="_method" value="DELETE">
-            <button type="submit" class="deleteButton" data-cart="{{../cart._id}}"
-                data-product="{{this.product._id}}">Remove from cart</button>
+            <button type="submit" id="remove_one"  data-cart="{{../cart._id}}"
+                data-product="{{this.product._id}}">Remove one from cart</button>
+            {{!-- <button type="submit" id="remove_all" data-cart="{{../cart._id}}"
+                data-product="{{this.product._id}}">Remove all from cart</button> --}}
         </form>
         {{!-- Boton para volver a la vista products --}}
     </div>
+    {{/if}}
     {{/each}}
     <br><br>
     <form action="/products" method="GET">
@@ -19,7 +23,7 @@
 </div>
 
 <script>
-    document.querySelectorAll(".deleteButton").forEach(button => {
+        let button = document.getElementById('remove_one')
         button.addEventListener("click", function (event) {
             event.preventDefault();
             const cartId = this.dataset.cart;
@@ -32,22 +36,14 @@
                     // Add any additional headers if required
                 }
             })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Failed to remove product from cart");
-                    }
-                    return response.json(); // If expecting a JSON response
-                })
                 .then(data => {
-                    // Handle success response
                     console.log("Product removed from cart successfully", data);
-                    // Optionally, you can update the UI to reflect the changes
-                    button.closest('div').remove(); // Remove the parent div containing the button
+                    window.location.reload();
+                    
                 })
                 .catch(error => {
-                    // Handle error
                     console.error("Error removing product from cart:", error.message);
                 });
         });
-    });
+   
 </script>

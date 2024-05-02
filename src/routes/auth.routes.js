@@ -1,9 +1,7 @@
 import { Router } from "express";
 import { UserManager } from "../dao/mongoManagers/usersManager.js";
 import { CartManager } from "../dao/mongoManagers/cartsManager.js";
-import { isValidPassword } from "../utils/bcrypt.js";
 import passport from "passport";
-import bcrypt from 'bcrypt';
 
 const routerAuth = Router();
 const userManager = new UserManager();
