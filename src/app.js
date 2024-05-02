@@ -1,24 +1,19 @@
 import express from 'express';
 import __dirname from './utils/dirname.js';
-import routerChat from './routes/chat.routes.js'
 import { engine } from 'express-handlebars';
 import { Server } from "socket.io";
 import { createServer } from 'node:http';
 import Database  from './db/index.js';
-import routerProducts  from './routes/products.routes.js';
-import routerCarts  from './routes/carts.routes.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import MongoStore from 'connect-mongo'
-import routerViews from './routes/views.routes.js';
-import routerAuth from './routes/auth.routes.js';
-import routerSessions from './routes/sessions.routes.js';
 import passport from 'passport';
 import { initializePassport } from './config/passport.config.js';
 import customRoute from './routes/customRoute.js';
 import { Command } from 'commander';
 import dotenv from 'dotenv';
 // import { fork } from 'node:child_process';
+import router from './routes/index.routes.js';
 
 const program = new Command();
 program
@@ -70,20 +65,8 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/views');
 
-
-//  MongoDB Routes
-app.use('/api/products', routerProducts)
-app.use('/api/carts', routerCarts)
-
-// Chat Routes
-app.use('/chat', routerChat);
-
-// Views
-app.use('/api/sessions', routerSessions);
-app.use('/', routerViews);
-
-// Auth
-app.use('/auth', routerAuth);
+// Router
+app.use(router);
 
 // Socket.io
 

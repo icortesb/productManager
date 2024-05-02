@@ -1,5 +1,5 @@
-import User from "../models/users.model.js";
-import { createHash } from "../../utils/bcrypt.js";
+import User from "../dao/models/users.model.js";
+import { createHash } from "../utils/bcrypt.js";
 import { CartManager } from "./cartsManager.js";
 
 

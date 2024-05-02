@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { ProductManager } from "../dao/mongoManagers/productManager.js";
-import { UserManager } from "../dao/mongoManagers/usersManager.js";
-import { CartManager } from "../dao/mongoManagers/cartsManager.js";
+import { ProductManager } from "../controllers/productManager.js";
+import { UserManager } from "../controllers/usersManager.js";
+import { CartManager } from "../controllers/cartsManager.js";
 import passport from "passport";
 import { auth } from "../middleware/auth.js";
 import rootDir from "../utils/dirname.js";

@@ -1,6 +1,5 @@
 import { Router } from "express";
-import { UserManager } from "../dao/mongoManagers/usersManager.js";
-import { CartManager } from "../dao/mongoManagers/cartsManager.js";
+import { UserManager } from "../controllers/usersManager.js";
 import { isValidPassword } from "../utils/bcrypt.js";
 import passport from "passport";
 import generateJWT from "../utils/jwt.js";

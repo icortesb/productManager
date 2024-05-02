@@ -1,6 +1,6 @@
 import { Router } from "express";
 import passport from 'passport';
-import { CartManager } from "../dao/mongoManagers/cartsManager.js";
+import { CartManager } from "../controllers/cartsManager.js";
 
 const cartManager = new CartManager();
 
