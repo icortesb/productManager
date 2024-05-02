@@ -4,6 +4,7 @@ import { UserManager } from "../dao/mongoManagers/usersManager.js";
 import { CartManager } from "../dao/mongoManagers/cartsManager.js";
 import passport from "passport";
 import { auth } from "../middleware/auth.js";
+import rootDir from "../utils/dirname.js";
 
 const routerViews = Router();
 const PM = new ProductManager();
@@ -44,6 +45,10 @@ routerViews.get('/register', (req, res) => {
 
 routerViews.get('/profile', passport.authenticate('jwt', {session: false, failureRedirect: '/login'}), auth, async (req, res) => {
     res.send('profile')
+})
+
+routerViews.get('*', async (req, res) => {
+    res.status(404).sendFile(rootDir + '/public/404.html');
 })
 
 export default routerViews;

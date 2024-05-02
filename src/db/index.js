@@ -1,11 +1,16 @@
 import mongoose from "mongoose";
-import Cart from "../dao/models/carts.model.js"; // Solo para test
-import Product from "../dao/models/product.model.js"; // Solo para test
+import dotenv from 'dotenv';
+import __dirname from '../utils/dirname.js';
+
+dotenv.config({
+    path: `${__dirname}/.env`
+});
+
 
 export default {
     connect: async () => {
         try {
-            await mongoose.connect("mongodb+srv://ivancb97:Soz47261@proyectocoder.iu36jco.mongodb.net/ecommerce");
+            await mongoose.connect(`mongodb+srv://${process.env.USER}:${process.env.PASS}@proyectocoder.iu36jco.mongodb.net/ecommerce`);
             console.log('Conectado a la base de datos');
 
            

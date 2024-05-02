@@ -9,29 +9,47 @@ import routerProducts  from './routes/products.routes.js';
 import routerCarts  from './routes/carts.routes.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-// import FileStore from 'session-file-store';
-// const FileStoreSession = FileStore(session);
 import MongoStore from 'connect-mongo'
 import routerViews from './routes/views.routes.js';
 import routerAuth from './routes/auth.routes.js';
 import routerSessions from './routes/sessions.routes.js';
 import passport from 'passport';
 import { initializePassport } from './config/passport.config.js';
+import customRoute from './routes/customRoute.js';
+import { Command } from 'commander';
+import dotenv from 'dotenv';
+// import { fork } from 'node:child_process';
+
+const program = new Command();
+program
+.option('-p, --port <number>', 'Puerto del servidor', 8080)
+.option('-dev, --dev', 'Modo desarrollo', false);
+
+program.parse();
+
+const enviroment = program.opts().dev ? 'dev' : 'prod';
+console.log(`Modo ${enviroment}`);
+
+dotenv.config({
+    path: `${__dirname}/.env`
+});
+
+console.log(`Usando el .env de ${enviroment}`);
 
 
-const PORT = 8080 || process.env.PORT;
+const PORT = enviroment === 'dev' ? process.env.PORT_DEV : process.env.PORT_PROD;
 const app = express();
 const server = createServer(app);
+const customRouter = new customRoute();
+app.use('/test', customRouter.getRouter());
 
 // Passport
 initializePassport();
 app.use(passport.initialize());
-// app.use(passport.session()); Comentado porque sino no funciona
-// Session
 
+// Session
 app.use(session({
-    // store: new FileStoreSession({path: './sessions', ttl: 10}),
-    store: MongoStore.create({mongoUrl: 'mongodb+srv://ivancb97:Soz47261@proyectocoder.iu36jco.mongodb.net/ecommerce'}),
+    store: MongoStore.create({mongoUrl: `mongodb+srv://${process.env.USER}:${process.env.PASS}@proyectocoder.iu36jco.mongodb.net/ecommerce`}),
     secret: 'codersecret',
     resave: true,
     saveUninitialized: true
@@ -61,8 +79,8 @@ app.use('/api/carts', routerCarts)
 app.use('/chat', routerChat);
 
 // Views
-app.use('/', routerViews);
 app.use('/api/sessions', routerSessions);
+app.use('/', routerViews);
 
 // Auth
 app.use('/auth', routerAuth);
