@@ -2,6 +2,8 @@ import { Router } from "express";
 import { ProductManager } from "../dao/mongoManagers/productManager.js";
 import { UserManager } from "../dao/mongoManagers/usersManager.js";
 import { CartManager } from "../dao/mongoManagers/cartsManager.js";
+import { authAdmin } from "../middleware/auth.js";
+import { sendCartView, sendLoginView, sendProductsView, sendProfileView, sendRegisterView } from "../services/viewsService.service.js";
 
 const routerViews = Router();
 const PM = new ProductManager();
@@ -20,37 +22,10 @@ routerViews.get('/', (req, res) => {
     res.redirect('/login');
 })
 
-routerViews.get('/products', auth, async (req, res) => {
-    try {
-        const products = await PM.getProducts();
-        const user = req.session.user;
-        res.render('products', { products, user });
-    } catch (error) {
-        res.json({error: error.message})        
-    }
-})
-
-routerViews.get('/carts/:cid', auth, async (req, res) => {
-    try {
-        const { cid } = req.params;
-        const cart = await CM.getCartById(cid);
-        res.render('cart', { cart });
-    } catch (error) {
-        res.json({error: error.message})        
-    }
-})
-
-
-routerViews.get('/login', (req, res) => {
-    res.render('login', {})
-})
-
-routerViews.get('/register', (req, res) => {
-    res.render('register', {})})
-
-routerViews.get('/profile', auth, (req, res) => {
-    const user = req.session.user;
-    res.render('profile', {user})
-})
+routerViews.get('/login', sendLoginView);
+routerViews.get('/products', auth, sendProductsView);
+routerViews.get('/carts/:cid', auth, sendCartView);
+routerViews.get('/register', sendRegisterView);
+routerViews.get('/profile', authAdmin, sendProfileView);
 
 export default routerViews;

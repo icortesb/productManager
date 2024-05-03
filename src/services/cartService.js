@@ -15,6 +15,14 @@ export const findCartById = async (id) => {
     }
 };
 
+export const findCartByIdLean = async (id) => {
+    try {
+        return await Cart.findById(id).lean();
+    } catch (error) {
+        throw new Error(`Error al leer el carrito: ${error.message}`);
+    }
+}
+
 export const createCart = async () => {
     try {
         const newCart = await Cart.create({

@@ -30,16 +30,10 @@ export const initializePassport = () => {
         async (req, user, password, done) => {
             try {
                 let userExists = await User.findOne({user});
-            
-
-                console.log(`userExists.user: ${userExists.user}, user: ${user}, Evaluacion: ${userExists.user !== user}`)
                 if (userExists.user !== user) {
                   return done(null, false, { message: "Error, usuario no existe" });
                 }
-                console.log(`YA PASO EL IF`)
-                console.log(`user.password: ${password}, userExists.password: ${userExists.password}`)
                 const isValid = await isValidPassword(password, userExists.password);
-                console.log(`isValid: ${isValid}`)
 
                 if (!isValid) {
                   return done(null, false, { message: "Error, contraseña incorrecta" });
