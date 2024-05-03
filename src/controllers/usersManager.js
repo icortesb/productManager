@@ -8,13 +8,10 @@ export class UserManager {
     createUser = async (user) => {
         try {
             const newUser = await User.create(user);
-            console.log(newUser.password);
             newUser.password = await createHash(newUser.password);
-            console.log(`Reemplazado: ${newUser.password}`)
             const newCart = await cartManager.newCart();
             newUser.cart = newCart._id;
             await newUser.save();  
-            console.log(`Final: ${newUser.password}`)          
             return newUser;
         } catch (error) {
             console.log(`Error al crear el usuario: ${error.message}`);

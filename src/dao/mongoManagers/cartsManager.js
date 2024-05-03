@@ -97,7 +97,6 @@ export class CartManager {
             if (productIndex !== -1) {
                 cart.products[productIndex].quantity = quantity;
                 const updatedCart = await cart.save();
-                console.log(updatedCart);
                 return updatedCart;
             } else {
                 return false;

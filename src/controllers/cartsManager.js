@@ -1,6 +1,6 @@
 import { get } from "mongoose";
-import {findCarts, findCartById, createCart, findCartAndUpdate} from "../services/cartService.js";
-import { findProductById } from "../services/productsService.js";
+import {findCarts, findCartById, createCart, findCartAndUpdate} from "../services/cartService.service.js";
+import { findProductById } from "../services/productsService.service.js";
 
 export class CartManager {
     constructor(path) {

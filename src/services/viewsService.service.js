@@ -1,5 +1,5 @@
-import { findCartByIdLean } from "./cartService.js";
-import { findProducts } from "./productsService.js";
+import { findCartByIdLean } from "./cartService.service.js";
+import { findProducts } from "./productsService.service.js";
 
 export const sendLoginView = (req, res) => {
     res.render('login', {})
