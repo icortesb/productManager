@@ -10,11 +10,11 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo'
 import passport from 'passport';
 import { initializePassport } from './config/passport.config.js';
-// import customRoute from './routes/customRoute.js';
 import { Command } from 'commander';
 import dotenv from 'dotenv';
+import cors from 'cors';
+// import customRoute from './routes/customRoute.js';
 // import { fork } from 'node:child_process';
-
 
 const program = new Command();
 program
@@ -46,7 +46,7 @@ app.use(passport.initialize());
 app.use(session({
     // store: new FileStoreSession({path: './sessions', ttl: 10}),
     store: MongoStore.create({mongoUrl: 'mongodb+srv://ivancb97:Soz47261@proyectocoder.iu36jco.mongodb.net/ecommerce'}),
-    secret: 'codersecret',
+    secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true
 }))
@@ -57,6 +57,7 @@ app.use(express.text());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(cors());
 
 // Carpeta estatica
 app.use(express.static(__dirname + '/public'));
@@ -66,13 +67,10 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/views');
 
-
 // Routes
 app.use('/', router);
 
-
 // Socket.io
-
 const io = new Server(server);
 io.on('connection', (socket) => {
     console.log('Usuario conectado');
