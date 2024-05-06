@@ -1,6 +1,10 @@
-import { get } from "mongoose";
-import {findCarts, findCartById, createCart, findCartAndUpdate} from "../services/cartService.service.js";
-import { findProductById } from "../services/productsService.service.js";
+import {
+    findCarts,
+    findCartById,
+    createCart,
+    findCartAndUpdate,
+} from "../services/cartService.service.js";
+import {findProductById} from "../services/productsService.service.js";
 
 export class CartManager {
     constructor(path) {
@@ -39,10 +43,22 @@ export class CartManager {
     newCart = async (req, res) => {
         const cart = await createCart();
         if (cart) {
-            res.status(201).json({
-                message: `Carrito creado`,
-                cart: cart,
+           return cart;
+        } else {
+            res.status(400).json({
+                message: `Error al crear el carrito`,
             });
+        }
+    };
+
+    newGitHubCart = async (req, res) => {
+        const cart = await createCart();
+        if (cart) {
+            req.session.user = req.user;
+            req.session.user.role = "user";
+            req.session.user.cart = cart._id;
+            res.setHeader("Content-Type", "application/json");
+            return res.redirect("/products");
         } else {
             res.status(400).json({
                 message: `Error al crear el carrito`,
@@ -63,7 +79,7 @@ export class CartManager {
             cart = await this.saveCartsById(cid, pid);
             res.redirect(`/carts/${cid}`);
         }
-    }
+    };
 
     saveCartsById = async (cid, pid) => {
         try {
@@ -104,37 +120,37 @@ export class CartManager {
             cart = await this.deleteProductById(cid, pid);
             return res.send(cart);
         }
-    }
+    };
 
     deleteProductById = async (cid, pid) => {
         try {
             const cart = await findCartById(cid);
             const product = await findProductById(pid);
-     
+
             const productIndex = cart.products.findIndex(
                 (prod) => prod.product.title === product.title
             );
             if (productIndex !== -1) {
-                
                 if (cart.products[productIndex].quantity > 0) {
-                cart.products[productIndex].quantity--;
-                if (cart.products[productIndex].quantity === 0) {
-                    cart.products = cart.products.filter(
-                        (prod) => prod.product.title !== product.title
-                    );
+                    cart.products[productIndex].quantity--;
+                    if (cart.products[productIndex].quantity === 0) {
+                        cart.products = cart.products.filter(
+                            (prod) => prod.product.title !== product.title
+                        );
+                    }
+                    const updatedCart = await cart.save();
+                    return updatedCart;
                 }
-                const updatedCart = await cart.save();
-                return updatedCart;
-                }
-
             } else {
                 return false;
             }
         } catch (error) {
-            console.log(`Error al eliminar el producto del carrito: ${error.message}`);
+            console.log(
+                `Error al eliminar el producto del carrito: ${error.message}`
+            );
             return false;
         }
-    }
+    };
 
     updateCart = async (req, res) => {
         const {cid} = req.params;
@@ -206,5 +222,5 @@ export class CartManager {
                 cart: cart,
             });
         }
-    }
+    };
 }

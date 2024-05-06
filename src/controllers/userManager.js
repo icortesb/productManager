@@ -1,6 +1,6 @@
-import User from "../dao/models/users.model.js";
+import User from "../dao/mongo/models/users.model.js";
 import { createHash } from "../utils/bcrypt.js";
-import { CartManager } from "./cartsManager.js";
+import { CartManager } from "./cartManager.js";
 
 
 const cartManager = new CartManager();
@@ -9,7 +9,8 @@ export class UserManager {
         try {
             const newUser = await User.create(user);
             newUser.password = await createHash(newUser.password);
-            const newCart = await cartManager.newCart();
+            console.log(newUser.password);
+            const newCart = await cartManager.newCart(); //ACA EL ERROR CON STATUS
             newUser.cart = newCart._id;
             await newUser.save();  
             return newUser;

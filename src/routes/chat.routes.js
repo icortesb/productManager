@@ -1,5 +1,5 @@
 import { Router } from "express";
-import Messages from "../dao/models/messages.model.js";
+import Messages from "../dao/mongo/models/messages.model.js";
 
 const routerChat = Router();
 

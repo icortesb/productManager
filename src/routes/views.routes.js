@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { ProductManager } from "../dao/mongoManagers/productManager.js";
-import { UserManager } from "../dao/mongoManagers/usersManager.js";
-import { CartManager } from "../dao/mongoManagers/cartsManager.js";
+import { ProductManager } from "../controllers/productManager.js";
+import { UserManager } from "../controllers/userManager.js";
+import { CartManager } from "../controllers/cartManager.js";
 import { authAdmin } from "../middleware/auth.js";
 import { sendCartView, sendLoginView, sendProductsView, sendProfileView, sendRegisterView } from "../services/viewsService.service.js";
 

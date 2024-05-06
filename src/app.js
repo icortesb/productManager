@@ -4,7 +4,7 @@ import router from './routes/index.routes.js';
 import { engine } from 'express-handlebars';
 import { Server } from "socket.io";
 import { createServer } from 'node:http';
-import Database  from './db/index.js';
+import Database from './dao/mongo/db/db.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import MongoStore from 'connect-mongo'
@@ -45,7 +45,7 @@ app.use(passport.initialize());
 
 app.use(session({
     // store: new FileStoreSession({path: './sessions', ttl: 10}),
-    store: MongoStore.create({mongoUrl: 'mongodb+srv://ivancb97:Soz47261@proyectocoder.iu36jco.mongodb.net/ecommerce'}),
+    store: MongoStore.create({mongoUrl: `mongodb+srv://${process.env.USER}:${process.env.PASS}@proyectocoder.iu36jco.mongodb.net/ecommerce`}),
     secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true

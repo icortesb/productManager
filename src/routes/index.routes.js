@@ -15,7 +15,6 @@ router.use('/chat', routerChat);
 router.use('/api/sessions', routerSessions);
 router.use('/', routerViews);
 router.use('/auth', routerAuth);
-// Usar * para mandar a un 404 lo que no encuentre
 router.use('*', (req, res) => {
     res.status(404).sendFile('public/404.html', { root: rootDir });
 });

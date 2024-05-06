@@ -1,6 +1,5 @@
-import mongoose from "mongoose";
-import Cart from "../models/carts.model.js";
-import Product from "../models/product.model.js";
+import Cart from "../mongo/models/carts.model.js";
+import Product from "../mongo/models/product.model.js";
 export class CartManager {
     constructor(path) {
         this.path = path;

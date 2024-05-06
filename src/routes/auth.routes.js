@@ -1,11 +1,10 @@
 import { Router } from "express";
-import { UserManager } from "../dao/mongoManagers/usersManager.js";
-import { CartManager } from "../dao/mongoManagers/cartsManager.js";
 import passport from "passport";
+import { UserManager } from "../controllers/userManager.js";
+
+const userManager = new UserManager();
 
 const routerAuth = Router();
-const userManager = new UserManager();
-const cartManager = new CartManager();
 
 routerAuth.post('/register', passport.authenticate('register', {
     failureRedirect: '/failedRegister',
@@ -34,10 +33,9 @@ routerAuth.post('/login', function(req, res, next) {
             if (err) { 
                 return next(err); 
             }
-            req.session.user = req.body;
+            req.session.user = userManager.getUser(req.body.user);
             req.session.user.role = 'user';
             req.session.user.cart = user.cart;
-            console.log(req.session);
             return res.redirect('/products');
         });
     })(req, res, next);

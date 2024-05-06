@@ -1,8 +1,8 @@
 import passport from "passport";
 import { Strategy } from "passport-local";
-import { UserManager } from "../dao/mongoManagers/usersManager.js";
+import { UserManager } from "../controllers/userManager.js";
 import { createHash, isValidPassword } from "../utils/bcrypt.js";
-import User from "../dao/models/users.model.js";
+import User from "../dao/mongo/models/users.model.js";
 import github from "passport-github2";
 import crypto from "crypto";
 
@@ -68,6 +68,20 @@ export const initializePassport = () => {
             }
         }
     ))
+    
+    passport.use('current', new Strategy(
+        async (req, done) => {
+            try {
+                if (req.isAuthenticated()) {
+                    return done(null, req.user);
+                } else {
+                    return done(null, false);
+                }
+            } catch (err) {
+                return done(err);
+            }
+        }
+    ));
 
 
     passport.serializeUser(function(user, done) {

@@ -1,6 +1,4 @@
-import mongoose from "mongoose";
-import Product from "../models/product.model.js";
-
+import Product from "../mongo/models/product.model.js";
 export class ProductManager {
        
     getProducts = async () => {
