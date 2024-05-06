@@ -2,6 +2,7 @@ import passport from "passport";
 import { Strategy } from "passport-local";
 import { UserManager } from "../controllers/userManager.js";
 import { createHash, isValidPassword } from "../utils/bcrypt.js";
+import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import User from "../dao/mongo/models/users.model.js";
 import github from "passport-github2";
 import crypto from "crypto";
@@ -69,19 +70,30 @@ export const initializePassport = () => {
         }
     ))
     
-    passport.use('current', new Strategy(
-        async (req, done) => {
-            try {
-                if (req.isAuthenticated()) {
-                    return done(null, req.user);
-                } else {
-                    return done(null, false);
-                }
-            } catch (err) {
-                return done(err);
-            }
+    const cookieExtractor = function (req) {
+        let token = null;
+        if (req && req.cookies) {
+            token = req.cookies["jwt"];
         }
-    ));
+        return token;
+    };
+
+    passport.use(
+        "jwt",
+        new JwtStrategy(
+            {
+                jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+                secretOrKey: "Coder123",
+            },
+            async (payload, done) => {
+                try {
+                    return done(null, payload);
+                } catch (error) {
+                    return done(`Error al buscar el usuario: ${error}`);
+                }
+            }
+        )
+    );
 
 
     passport.serializeUser(function(user, done) {

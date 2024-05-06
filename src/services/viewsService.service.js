@@ -1,5 +1,9 @@
 import { findCartByIdLean } from "./cartService.service.js";
 import { findProducts } from "./productsService.service.js";
+import { UserManager } from "../controllers/userManager.js";
+import cookieParser from "cookie-parser";
+import { verifyJWT } from "../utils/jwt.js";
+const userManager = new UserManager();
 
 export const sendLoginView = (req, res) => {
     res.render('login', {})
@@ -8,7 +12,12 @@ export const sendLoginView = (req, res) => {
 export const sendProductsView = async (req, res) => {
     try {
         const products = await findProducts();
-        const user = req.session.user;
+        const token = req.cookies.jwt;
+        let user = null;
+        if (token) {
+            const decodedToken = verifyJWT(token);
+            user = await userManager.getUser(decodedToken.user);
+        }
         res.render('products', { products, user });
     } catch (error) {
         res.json({error: error.message})        
