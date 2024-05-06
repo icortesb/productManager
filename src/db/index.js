@@ -1,16 +1,27 @@
 import mongoose from "mongoose";
-import Cart from "../dao/models/carts.model.js"; // Solo para test
-import Product from "../dao/models/product.model.js"; // Solo para test
 
-export default {
-    connect: async () => {
+class Database {
+    static #instance;
+
+    constructor() {
+        this.connect();
+    }
+
+    async connect() {
         try {
-            await mongoose.connect("mongodb+srv://ivancb97:Soz47261@proyectocoder.iu36jco.mongodb.net/ecommerce");
-            console.log('Conectado a la base de datos');
-
-           
+            await mongoose.connect(`mongodb+srv://${process.env.USER}:${process.env.PASS}@proyectocoder.iu36jco.mongodb.net/ecommerce`);
+            console.log("Conexión exitosa a la base de datos");
         } catch (error) {
-            console.log(`Error al conectar a la base de datos: ${error}`);
+            console.error("Error al conectar a la base de datos:", error);
         }
     }
+
+    static getInstance() {
+        if (!this.#instance) {
+            this.#instance = new Database();
+        }
+        return this.#instance;
+    }
 }
+
+export default Database;

@@ -87,7 +87,7 @@ io.on('connection', (socket) => {
 
 server.listen(PORT, () => {
     console.log(`Servidor arriba. Puerto ${PORT}`)
-    Database.connect();
+    Database.getInstance();
 })
 
 export {io};
