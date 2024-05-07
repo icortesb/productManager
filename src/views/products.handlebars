@@ -3,6 +3,7 @@
     <h2> Bienvenido {{user.user}}</h2>
     <p>Rol: {{user.role}}</p> 
     <p>Cart: {{user.cart}}</p>
+    <a href="/carts/{{user.cart}}">Ir a carrito</a>
     <ul>
         {{#each products}}
         <li>

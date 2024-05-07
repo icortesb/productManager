@@ -3,7 +3,7 @@
     {{#each cart.products}}
     {{#if this.quantity}}
     <div>
-        <p>{{this.product.title}} - Quantity: {{this.quantity}} - ID: {{this._id}}</p>
+        <p>{{this.product.title}} - Quantity: {{this.quantity}}</p>
         <form method="POST" action="/api/carts/{{../cart._id}}/products/{{this.product._id}}?_method=DELETE">
             <input type="hidden" name="_method" value="DELETE">
             <button type="submit" id="remove_one"  data-cart="{{../cart._id}}"

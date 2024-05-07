@@ -5,7 +5,6 @@ import routerChat from './chat.routes.js';
 import routerSessions from './sessions.routes.js';
 import routerViews from './views.routes.js';
 import routerAuth from './auth.routes.js';
-import routerAdmin from './admin.routes.js';
 import Cart from '../dao/mongo/models/carts.model.js';
 import User from '../dao/mongo/models/users.model.js';
 import rootDir from '../utils/dirname.js';
