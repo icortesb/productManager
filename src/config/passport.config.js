@@ -57,8 +57,10 @@ export const initializePassport = () => {
             try {
                 let email = profile._json.email || profile._json.login; // En mi caso, email estaba como null, por lo que use el login como email
                 let userExists = await User.findOne({user: email});
+                console.log(`User exists: ${userExists}`);
 
                 if (!userExists) {
+                    console.log(`User does not exist, creating user`);
                     userExists = await User.create({ user: email, password: await createHash(crypto.randomBytes(8).toString('hex')) }); // Pass aleatoria para mantener consistencia con el modelo
                 }
 

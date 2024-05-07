@@ -9,7 +9,6 @@ export class UserManager {
         try {
             const newUser = await User.create(user);
             newUser.password = await createHash(newUser.password);
-            console.log(newUser.password);
             const newCart = await cartManager.newCart(); //ACA EL ERROR CON STATUS
             newUser.cart = newCart._id;
             await newUser.save();  
