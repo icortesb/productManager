@@ -6,7 +6,8 @@ import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import User from "../dao/mongo/models/users.model.js";
 import github from "passport-github2";
 import crypto from "crypto";
-
+import { CartManager } from "../controllers/cartManager.js";
+const cartManager = new CartManager();
 const userManager = new UserManager();
 
 export const initializePassport = () => {
@@ -57,11 +58,9 @@ export const initializePassport = () => {
             try {
                 let email = profile._json.email || profile._json.login; // En mi caso, email estaba como null, por lo que use el login como email
                 let userExists = await User.findOne({user: email});
-                console.log(`User exists: ${userExists}`);
 
                 if (!userExists) {
-                    console.log(`User does not exist, creating user`);
-                    userExists = await User.create({ user: email, password: await createHash(crypto.randomBytes(8).toString('hex')) }); // Pass aleatoria para mantener consistencia con el modelo
+                    userExists = await userManager.createUser({ user: email, password: await createHash(crypto.randomBytes(8).toString('hex'))}); // Pass aleatoria para mantener consistencia con el modelo
                 }
 
                 return done(null, userExists);

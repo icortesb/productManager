@@ -19,7 +19,6 @@ export const sendProductsView = async (req, res) => {
             user = await userManager.getUser(decodedToken.user);
         } else {
             user = req.session.user;
-            console.log(`User from session: ${JSON.stringify(user)}`)
         }
         res.render('products', { products, user });
     } catch (error) {

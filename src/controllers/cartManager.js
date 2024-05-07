@@ -5,6 +5,7 @@ import {
     findCartAndUpdate,
 } from "../services/cartService.service.js";
 import {findProductById} from "../services/productsService.service.js";
+import User from "../dao/mongo/models/users.model.js";
 
 export class CartManager {
     constructor(path) {
@@ -44,21 +45,6 @@ export class CartManager {
         const cart = await createCart();
         if (cart) {
            return cart;
-        } else {
-            res.status(400).json({
-                message: `Error al crear el carrito`,
-            });
-        }
-    };
-
-    newGitHubCart = async (req, res) => {
-        const cart = await createCart();
-        if (cart) {
-            req.session.user = req.user;
-            req.session.user.role = "user";
-            req.session.user.cart = cart._id;
-            res.setHeader("Content-Type", "application/json");
-            return res.redirect("/products");
         } else {
             res.status(400).json({
                 message: `Error al crear el carrito`,

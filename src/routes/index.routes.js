@@ -32,6 +32,19 @@ router.use('/admin/deleteUsers', async (req, res) => {
     }
 });
 
+router.use('/admin/deleteCarts', async (req, res) => {
+    try {
+        const result = await Cart.deleteMany({});
+        res.status(200).send({
+            message: 'All carts deleted',
+            result: result
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal server error');
+    }
+});
+
 
 router.use('*', (req, res) => {
     res.status(404).sendFile('public/404.html', { root: rootDir });

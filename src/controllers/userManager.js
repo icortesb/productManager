@@ -9,7 +9,7 @@ export class UserManager {
         try {
             const newUser = await User.create(user);
             newUser.password = await createHash(newUser.password);
-            const newCart = await cartManager.newCart(); //ACA EL ERROR CON STATUS
+            const newCart = await cartManager.newCart();
             newUser.cart = newCart._id;
             await newUser.save();  
             return newUser;
