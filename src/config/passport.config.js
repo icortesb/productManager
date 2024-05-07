@@ -84,7 +84,7 @@ export const initializePassport = () => {
         new JwtStrategy(
             {
                 jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
-                secretOrKey: "Coder123",
+                secretOrKey: process.env.JWT_SECRET,
             },
             async (payload, done) => {
                 try {
@@ -95,6 +95,24 @@ export const initializePassport = () => {
             }
         )
     );
+
+    passport.use(
+        "current",
+        new JwtStrategy(
+            {
+                jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+                secretOrKey: process.env.JWT_SECRET,
+            },
+            async (payload, done) => {
+                try {
+                    const user = await User.findById(payload._id);
+                    return done(null, user);
+                } catch (error) {
+                    return done(`Error al buscar el usuario: ${error}`);
+                }
+            }
+        )
+    )
 
 
     passport.serializeUser(function(user, done) {

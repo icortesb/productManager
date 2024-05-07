@@ -20,7 +20,7 @@ routerAuth.post('/login', async (req, res)  => {
     const { user, password } = req.body;
 
     if (user === 'adminCoder@coder.com' || password === 'adminCod3r123') {
-        const token = jwt.sign({user: 'adminCoder@coder.com', role: 'admin'}, 'Coder123', { expiresIn: '1h' });
+        const token = jwt.sign({user: 'adminCoder@coder.com', role: 'admin'}, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.cookie('jwt', token, { httpOnly: true });
         
         return res.redirect('/products');
