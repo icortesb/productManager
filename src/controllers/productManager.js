@@ -1,5 +1,4 @@
 import {findProducts, findProductById, createProduct, updateProduct, deleteProduct } from "../services/productsService.service.js";
-import __dirname from '../utils/dirname.js';
 
 export class ProductManager {
        

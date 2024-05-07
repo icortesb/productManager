@@ -5,7 +5,6 @@ import {
     findCartAndUpdate,
 } from "../services/cartService.service.js";
 import {findProductById} from "../services/productsService.service.js";
-import User from "../dao/mongo/models/users.model.js";
 
 export class CartManager {
     constructor(path) {

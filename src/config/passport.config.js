@@ -6,8 +6,6 @@ import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import User from "../dao/mongo/models/users.model.js";
 import github from "passport-github2";
 import crypto from "crypto";
-import { CartManager } from "../controllers/cartManager.js";
-const cartManager = new CartManager();
 const userManager = new UserManager();
 
 export const initializePassport = () => {
