@@ -10,4 +10,21 @@ routerSessions.get('/github', passport.authenticate('github', {}), (req, res) =>
 routerSessions.get('/callbackGithub', passport.authenticate('github', {}), cartManager.newGitHubCart);
 
 
+
+// routerSessions.get('/callbackGithub', passport.authenticate('github', {}), async (req, res) => {
+
+
+//     req.session.user = req.user;
+//     req.session.user.role = 'user';
+//     let cart = await cartManager.newCart();
+//     cart = cart._id;
+//     req.session.user.cart = cart
+
+//     res.setHeader('Content-Type', 'application/json');
+//     // return res.status(200).json({payload: req.session, status: 'success'})
+//     return res.redirect('/products');
+
+// })
+
 export default routerSessions;
+

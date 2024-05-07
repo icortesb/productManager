@@ -7,8 +7,13 @@ const routerViews = Router();
 
 const verifyLogin = (req, res, next) => {
     const token = req.cookies.jwt;
-    if (!token) {
+    if (!token && !req.session.user) {
         return res.redirect('/login');
+    }
+    const session = req.session;
+    if (session.user) {
+        req.user = session.user;
+        return next();
     }
     try {
         const decodedToken = verifyJWT(token);
