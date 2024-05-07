@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { sendCartView, sendLoginView, sendProductsView, sendProfileView, sendRegisterView } from "../services/viewsService.service.js";
+import { sendCartView, sendLoginView, sendProductsView, sendProfileView, sendRegisterView } from "../services/views.service.js";
 import { authAdmin, verifyLogin } from "../middleware/auth.js";
 const routerViews = Router();
 

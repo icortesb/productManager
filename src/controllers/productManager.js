@@ -1,4 +1,4 @@
-import {findProducts, findProductById, createProduct, updateProduct, deleteProduct } from "../services/productsService.service.js";
+import {findProducts, findProductById, createProduct, updateProduct, deleteProduct } from "../services/products.service.js";
 
 export class ProductManager {
        

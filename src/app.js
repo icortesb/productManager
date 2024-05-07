@@ -3,7 +3,7 @@ import __dirname from './utils/dirname.js';
 import router from './routes/index.routes.js';
 import { engine } from 'express-handlebars';
 import { Server } from "socket.io";
-import { createServer } from 'node:http';
+import { METHODS, createServer } from 'node:http';
 import Database from './dao/mongo/db/db.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
@@ -36,6 +36,16 @@ const PORT = enviroment === 'dev' ? process.env.PORT_DEV : process.env.PORT_PROD
 
 const app = express();
 const server = createServer(app);
+
+// CORS
+const corsOptions = {
+    origin: 'http://localhost:8080',
+    METHODS: ['GET', 'POST', 'PUT'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    optionsSuccessStatus: 200
+}
+
+app.use(cors(corsOptions));
 
 // Passport
 initializePassport();
@@ -73,7 +83,7 @@ app.use('/', router);
 // Socket.io
 const io = new Server(server);
 io.on('connection', (socket) => {
-    console.log('Usuario conectado');
+    console.log('Usuario conectado al chat');
 
     // Chat
     socket.on('newMessage', (data) => {

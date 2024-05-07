@@ -2,9 +2,9 @@ import User from "../dao/mongo/models/users.model.js";
 import { createHash } from "../utils/bcrypt.js";
 import { CartManager } from "./cartManager.js";
 
-
 const cartManager = new CartManager();
 export class UserManager {
+
     createUser = async (user) => {
         try {
             const newUser = await User.create(user);

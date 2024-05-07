@@ -1,5 +1,5 @@
-import { findCartByIdLean } from "./cartService.service.js";
-import { findProducts } from "./productsService.service.js";
+import { findCartByIdLean } from "./carts.service.js";
+import { findProducts } from "./products.service.js";
 import { UserManager } from "../controllers/userManager.js";
 import cookieParser from "cookie-parser";
 import { verifyJWT } from "../utils/jwt.js";

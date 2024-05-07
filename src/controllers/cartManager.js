@@ -3,14 +3,11 @@ import {
     findCartById,
     createCart,
     findCartAndUpdate,
-} from "../services/cartService.service.js";
-import {findProductById} from "../services/productsService.service.js";
+} from "../services/carts.service.js";
+import {findProductById} from "../services/products.service.js";
 
 export class CartManager {
-    constructor(path) {
-        this.path = path;
-    }
-
+    
     getCarts = async (req, res) => {
         const carts = await findCarts();
         if (carts) {
