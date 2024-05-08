@@ -5,8 +5,8 @@ document.getElementById('formulario').addEventListener('submit', function(event)
 });
 
 const addMessage = async () => {
-    const mail = document.getElementById('mail').value;
-    const mensaje = document.getElementById('mensaje').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
 
     try {
         const response = await fetch('/chat', {
@@ -14,19 +14,14 @@ const addMessage = async () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email: mail, message: mensaje })
+            body: JSON.stringify({ email: email, message: message })
         });
 
-        if (response.ok) {
-            console.log('Mensaje guardado correctamente');
-        } else {
-            console.error('Error al guardar el mensaje');
-        }
     } catch (error) {
         console.error('Error:', error);
     }
     
-    socket.emit('newMessage', { mail, mensaje });
+    socket.emit('newMessage', { email, message });
 }
 
 socket.on('chatMessage', (data) => {
@@ -36,8 +31,8 @@ socket.on('chatMessage', (data) => {
 const render = (data) => {
     const html = data.map((elem) => {
         return(`<div>
-                    <strong style=color:white>${elem.mail}:</strong>
-                    <em style=color:white>${elem.mensaje}</em>
+                    <strong style=color:white>${elem.user.email}:</strong>
+                    <em style=color:white>${elem.message}</em>
                 </div>`)
     }).join(' ');
     document.getElementById('lista_mensajes').innerHTML = html;

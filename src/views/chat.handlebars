@@ -1,14 +1,17 @@
 <div>
     <h1>Chat</h1>
     <form id="formulario">
-        <input type="email" name="mail" id="mail" placeholder="Mail">
-        <input type="text" name="mensaje" id="mensaje" placeholder="Tu mensaje...">
+        <input type="email" name="email" id="email" placeholder="Mail">
+        <input type="text" name="message" id="message" placeholder="Tu mensaje...">
         <input type="submit" value="Enviar">
     </form>
     <div class="chat" id="chat">
         <ul id="lista_mensajes">
         </ul>
     </div>
+</div>
+<div>
+    <a href="/auth/logout">logout</a>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>

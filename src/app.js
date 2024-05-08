@@ -13,6 +13,7 @@ import { initializePassport } from './config/passport.config.js';
 import { Command } from 'commander';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import MessagesManager from './controllers/messagesManager.js';
 // import customRoute from './routes/customRoute.js';
 // import { fork } from 'node:child_process';
 
@@ -81,13 +82,15 @@ app.set('views', __dirname + '/views');
 app.use('/', router);
 
 // Socket.io
+const messagesManager = new MessagesManager();
 const io = new Server(server);
 io.on('connection', (socket) => {
     console.log('Usuario conectado al chat');
 
     // Chat
-    socket.on('newMessage', (data) => {
-        messages.push(data);
+    socket.on('newMessage', async (data) => {
+        await messagesManager.addMessage(data);
+        const messages = await messagesManager.getMessages();
         io.sockets.emit('chatMessage', messages);
     })
 })

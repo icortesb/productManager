@@ -1,16 +1,15 @@
 import { Router } from "express";
-import Messages from "../dao/mongo/models/messages.model.js";
+import passport from "passport";
+import { authRole, verifyLogin } from "../middleware/auth.js";
 
 const routerChat = Router();
 
-routerChat.get('/', (req, res) => {
+routerChat.get('/', verifyLogin, (req, res) => {
     res.render('chat', {})
 })
 
-routerChat.post('/', async (req, res) => {
-    const { email, message } = req.body;
-    const newMessage = new Messages({ user: { email }, message });
-    await newMessage.save();
+
+routerChat.post('/', passport.authenticate('current', { session: false }), authRole('usuario'), async (req, res) => {
     res.status(200).json({ message: 'Mensaje guardado' });
 })
 

@@ -6,18 +6,22 @@ const messagesSchema = new mongoose.Schema(
             email: {
                 type: String,
                 required: true,
-                trim: true
-            }
+                trim: true,
+            },
         },
         message: {
             type: String,
             required: true,
-            trim: true
-        }
+            trim: true,
+        },
+        date: {
+            type: Date,
+            default: Date.now,
+        },
     },
     {versionKey: false}
-    )
+);
 
-const Messages = mongoose.model('messages', messagesSchema)
+const Messages = mongoose.model("messages", messagesSchema);
 
-export default Messages
+export default Messages;

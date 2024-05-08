@@ -1,22 +1,17 @@
 import { verifyJWT } from "../utils/jwt.js";
 
-export const authAdmin = async (req, res, next) => {
-    const token = req.cookies.jwt;
-    if (!token) {
-        return res.status(401).json({ message: "No autorizado" });
+export const authRole = (role) => async (req, res, next) => {
+    const userRole = req.user[0].role;
+    console.log('userRole:', userRole);
+    if (userRole !== role) {
+        console.log(`No tienes permiso para acceder a esta ruta como ${userRole}.`)
+        return res.status(403).send(`No tienes permiso para acceder a esta ruta como ${userRole}.`);
+    } else {
+        console.log(`Tienes permiso para acceder a esta ruta como ${userRole}.`);
     }
-    try {
-        const decodedToken = verifyJWT(token);
-        if (decodedToken.role !== "admin") {
-            return res.status(401).json({ message: "No autorizado" });
-        }
-        next();
-    } catch (error) {
-        console.error("Error during login:", error);
-        res.status(401).json({ message: "Invalid token" });
-    }
-
+    next();
 }
+
 
 export const verifyLogin = (req, res, next) => {
     const token = req.cookies.jwt;
