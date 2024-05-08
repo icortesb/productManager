@@ -4,7 +4,7 @@ import transporter from "../config/nodemailer.config.js";
 
 const routerMail = new Router();
 
-routerMail.use('/', async (req, res) => {
+routerMail.use('/sendMail', async (req, res) => {
     let mensaje = await transporter.sendMail({
         from: process.env.GMAIL_USER,
         to: 'vanesalettieri96@gmail.com',

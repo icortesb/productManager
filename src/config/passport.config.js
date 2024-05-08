@@ -103,7 +103,7 @@ export const initializePassport = () => {
             },
             async (payload, done) => {
                 try {
-                    const user = await User.findById(payload._id);
+                    const user = await User.find({ user: payload.user });
                     return done(null, user);
                 } catch (error) {
                     return done(`Error al buscar el usuario: ${error}`);

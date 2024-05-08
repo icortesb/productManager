@@ -4,6 +4,7 @@ import generateJWT from "../utils/jwt.js";
 import jwt from "jsonwebtoken";
 import { UserManager } from "../controllers/userManager.js";
 import { isValidPassword } from "../utils/bcrypt.js";
+import router from "./index.routes.js";
 
 const userManager = new UserManager();
 
@@ -49,10 +50,15 @@ routerAuth.get('/logout', (req, res) => {
     res.redirect('/login');
 })
 
-
-routerAuth.get('/user', (req, res) => {
-    res.json(req.session.user)
-})
+routerAuth.get('/current', passport.authenticate('current', { session: false }), (req, res) => {
+    console.log('req.user:', req.user)
+    const user = {
+        user: req.user[0].user,
+        role: req.user[0].role,
+        cart: req.user[0].cart
+    }
+    res.status(200).json(user);
+});
 
 
 export default routerAuth;

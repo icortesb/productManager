@@ -6,6 +6,7 @@ import routerSessions from './sessions.routes.js';
 import routerViews from './views.routes.js';
 import routerAuth from './auth.routes.js';
 import routerMail from './mail.routes.js';
+import routerTwilio from './twilio.routes.js';
 import Cart from '../dao/mongo/models/carts.model.js';
 import User from '../dao/mongo/models/users.model.js';
 import rootDir from '../utils/dirname.js';
@@ -19,6 +20,7 @@ router.use('/api/sessions', routerSessions);
 router.use('/', routerViews);
 router.use('/auth', routerAuth);
 router.use('/mail', routerMail);
+router.use('/twilio', routerTwilio);
 
 router.use('/admin/deleteUsers', async (req, res) => {
     try {

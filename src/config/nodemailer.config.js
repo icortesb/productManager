@@ -13,10 +13,8 @@ const transporter = nodemailer.createTransport({
 
 transporter.verify((error, success) => {
     if (error) {
-        console.log(process.env.GMAIL_USER, process.env.GMAIL_PASS);
         console.error("Error verifying transporter:", error);
     } else {
-        console.log(process.env.GMAIL_USER, process.env.GMAIL_PASS);
         console.log("Transporter is ready to send emails");
     }
 });
