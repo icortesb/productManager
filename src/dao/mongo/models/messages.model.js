@@ -22,6 +22,6 @@ const messagesSchema = new mongoose.Schema(
     {versionKey: false}
 );
 
-const Messages = mongoose.model("messages", messagesSchema);
+const Messages = mongoose.model('messages', messagesSchema, 'messages');
 
 export default Messages;
