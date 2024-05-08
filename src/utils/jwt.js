@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 const generateJWT = (user) => {
-    let payload = { user: user.user };
+    let payload = { user: user.user, role: user.role, cart: user.cart};
     return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 };
 
