@@ -3,7 +3,7 @@
     {{#each cart.products}}
     {{#if this.quantity}}
     <div>
-        <p>{{this.product.title}} - Quantity: {{this.quantity}}</p>
+        <p>{{this.product.title}} - Quantity: {{this.quantity}} - Id: {{this.product._id}}</p>
         <form method="POST" action="/api/carts/{{../cart._id}}/products/{{this.product._id}}?_method=DELETE">
             <input type="hidden" name="_method" value="DELETE">
             <button type="submit" id="remove_one"  data-cart="{{../cart._id}}"
@@ -11,13 +11,15 @@
             {{!-- <button type="submit" id="remove_all" data-cart="{{../cart._id}}"
                 data-product="{{this.product._id}}">Remove all from cart</button> --}}
         </form>
-        {{!-- Boton para volver a la vista products --}}
     </div>
     {{/if}}
     {{/each}}
     <br><br>
     <form action="/products" method="GET">
         <button type="submit">Volver a productos</button>
+    </form>
+    <form action="/api/carts/{{cart._id}}/purchase" method="PUT">
+        <button type="submit">Comprar {{cart._id}}</button>
     </form>
     <a href="/auth/logout">Logout</a>
 </div>

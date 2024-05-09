@@ -5,6 +5,9 @@ import {
     findCartAndUpdate,
 } from "../services/carts.service.js";
 import {findProductById} from "../services/products.service.js";
+import { ProductManager } from "./productManager.js";
+
+const productManager = new ProductManager();
 
 export class CartManager {
     
@@ -203,6 +206,35 @@ export class CartManager {
                 message: `Productos eliminados correctamente`,
                 cart: cart,
             });
+        }
+    };
+
+    purchaseCart = async (req, res) => {
+        const {cid} = req.params;
+        console.log(cid);
+        let cart = await findCartById(cid);
+        if (!cart) {
+            res.status(404).json({
+                message: `Carrito no encontrado`,
+            });
+            return;
+        } else {
+            for (const prod of cart.products) {
+                const product = await findProductById(prod.product);
+                if (product.stock < prod.quantity) {
+                    console.log(`No hay stock suficiente del producto ${product.title}`);
+                } else {
+                    product.stock -= prod.quantity;
+                    await product.save();
+                    cart.products = cart.products.filter(
+                        (p) => p.product.toString() !== prod.product.toString()
+                    );
+                    await cart.save();
+                    res.status(200).json({
+                        message: `Compra realizada correctamente`
+                    });
+                }
+            }
         }
     };
 }
