@@ -211,7 +211,6 @@ export class CartManager {
 
     purchaseCart = async (req, res) => {
         const {cid} = req.params;
-        console.log(cid);
         let cart = await findCartById(cid);
         if (!cart) {
             res.status(404).json({
@@ -230,11 +229,11 @@ export class CartManager {
                         (p) => p.product.toString() !== prod.product.toString()
                     );
                     await cart.save();
-                    res.status(200).json({
-                        message: `Compra realizada correctamente`
-                    });
                 }
             }
+            res.status(200).json({
+                message: `Compra realizada correctamente`
+            });
         }
     };
 }
