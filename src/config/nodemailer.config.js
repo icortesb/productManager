@@ -15,7 +15,7 @@ transporter.verify((error, success) => {
     if (error) {
         console.error("Error verifying transporter:", error);
     } else {
-        console.log("Transporter is ready to send emails");
+        console.log("Transporter is ready to send emails", success);
     }
 });
 export default transporter;
