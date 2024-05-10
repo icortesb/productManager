@@ -1,9 +1,10 @@
 import { findCartByIdLean } from "./carts.service.js";
 import { findProducts } from "./products.service.js";
 import { UserManager } from "../controllers/userManager.js";
-import cookieParser from "cookie-parser";
+import { CartManager } from "../controllers/cartManager.js";
 import { verifyJWT } from "../utils/jwt.js";
 const userManager = new UserManager();
+const cartManager = new CartManager();
 
 export const sendLoginView = (req, res) => {
     res.render('login', {})
@@ -42,6 +43,21 @@ export const sendRegisterView = (req, res) => {
 }
 
 export const sendProfileView = (req, res) => {
-    const user = req.session.user;
+    const token = req.cookies.jwt;
+    let user = null;
+    if (token) {
+        const decodedToken = verifyJWT(token);
+        user = userManager.getUser(decodedToken.user);
+    } else {
+        res.redirect('/login');
+    }
     res.render('profile', {user})
 }
+
+export const sendTicketView = async (req, res) => {
+    const { cid } = req.params;
+    let cart = await findCartByIdLean(cid);
+    console.log(cart)
+    res.render('ticket', { cart });
+}
+

@@ -231,9 +231,7 @@ export class CartManager {
                     await cart.save();
                 }
             }
-            res.status(200).json({
-                message: `Compra realizada correctamente`
-            });
+            res.status(200).redirect(`/ticket/${cid}`);
         }
     };
 }

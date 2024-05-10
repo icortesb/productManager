@@ -1,0 +1,12 @@
+<div>
+    <h1>Felicidades por su compra</h1>
+    <p>Este es su ticket de compra:</p>
+
+    <ul>
+        {{#each cart}}
+        <li>{{@key}}: {{this}}</li>
+        {{/each}}
+    </ul>
+
+    <a href="/products">Volver a productos</a>
+</div>
