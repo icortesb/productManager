@@ -3,11 +3,8 @@ import {
     findCartById,
     createCart,
     findCartAndUpdate,
-} from "../services/carts.service.js";
-import {findProductById} from "../services/products.service.js";
-import { ProductManager } from "./productManager.js";
-
-const productManager = new ProductManager();
+} from "../../../services/carts.service.js";
+import {findProductById} from "../../../services/products.service.js";
 
 export class CartManager {
     

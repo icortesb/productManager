@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { ProductManager } from "../controllers/productManager.js";
+import { ProductManager } from "../dao/mongo/controllers/productManager.js";
 import { authRole } from "../middleware/auth.js";
 
 const routerProducts = new Router();

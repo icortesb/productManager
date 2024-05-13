@@ -1,7 +1,7 @@
 import { Router } from "express";
 import passport from "passport";
 import generateJWT from "../utils/jwt.js";
-import { UserManager } from "../controllers/userManager.js";
+import { UserManager } from "../dao/mongo/controllers/userManager.js";
 import { isValidPassword } from "../utils/bcrypt.js";
 
 const userManager = new UserManager();

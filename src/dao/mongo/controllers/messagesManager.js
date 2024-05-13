@@ -1,4 +1,4 @@
-import Messages from "../dao/mongo/models/messages.model.js";
+import Messages from "../models/messages.model.js";
 
 export class MessagesManager {
 

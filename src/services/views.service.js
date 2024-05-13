@@ -1,7 +1,7 @@
 import { findCartByIdLean } from "./carts.service.js";
 import { findProducts } from "./products.service.js";
-import { UserManager } from "../controllers/userManager.js";
-import { CartManager } from "../controllers/cartManager.js";
+import { UserManager } from "../dao/mongo/controllers/userManager.js";
+import { CartManager } from "../dao/mongo/controllers/cartManager.js";
 import { verifyJWT } from "../utils/jwt.js";
 const userManager = new UserManager();
 const cartManager = new CartManager();

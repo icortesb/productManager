@@ -13,7 +13,7 @@ import { initializePassport } from './config/passport.config.js';
 import { Command } from 'commander';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import MessagesManager from './controllers/messagesManager.js';
+import MessagesManager from './dao/mongo/controllers/messagesManager.js'
 // import customRoute from './routes/customRoute.js';
 // import { fork } from 'node:child_process';
 
@@ -101,4 +101,4 @@ server.listen(PORT, () => {
     Database.getInstance();
 })
 
-export {io};
+// export {io};

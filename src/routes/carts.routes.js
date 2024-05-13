@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { CartManager } from "../controllers/cartManager.js";
+import { CartManager } from "../dao/mongo/controllers/cartManager.js";
 import { authRole } from "../middleware/auth.js";
 import passport from "passport";
 

@@ -1,6 +1,6 @@
 import passport from "passport";
 import { Strategy } from "passport-local";
-import { UserManager } from "../controllers/userManager.js";
+import { UserManager } from "../dao/mongo/controllers/userManager.js";
 import { createHash, isValidPassword } from "../utils/bcrypt.js";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import User from "../dao/mongo/models/users.model.js";
