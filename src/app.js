@@ -14,6 +14,7 @@ import { Command } from 'commander';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import MessagesManager from './dao/mongo/controllers/messagesManager.js'
+import compression from 'express-compression';
 // import customRoute from './routes/customRoute.js';
 // import { fork } from 'node:child_process';
 
@@ -47,6 +48,9 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions));
+
+// Gzip
+app.use(compression());
 
 // Passport
 initializePassport();
