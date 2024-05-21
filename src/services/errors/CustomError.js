@@ -7,7 +7,7 @@ export default class CustomError extends Error {
 
     static createError(errorConfig) {
         const error = new CustomError(errorConfig);
-        throw error; // Throw the error object
+        throw error;
     }
 }
 

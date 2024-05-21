@@ -56,8 +56,8 @@ app.use(compression());
 initializePassport();
 app.use(passport.initialize());
 // app.use(passport.session()); Comentado porque sino no funciona
-// Session
 
+// Session
 app.use(session({
     // store: new FileStoreSession({path: './sessions', ttl: 10}),
     store: MongoStore.create({mongoUrl: `mongodb+srv://${process.env.USER}:${process.env.PASS}@proyectocoder.iu36jco.mongodb.net/ecommerce`}),
@@ -67,7 +67,6 @@ app.use(session({
 }))
 
 // Middlewares
-
 app.use(express.text());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -105,4 +104,3 @@ server.listen(PORT, () => {
     Database.getInstance();
 })
 
-// export {io};
