@@ -1,14 +1,10 @@
-export default class CustomError extends Error {
-    constructor({ name = 'Error', message = 'An error has occurred', code = 1 }) {
-        super(message);
-        this.name = name;
-        this.code = code;
-    }
+export default class CustomError {
+    static createError({ name = "Error", cause, message = "An unknown error has ocurred", code = 1 }) {
+        const error = new Error(message);
+        error.name = name;
+        error.code = code;
+        error.cause = cause ? new Error(cause) : null
 
-    static createError(errorConfig) {
-        const error = new CustomError(errorConfig);
         throw error;
     }
 }
-
-console.log(CustomError.createError({ name: 'InvalidTypesError', message: 'Invalid types error!', code: 2 }));
