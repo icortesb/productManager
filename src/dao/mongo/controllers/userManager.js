@@ -1,10 +1,12 @@
 import User from "../models/users.model.js";
 import { createHash } from "../../../utils/bcrypt.js";
 import { CartManager } from "./cartManager.js";
-// import { isValidPassword } from "../utils/bcrypt.js";
 import { isValidPassword } from "../../../utils/bcrypt.js";
-// import generateJWT from "../utils/jwt.js";
 import generateJWT from "../../../utils/jwt.js";
+import CustomError from "../../../services/errors/CustomError.js";
+import errors from "../../../services/errors/enums.js";
+import { generateUserErrorInfoSP } from "../../../services/errors/messages/userErrorInfo.js";
+
 
 const cartManager = new CartManager();
 export class UserManager {
@@ -18,7 +20,13 @@ export class UserManager {
             await newUser.save();  
             return newUser;
         } catch (error) {
-            console.log(`Error al crear el usuario: ${error.message}`);
+            CustomError.createError ({
+                name: "User creation Error",
+                cause: generateUserErrorInfoSP({ user }),
+                message: "Error tratando de crear el usuario",
+                code: errors.INVALID_TYPES_ERROR
+            });
+
             return false;
         }
     }

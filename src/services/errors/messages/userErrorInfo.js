@@ -1,15 +1,15 @@
 export const generateUserErrorInfoSP = (user) => {
     return `Una o más propiedades fueron enviadas incompletas o no son válidas.
     Lista de propiedades requeridas:
-        -> fist_name: type String, recibido: ${user.first_name}
-        -> email: type String, recibido: ${user.email}
+        -> username: type String, recibido: ${typeof user.user.user}
+        -> password: type String, recibido: ${typeof user.user.password}
 `;
 }
 
 export const generateUserErrorInfoENG = (user) => {
     return `One or more properties were sent incomplete or are not valid.
     List of required properties:
-        -> first_name: type String, received: ${user.first_name}
-        -> email: type String, received: ${user.email}
+        -> username: type String, received: ${JSON.stringify(user)}
+        -> password: type String, received: ${JSON.stringify(user)}
 `;
 }
