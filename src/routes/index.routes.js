@@ -52,6 +52,9 @@ router.use('/admin/deleteCarts', async (req, res) => {
     }
 });
 
+router.use('/failedRegister', (req, res) => {
+    res.render('error')
+});
 
 router.use('*', (req, res) => {
     res.status(404).sendFile('public/404.html', { root: rootDir });

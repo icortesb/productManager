@@ -139,12 +139,4 @@ export const initializePassport = () => {
             done(err, user);
         });
     });
-
-    passport.authenticate("register", {
-        failureRedirect: "/failedRegister",
-    });
-    passport.authenticate("login", {
-        failureRedirect: "/failedLogin",
-        successRedirect: "/products",
-    });
 };
