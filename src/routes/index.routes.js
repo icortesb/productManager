@@ -12,9 +12,11 @@ import routerMocks from './mocks.routes.js';
 import Cart from '../dao/mongo/models/carts.model.js';
 import User from '../dao/mongo/models/users.model.js';
 import compressionRouter from './compression.routes.js';
+import { addLogger } from '../utils/logger.js';
 
 const router = new Router(); 
 
+router.use(addLogger);
 router.use('/api/products', routerProducts);
 router.use('/api/carts', routerCarts);
 router.use('/chat', routerChat);

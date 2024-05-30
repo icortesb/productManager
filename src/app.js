@@ -25,16 +25,17 @@ program
 
 program.parse();
 
-const enviroment = program.opts().dev ? 'dev' : 'prod';
-console.log(`Modo ${enviroment}`);
+const environment = program.opts().dev ? 'development' : 'prod';
+
+export { environment };
 
 dotenv.config({
     path: `${__dirname}/.env`
 });
 
-console.log(`Usando el .env de ${enviroment}`);
+console.log(`Usando el .env de ${environment}`);
 
-const PORT = enviroment === 'dev' ? process.env.PORT_DEV : process.env.PORT_PROD;
+const PORT = environment === 'development' ? process.env.PORT_DEV : process.env.PORT_PROD;
 
 const app = express();
 const server = createServer(app);
