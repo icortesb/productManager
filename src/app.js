@@ -17,9 +17,25 @@ import MessagesManager from './dao/mongo/controllers/messagesManager.js'
 import compression from 'express-compression';
 // import customRoute from './routes/customRoute.js';
 // import { fork } from 'node:child_process';
-import {PORT} from './config/commander.config.js';
+console.log(`En app ${__dirname}`);
 
+const program = new Command();
+program
+.option('-p, --port <number>', 'Puerto del servidor', 8080)
+.option('-dev, --dev', 'Modo desarrollo', false);
 
+program.parse();
+
+const enviroment = program.opts().dev ? 'dev' : 'prod';
+console.log(`Modo ${enviroment}`);
+
+dotenv.config({
+    path: `${__dirname}/.env`
+});
+
+console.log(`Usando el .env de ${enviroment}`);
+
+const PORT = enviroment === 'dev' ? process.env.PORT_DEV : process.env.PORT_PROD;
 
 const app = express();
 const server = createServer(app);
