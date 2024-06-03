@@ -16,7 +16,8 @@ import MessagesManager from './dao/mongo/controllers/messagesManager.js'
 import compression from 'express-compression';
 // import customRoute from './routes/customRoute.js';
 // import { fork } from 'node:child_process';
-import { PORT, environment } from './config/commander.config.js';
+import { PORT } from './config/commander.config.js';
+import corsConfig from './config/cors.config.js';
 
 dotenv.config({
     path: `${__dirname}/.env`
@@ -25,17 +26,8 @@ dotenv.config({
 const app = express();
 const server = createServer(app);
 
-console.log(`Usando ${environment} en el puerto ${PORT}`);
-
 // CORS
-const corsOptions = {
-    origin: 'http://localhost:8080',
-    METHODS: ['GET', 'POST', 'PUT'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    optionsSuccessStatus: 200
-}
-
-app.use(cors(corsOptions));
+app.use(corsConfig());
 
 // Gzip
 app.use(compression());

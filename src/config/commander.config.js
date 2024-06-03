@@ -9,7 +9,6 @@ program
 program.parse();
 
 const environment = program.opts().dev ? 'development' : 'prod';
-console.log(`En commander ${environment}`)
 
 const PORT = environment === 'development' ? dotenvConfig.PORT_DEV : dotenvConfig.PORT_PROD;
 export { environment, PORT };

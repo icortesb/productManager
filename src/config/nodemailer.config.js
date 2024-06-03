@@ -4,7 +4,7 @@ import __dirname from "../utils/dirname.js";
 
 dotenv.config({
     path: `${__dirname}/.env`
-});// Cargar variables de entorno
+});
 
 
 const transporter = nodemailer.createTransport({
@@ -22,7 +22,7 @@ transporter.verify((error, success) => {
     if (error) {
         console.error("Error verifying transporter:", error);
     } else {
-        console.log("Transporter is ready to send emails");
+        console.log(`Transporter is ready to send emails ${success}`);
     }
 });
 export default transporter;
