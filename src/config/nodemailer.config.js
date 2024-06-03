@@ -4,7 +4,7 @@ import __dirname from "../utils/dirname.js";
 
 dotenv.config({
     path: `${__dirname}/.env`
-});
+});// Cargar variables de entorno
 
 
 const transporter = nodemailer.createTransport({

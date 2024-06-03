@@ -3,7 +3,7 @@ import __dirname from './utils/dirname.js';
 import router from './routes/index.routes.js';
 import { engine } from 'express-handlebars';
 import { Server } from "socket.io";
-import { METHODS, createServer } from 'node:http';
+import { createServer } from 'node:http';
 import Database from './dao/mongo/db/db.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
@@ -11,13 +11,13 @@ import MongoStore from 'connect-mongo'
 import passport from 'passport';
 import { initializePassport } from './config/passport.config.js';
 import dotenv from 'dotenv';
-import cors from 'cors';
 import MessagesManager from './dao/mongo/controllers/messagesManager.js'
 import compression from 'express-compression';
 // import customRoute from './routes/customRoute.js';
 // import { fork } from 'node:child_process';
 import { PORT } from './config/commander.config.js';
 import corsConfig from './config/cors.config.js';
+import winston from 'winston';
 
 dotenv.config({
     path: `${__dirname}/.env`
