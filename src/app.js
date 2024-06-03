@@ -10,34 +10,22 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo'
 import passport from 'passport';
 import { initializePassport } from './config/passport.config.js';
-import { Command } from 'commander';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import MessagesManager from './dao/mongo/controllers/messagesManager.js'
 import compression from 'express-compression';
 // import customRoute from './routes/customRoute.js';
 // import { fork } from 'node:child_process';
-
-const program = new Command();
-program
-.option('-p, --port <number>', 'Puerto del servidor', 8080)
-.option('-dev, --dev', 'Modo desarrollo', false);
-
-program.parse();
-
-const enviroment = program.opts().dev ? 'dev' : 'prod';
-console.log(`Modo ${enviroment}`);
+import { PORT, environment } from './config/commander.config.js';
 
 dotenv.config({
     path: `${__dirname}/.env`
 });
 
-console.log(`Usando el .env de ${enviroment}`);
-
-const PORT = enviroment === 'dev' ? process.env.PORT_DEV : process.env.PORT_PROD;
-
 const app = express();
 const server = createServer(app);
+
+console.log(`Usando ${environment} en el puerto ${PORT}`);
 
 // CORS
 const corsOptions = {
@@ -71,7 +59,6 @@ app.use(express.text());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors());
 
 // Carpeta estatica
 app.use(express.static(__dirname + '/public'));

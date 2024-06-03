@@ -1,11 +1,18 @@
 import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+import __dirname from "../utils/dirname.js";
+
+dotenv.config({
+    path: `${__dirname}/.env`
+});// Cargar variables de entorno
+
 
 const transporter = nodemailer.createTransport({
     service: "gmail",
     port: 587,
     secure: false,
     auth: {
-        type: "OAuth2",
+        // type: "OAuth2",
         user: process.env.GMAIL_USER,
         pass: process.env.GMAIL_PASS,
     },
@@ -15,7 +22,7 @@ transporter.verify((error, success) => {
     if (error) {
         console.error("Error verifying transporter:", error);
     } else {
-        console.log("Transporter is ready to send emails", success);
+        console.log("Transporter is ready to send emails");
     }
 });
 export default transporter;
