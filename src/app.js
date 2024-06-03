@@ -17,7 +17,6 @@ import MessagesManager from './dao/mongo/controllers/messagesManager.js'
 import compression from 'express-compression';
 // import customRoute from './routes/customRoute.js';
 // import { fork } from 'node:child_process';
-console.log(`En app ${__dirname}`);
 
 const program = new Command();
 program
