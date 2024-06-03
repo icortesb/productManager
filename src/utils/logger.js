@@ -1,5 +1,5 @@
 import winston from 'winston';
-import {environment} from '../app.js';
+import { environment } from '../config/commander.config.js';
 const customLevelOptions = {
     levels: {
         fatal: 0,
@@ -49,6 +49,6 @@ const developmentLogger = winston.createLogger({
 export const addLogger = (req, res, next) => {
     const logger = environment === 'development' ? developmentLogger : productionLogger;
     req.logger = logger;
-    req.logger.error(`Request method: ${req.method}, Request URL: ${req.originalUrl} at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`);
+    req.logger.info(`Request method: ${req.method}, Request URL: ${req.originalUrl} at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`);
     next();
 }

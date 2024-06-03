@@ -1,6 +1,5 @@
 import { Command } from 'commander';
-import dotenv from 'dotenv';
-import __dirname from '../utils/dirname';
+import dotenvConfig from './dotenv.config.js'
 
 const program = new Command();
 program
@@ -9,20 +8,8 @@ program
 
 program.parse();
 
-const enviroment = program.opts().dev ? 'dev' : 'prod';
-console.log(`Modo ${enviroment}`);
+const environment = program.opts().dev ? 'development' : 'prod';
+console.log(`En commander ${environment}`)
 
-dotenv.config({
-    path: `${__dirname}/.env`
-});
-
-console.log(`Usando el .env de ${enviroment}`);
-
-const PORT = enviroment === 'dev' ? process.env.PORT_DEV : process.env.PORT_PROD;
-
-export default {
-    PORT,
-    enviroment,
-    program,
-    dotenv
-}
+const PORT = environment === 'development' ? dotenvConfig.PORT_DEV : dotenvConfig.PORT_PROD;
+export { environment, PORT };

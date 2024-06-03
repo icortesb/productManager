@@ -2,6 +2,7 @@ import {Router} from "express";
 
 const loggerRouter = new Router();
 
-loggerRouter.get("/", (req, res) => {
-    res.send("Logger");
+loggerRouter.get("/loggerTest", (req, res) => {
+    // Probar todos los loggers
+    
 });
