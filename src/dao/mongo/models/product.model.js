@@ -38,11 +38,11 @@ const ProductSchema = new mongoose.Schema(
             type: Boolean,
             default: true
         },
-        owner: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'users',
-            default: 'admin'
-        }
+        // owner: {
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: 'users',
+        //     default: 'admin'
+        // }
     }
 )
 
