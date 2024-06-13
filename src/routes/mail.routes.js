@@ -4,17 +4,16 @@ import transporter from "../config/nodemailer.config.js";
 
 const routerMail = new Router();
 
-routerMail.use('/sendMail', async (req, res) => {
+routerMail.use('/resetPassword/:mail', async (req, res) => {
+    const { mail } = req.params;
     let mensaje = await transporter.sendMail({
         from: process.env.GMAIL_USER,
-        to: 'vanesalettieri96@gmail.com',
-        subject: 'Te amo',
-        text: 'Hola, te amo',
+        to: mail,
+        subject: 'Reset Password',
         html: `
-        <div>
-            <h1>Te amo</h1>
-            <p>Te amo mucho</p>
-        </div>
+        <h1>Reset Password</h1>
+        <p>Para resetear tu contraseña haz click en el siguiente link:</p>
+        <a href="http://localhost:8080/auth/newPassword/${mail}">Reset Password</a>
         `
     })
     if(!mensaje.messageId) {

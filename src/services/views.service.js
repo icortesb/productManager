@@ -4,7 +4,6 @@ import { UserManager } from "../dao/mongo/controllers/userManager.js";
 import { CartManager } from "../dao/mongo/controllers/cartManager.js";
 import { verifyJWT } from "../utils/jwt.js";
 const userManager = new UserManager();
-const cartManager = new CartManager();
 
 export const sendLoginView = (req, res) => {
     res.render('login', {})
@@ -61,3 +60,6 @@ export const sendTicketView = async (req, res) => {
     res.render('ticket', { cart });
 }
 
+export const sendResetPasswordView = (req, res) => {
+    res.render('resetPassword', {})
+}

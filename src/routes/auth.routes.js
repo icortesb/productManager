@@ -16,6 +16,11 @@ routerAuth.post(
 );
 routerAuth.post("/login", userManager.loginUser);
 routerAuth.get("/logout", userManager.logoutUser);
+routerAuth.post("/resetPassword", userManager.resetPassword);
+routerAuth.get('/newPassword/:email', (req, res) => {
+    res.render('newPassword', {email: req.params.email})
+})
+routerAuth.post('/newPassword', userManager.newPassword)
 routerAuth.get(
     "/current",
     passport.authenticate("current", {session: false}),

@@ -90,4 +90,40 @@ export class UserManager {
         };
         res.status(200).json(user);
     }
+
+    async resetPassword(req, res) {
+        const { email } = req.body;
+        try {
+            const userExists = await User.findOne({ user: email });
+            if (!userExists) {
+                return res.status(400).json({ message: 'User not found' });
+            }
+            return res.redirect(`/mail/resetPassword/${email}`);
+
+            
+        } catch (error) {
+            console.error('Error during password reset:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    }
+
+    async newPassword(req, res) {
+        const { mail, password } = req.body;
+        try {
+            const userExists = await
+            User.findOne({ user: mail });
+            if (!userExists) {
+                return res.status(400).json({ message: 'User not found' });
+            }
+            if (await isValidPassword(password, userExists.password)) {
+                return res.status(400).json({ message: 'Password is the same' });
+            }
+            userExists.password = await createHash(password);
+            await userExists.save();
+            return res.redirect('/login');
+        } catch (error) {
+            console.error('Error during password reset:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    }
 }
