@@ -1,3 +1,12 @@
+<nav>
+    <ul>
+        <li><a href="/products">PRODUCTOS</a></li>
+        <li><a href="/carts/{{cart._id}}">CARRITO</a></li>
+        <li><a href="/profile">PERFIL</a></li>
+        <li><a href="/auth/logout">LOGOUT</a></li>
+    </ul>
+</nav>
+
 <div>
     <h1>CART ID: {{cart._id}}</h1>
     {{#each cart.products}}
@@ -6,46 +15,41 @@
         <p>{{this.product.title}} - Quantity: {{this.quantity}} - Id: {{this.product._id}}</p>
         <form method="POST" action="/api/carts/{{../cart._id}}/products/{{this.product._id}}?_method=DELETE">
             <input type="hidden" name="_method" value="DELETE">
-            <button type="submit" id="remove_one"  data-cart="{{../cart._id}}"
-                data-product="{{this.product._id}}">Remove one from cart</button>
+            <button type="submit" id="remove_one" data-cart="{{../cart._id}}" data-product="{{this.product._id}}">Remove
+                one from cart</button>
             {{!-- <button type="submit" id="remove_all" data-cart="{{../cart._id}}"
                 data-product="{{this.product._id}}">Remove all from cart</button> --}}
         </form>
     </div>
     {{/if}}
     {{/each}}
-    <br><br>
-    <form action="/products" method="GET">
-        <button type="submit">Volver a productos</button>
-    </form>
     <form action="/api/carts/{{cart._id}}/purchase" method="PUT">
-        <button type="submit">Comprar {{cart._id}}</button>
+        <button type="submit">Comprar</button>
     </form>
-    <a href="/auth/logout">Logout</a>
 </div>
 
 <script>
-        let button = document.getElementById('remove_one')
-        button.addEventListener("click", function (event) {
-            event.preventDefault();
-            const cartId = this.dataset.cart;
-            const productId = this.dataset.product;
+    let button = document.getElementById('remove_one')
+    button.addEventListener("click", function (event) {
+        event.preventDefault();
+        const cartId = this.dataset.cart;
+        const productId = this.dataset.product;
 
-            fetch(`/api/carts/${cartId}/products/${productId}`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json"
-                    // Add any additional headers if required
-                }
+        fetch(`/api/carts/${cartId}/products/${productId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+                // Add any additional headers if required
+            }
+        })
+            .then(data => {
+                console.log("Product removed from cart successfully", data);
+                window.location.reload();
+
             })
-                .then(data => {
-                    console.log("Product removed from cart successfully", data);
-                    window.location.reload();
-                    
-                })
-                .catch(error => {
-                    console.error("Error removing product from cart:", error.message);
-                });
-        });
-   
+            .catch(error => {
+                console.error("Error removing product from cart:", error.message);
+            });
+    });
+
 </script>

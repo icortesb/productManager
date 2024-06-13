@@ -13,7 +13,8 @@ const userSchema = new mongoose.Schema(
         },
         role: {
             type: String,
-            default: 'usuario'
+            default: 'usuario',
+            enum: ['usuario', 'admin', 'premium']
         },
         cart: {
             type: String,

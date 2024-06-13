@@ -1,22 +1,26 @@
-<div>
-    <h1>PRODUCTS</h1>
-    <h2> Bienvenido {{user.user}}</h2>
-    <p>Rol: {{user.role}}</p> 
-    <p>Cart: {{user.cart}}</p>
-    <a href="/carts/{{user.cart}}">Ir a carrito</a>
+<nav>
     <ul>
+        <li><a href="/products">PRODUCTOS</a></li>
+        <li><a href="/carts/{{user.cart}}">CARRITO</a></li>
+        <li><a href="/profile">PERFIL</a></li>
+        <li><a href="/auth/logout">LOGOUT</a></li>
+    </ul>
+</nav>
+
+<div class="product_page">
+    <h2> Bienvenido {{user.user}}</h2>
+    <ul class="product_list">
         {{#each products}}
-        <li>
-            <p>{{this.title}}</p>
-            <p>{{this.description}}</p>
-            <p>Price:{{this.price}}</p>
-            <p>Id: {{this._id}}</p>
+        <li class="product">
+            <p class="product_title">{{this.title}}</p>
+            <p class="product_description">{{this.description}}</p>
+            <p>Stock: {{this.stock}}</p>
+            <p class="product_price">Price:{{this.price}}</p>
             <form action="/api/carts/{{../user.cart}}/products/{{this._id}}" method="POST">
                 <button type="submit">Add to cart</button>
             </form>
         </li>
         {{/each}}
     </ul>
-    
-    <a href="/auth/logout">Logout</a>
+
 </div>

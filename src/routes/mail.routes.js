@@ -1,11 +1,15 @@
 import { Router } from "express";
 import transporter from "../config/nodemailer.config.js";
+import generateJWT from "../utils/jwt.js";
 
 
 const routerMail = new Router();
 
-routerMail.use('/resetPassword/:mail', async (req, res) => {
+routerMail.get('/resetPassword/:mail', async (req, res) => {
     const { mail } = req.params;
+    const token = generateJWT(mail);
+    res.cookie('jwtMail', token, { httpOnly: true, secure: true, maxAge: 3600000 });
+    console.log(`Cookie creada: ${token}`);
     let mensaje = await transporter.sendMail({
         from: process.env.GMAIL_USER,
         to: mail,

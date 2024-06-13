@@ -67,7 +67,7 @@ export class UserManager {
                 return res.status(401).json({ message: 'Invalid username or password' });
             }
     
-            const token = generateJWT({user: userExists.user, role: userExists.role});
+            const token = generateJWT({user: userExists.user, role: userExists.role, cart: userExists.cart});
     
             res.cookie('jwt', token, { httpOnly: true });
             return res.redirect('/products');

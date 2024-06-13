@@ -41,16 +41,18 @@ export const sendRegisterView = (req, res) => {
     res.render('register', {})
 }
 
-export const sendProfileView = (req, res) => {
+export const sendProfileView = async (req, res) => {
     const token = req.cookies.jwt;
     let user = null;
+    let cart = null;
     if (token) {
         const decodedToken = verifyJWT(token);
-        user = userManager.getUser(decodedToken.user);
+        user = await userManager.getUser(decodedToken.user);
+        cart = decodedToken.cart;
     } else {
         res.redirect('/login');
     }
-    res.render('profile', {user})
+    res.render('profile', {user, cart})
 }
 
 export const sendTicketView = async (req, res) => {

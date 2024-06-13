@@ -1,7 +1,7 @@
 import {Router} from "express";
 import passport from "passport";
 import {UserManager} from "../dao/mongo/controllers/userManager.js";
-
+import { verifyMail } from "../middleware/auth.js";
 const userManager = new UserManager();
 const routerAuth = Router();
 
@@ -20,7 +20,7 @@ routerAuth.post("/resetPassword", userManager.resetPassword);
 routerAuth.get('/newPassword/:email', (req, res) => {
     res.render('newPassword', {email: req.params.email})
 })
-routerAuth.post('/newPassword', userManager.newPassword)
+routerAuth.post('/newPassword', verifyMail, userManager.newPassword)
 routerAuth.get(
     "/current",
     passport.authenticate("current", {session: false}),
