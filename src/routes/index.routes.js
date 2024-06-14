@@ -9,6 +9,7 @@ import routerAuth from './auth.routes.js';
 import routerMail from './mail.routes.js';
 import routerTwilio from './twilio.routes.js';
 import routerMocks from './mocks.routes.js';
+import routerUsers from './users.routes.js';
 import Cart from '../dao/mongo/models/carts.model.js';
 import User from '../dao/mongo/models/users.model.js';
 import compressionRouter from './compression.routes.js';
@@ -27,6 +28,7 @@ router.use('/mail', routerMail);
 router.use('/twilio', routerTwilio);
 router.use('/mocks', routerMocks);
 router.use('/compression', compressionRouter);
+router.use('/users', routerUsers);
 
 router.use('/admin/deleteUsers', async (req, res) => {
     try {

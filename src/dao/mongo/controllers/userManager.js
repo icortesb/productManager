@@ -126,4 +126,29 @@ export class UserManager {
             res.status(500).json({ message: 'Internal server error' });
         }
     }
+
+    getUserRoles = async () => {
+        try {
+            const roles = User.schema.path('role').enumValues;
+            return roles.sort();
+        } catch (error) {
+            console.log(`Error al leer los roles: ${error.message}`);
+            return [];
+        }
+    }
+
+    changeUserRole = async (user, role) => {
+        try {
+            const userExists = await User.findById(user);
+            if (!userExists) {
+                return false;
+            }
+            userExists.role = role;
+            await userExists.save();
+            return true;
+        } catch (error) {
+            console.log(`Error al cambiar el rol: ${error.message}`);
+            return false;
+        }
+    }
 }

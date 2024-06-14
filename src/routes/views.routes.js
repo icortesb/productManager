@@ -12,7 +12,7 @@ routerViews.get('/login', sendLoginView);
 routerViews.get('/products',verifyLogin, sendProductsView);
 routerViews.get('/carts/:cid',verifyLogin, sendCartView);
 routerViews.get('/register', sendRegisterView);
-routerViews.get('/profile', authRole('usuario'), sendProfileView);
+routerViews.get('/profile', sendProfileView);
 routerViews.get('/ticket/:cid', sendTicketView);
 routerViews.get('/resetPassword', sendResetPasswordView);
 

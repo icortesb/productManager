@@ -103,3 +103,12 @@ button {
         background-color: #404040;
     }
 }
+
+select {
+    padding: 5px 10px;
+    border: none;
+    background-color: #303030;
+    color: white;
+    cursor: pointer;
+    margin-bottom: 5px;
+}

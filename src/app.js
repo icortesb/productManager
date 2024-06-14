@@ -22,11 +22,8 @@ import os from "node:os";
 import e from "express";
 
 // Cluster
-
 if (cluster.isPrimary) {
-    console.log(`Primary ${process.pid} is running`);
     const numeroDeProcesadores = os.cpus().length;
-    console.log(`Numero de procesadores: ${numeroDeProcesadores}`);
     for (let i = 0; i < numeroDeProcesadores; i++) {
         cluster.fork();
     }
@@ -40,9 +37,7 @@ if (cluster.isPrimary) {
         cluster.fork();
     });
 } else {
-    console.log(`Soy un worker ${process.pid}`);
-
-    dotenv.config({
+      dotenv.config({
         path: `${__dirname}/.env`,
     });
 

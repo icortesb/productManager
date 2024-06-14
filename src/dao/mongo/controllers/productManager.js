@@ -123,4 +123,9 @@ export class ProductManager {
             )
         }
     }
+
+    returnAllProducts = async () => {
+        const products = await findProducts();
+        return products;
+    }
 }

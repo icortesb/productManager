@@ -1,9 +1,10 @@
 import { findCartByIdLean } from "./carts.service.js";
 import { findProducts } from "./products.service.js";
 import { UserManager } from "../dao/mongo/controllers/userManager.js";
-import { CartManager } from "../dao/mongo/controllers/cartManager.js";
+import { ProductManager } from "../dao/mongo/controllers/productManager.js";
 import { verifyJWT } from "../utils/jwt.js";
 const userManager = new UserManager();
+const productManager = new ProductManager();
 
 export const sendLoginView = (req, res) => {
     res.render('login', {})
@@ -45,14 +46,18 @@ export const sendProfileView = async (req, res) => {
     const token = req.cookies.jwt;
     let user = null;
     let cart = null;
+    let products = null;
+    let roles = null;
     if (token) {
         const decodedToken = verifyJWT(token);
         user = await userManager.getUser(decodedToken.user);
         cart = decodedToken.cart;
+        products = await productManager.returnAllProducts();
+        roles = await userManager.getUserRoles();
     } else {
         res.redirect('/login');
     }
-    res.render('profile', {user, cart})
+    res.render('profile', {user, cart, products, roles});
 }
 
 export const sendTicketView = async (req, res) => {

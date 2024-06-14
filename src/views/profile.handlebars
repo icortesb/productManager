@@ -8,7 +8,76 @@
 </nav>
 
 <div>
-    <h1>HOLA {{user.user}}</h1>
-    <a href="/auth/logout">Logout</a>
+    <h1>Bienvenido {{user.user}}</h1>
+    <h3>Role: {{user.role}}</h3>
 </div>
-</div>
+<section>
+    <h2>Eliminar productos</h2>
+    <form action="/api/products/{{id}}?_method=DELETE" method="POST">
+        <input type="hidden" name="_method" value="DELETE">
+        <select name="products">
+            {{#each products}}
+            <option value="{{_id}}">{{title}}</option>
+            {{/each}}
+        </select>
+        <button type="submit" id="delete_product">Eliminar producto</button>
+    </form>
+</section>
+<section>
+    <h2>Cambiar rol de usuario</h2>
+    <form action="/users/changeRole/{{user._id}}/" method="POST">
+        <input type="hidden" name="_method" value="PUT">
+        <select name="role">
+            {{#each roles}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}   
+        </select>
+        <button type="submit" id="change_role">Cambiar rol</button>
+    </form>
+</section>
+
+<script>
+    let button = document.getElementById('delete_product')
+    button.addEventListener("click", function (event) {
+        event.preventDefault();
+        const productId = document.querySelector('select[name="products"]').value;
+
+        fetch(`/api/products/${productId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    });
+
+    let buttonRole = document.getElementById('change_role')
+    buttonRole.addEventListener("click", function (event) {
+        event.preventDefault();
+        const role = document.querySelector('select[name="role"]').value;
+
+        fetch(`/users/changeRole/{{user._id}}/`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ role })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    });
+
+</script>

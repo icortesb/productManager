@@ -8,7 +8,7 @@ const cartManager = new CartManager('./src/models/carts.json');
 
 routerCarts.get('/:cid', cartManager.getCartById);
 routerCarts.post('/', cartManager.newCart);
-routerCarts.post('/:cid/products/:pid', passport.authenticate('jwt', { session: false }), authRole('usuario'), cartManager.addProductToCart);
+routerCarts.post('/:cid/products/:pid', passport.authenticate('jwt', { session: false }), cartManager.addProductToCart); // Modificar middleware para que premium no pueda agregar productos que le pertenecen 
 routerCarts.delete('/:cid/products/:pid', cartManager.deleteProductFromCart);
 routerCarts.put('/:cid', cartManager.updateCart);
 routerCarts.put('/:cid/products/:pid', cartManager.updateProductQuantity);
