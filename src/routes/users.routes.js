@@ -10,10 +10,10 @@ routerUsers.get('/getRoles', (req, res) => {
     });
 });
 
-routerUsers.put('/changeRole/:user', (req, res) => {
-    const { user } = req.params;
+routerUsers.put('/premium/:uid', (req, res) => {
+    const { uid } = req.params;
     const { role } = req.body;
-    userManager.changeUserRole(user, role).then((result) => {
+    userManager.changeUserRole(uid, role).then((result) => {
         res.status(200).json(result);
     });
 });

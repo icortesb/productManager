@@ -38,15 +38,20 @@ const ProductSchema = new mongoose.Schema(
             type: Boolean,
             default: true
         },
-        // owner: {
-        //     type: mongoose.Schema.Types.ObjectId,
-        //     ref: 'users',
-        //     default: 'admin'
-        // }
+        owner: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'users',
+            default: 'admin'
+        }
     }
 )
 
 ProductSchema.plugin(paginate);
+ProductSchema.pre(['find', 'findOne', 'findById'], function(next) {
+    this.populate('owner');
+    next();
+});
+
 
 const Product = mongoose.model('products', ProductSchema, 'products')
 

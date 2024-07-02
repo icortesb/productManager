@@ -15,7 +15,7 @@
         <p>{{this.product.title}} - Quantity: {{this.quantity}} - Id: {{this.product._id}}</p>
         <form method="POST" action="/api/carts/{{../cart._id}}/products/{{this.product._id}}?_method=DELETE">
             <input type="hidden" name="_method" value="DELETE">
-            <button type="submit" id="remove_one" data-cart="{{../cart._id}}" data-product="{{this.product._id}}">Remove
+            <button type="submit" id="remove_one" style="background-color: #dc3545;" data-cart="{{../cart._id}}" data-product="{{this.product._id}}">Remove
                 one from cart</button>
             {{!-- <button type="submit" id="remove_all" data-cart="{{../cart._id}}"
                 data-product="{{this.product._id}}">Remove all from cart</button> --}}
@@ -24,7 +24,7 @@
     {{/if}}
     {{/each}}
     <form action="/api/carts/{{cart._id}}/purchase" method="PUT">
-        <button type="submit">Comprar</button>
+        <button type="submit" style="background-color: #198754;">Comprar</button>
     </form>
 </div>
 

@@ -12,6 +12,7 @@ import routerMocks from './mocks.routes.js';
 import routerUsers from './users.routes.js';
 import Cart from '../dao/mongo/models/carts.model.js';
 import User from '../dao/mongo/models/users.model.js';
+import Product from '../dao/mongo/models/product.model.js';
 import compressionRouter from './compression.routes.js';
 import { addLogger } from '../utils/logger.js';
 
@@ -28,7 +29,7 @@ router.use('/mail', routerMail);
 router.use('/twilio', routerTwilio);
 router.use('/mocks', routerMocks);
 router.use('/compression', compressionRouter);
-router.use('/users', routerUsers);
+router.use('/api/users', routerUsers);
 
 router.use('/admin/deleteUsers', async (req, res) => {
     try {
@@ -48,6 +49,19 @@ router.use('/admin/deleteCarts', async (req, res) => {
         const result = await Cart.deleteMany({});
         res.status(200).send({
             message: 'All carts deleted',
+            result: result
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal server error');
+    }
+});
+
+router.use('/admin/deleteProducts', async (req, res) => {
+    try {
+        const result = await Product.deleteMany({});
+        res.status(200).send({
+            message: 'All products deleted',
             result: result
         });
     } catch (err) {

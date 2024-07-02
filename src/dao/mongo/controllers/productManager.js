@@ -1,4 +1,7 @@
 import {findProducts, findProductById, createProduct, updateProduct, deleteProduct } from "../../../services/products.service.js";
+import { verifyJWT } from "../../../utils/jwt.js";
+import { UserManager } from "./userManager.js";
+const userManager = new UserManager();
 
 export class ProductManager {
        
@@ -58,14 +61,17 @@ export class ProductManager {
     }
 
     addProduct = async (req, res) => {
-        let product = req.body;
-        product = await createProduct(product);
-        return res.status(201).json(
-            {
-                message: `Producto creado`,
-                product: product
-            }
-        )
+        const { title, description, category, price, thumbnails, code, stock } = req.body;
+        const token = req.cookies["jwt"];
+        const decodedToken = verifyJWT(token);
+        console.log('decodedToken:', decodedToken)
+        const user = decodedToken.user;
+        const userId = await userManager.getUserId(user);
+        console.log('userId:', userId)
+        const owner = userId;  
+
+        const product = await createProduct({ title, description, category, price, thumbnails, code, stock, owner });
+        return res.redirect('/products');
     }
 
     updateProduct = async (req, res) => {

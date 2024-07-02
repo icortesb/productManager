@@ -151,4 +151,14 @@ export class UserManager {
             return false;
         }
     }
+
+    getUserId = async (user) => {
+        try {
+            const userExists = await User.findOne({ user: user }).lean();
+            return userExists._id;
+        } catch (error) {
+            console.log(`Error al verificar el usuario: ${error.message}`);
+            return false;
+        }
+    }
 }
