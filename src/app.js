@@ -13,8 +13,6 @@ import {initializePassport} from "./config/passport.config.js";
 import dotenv from "dotenv";
 import MessagesManager from "./dao/mongo/controllers/messagesManager.js";
 import compression from "express-compression";
-// import customRoute from './routes/customRoute.js';
-// import { fork } from 'node:child_process';
 import {PORT} from "./config/commander.config.js";
 import corsConfig from "./config/cors.config.js";
 import cluster from "node:cluster";
