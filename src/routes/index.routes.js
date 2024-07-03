@@ -30,46 +30,6 @@ router.use('/twilio', routerTwilio);
 router.use('/mocks', routerMocks);
 router.use('/compression', compressionRouter);
 router.use('/api/users', routerUsers);
-
-router.use('/admin/deleteUsers', async (req, res) => {
-    try {
-        const result = await User.deleteMany({});
-        res.status(200).send({
-            message: 'All users deleted',
-            result: result
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Internal server error');
-    }
-});
-
-router.use('/admin/deleteCarts', async (req, res) => {
-    try {
-        const result = await Cart.deleteMany({});
-        res.status(200).send({
-            message: 'All carts deleted',
-            result: result
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Internal server error');
-    }
-});
-
-router.use('/admin/deleteProducts', async (req, res) => {
-    try {
-        const result = await Product.deleteMany({});
-        res.status(200).send({
-            message: 'All products deleted',
-            result: result
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Internal server error');
-    }
-});
-
 router.use('/failedRegister', (req, res) => {
     res.render('error')
 });
