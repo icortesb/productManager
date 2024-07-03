@@ -21,7 +21,8 @@ export const sendProductsView = async (req, res) => {
         } else {
             user = req.session.user;
         }
-        res.render('products', { products, user });
+        const isAdmin = user.role === 'admin';
+        res.render('products', { products, user, isAdmin });
     } catch (error) {
         res.json({error: error.message})        
     }
@@ -31,8 +32,16 @@ export const sendCartView = async (req, res) => {
     try {
         const { cid } = req.params;
         let cart = await findCartByIdLean(cid);
-        
-        res.render('cart', { cart });
+        let user = null;
+        const token = req.cookies.jwt;
+        if (token) {
+            const decodedToken = verifyJWT(token);
+            user = await userManager.getUser(decodedToken.user);
+        } else {
+            user = req.session.user;
+        }        
+        const isAdmin = user.role === 'admin';
+        res.render('cart', { cart, user, isAdmin });
     } catch (error) {
         res.json({error: error.message})        
     }

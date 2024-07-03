@@ -2,7 +2,9 @@
     <ul>
         <li><a href="/products">PRODUCTOS</a></li>
         <li><a href="/carts/{{cart._id}}">CARRITO</a></li>
-        <li><a href="/profile">PERFIL</a></li>
+        {{#if isAdmin}}
+            <li><a href="/profile">PERFIL</a></li>
+        {{/if}}
         <li><a href="/auth/logout">LOGOUT</a></li>
     </ul>
 </nav>
