@@ -1,8 +1,8 @@
  paths:
   /api/users/getRoles:
     get:
-      summary: Obtiene los roles de usuario disponibles del schema,
-      description: Obtiene los roles de usuario disponibles del schema,
+      summary: Obtiene todos los roles de usuario
+      description: Obtiene los roles de usuario disponibles desde el schema
       operationId: getRoles
       tags:
         - users
@@ -33,7 +33,59 @@
                 properties:
                   message:
                     type: string
-                    
+ /api/users/premium/{uid}:
+    put:
+      summary: Actualiza el rol del usuario
+      description: Recibe el ID de usuario y actualiza su rol segun el body
+      operationId: updateRole
+      tags:
+        - users
+      parameters:
+        - in: path
+          name: uid
+          required: true
+          schema:
+            type: string
+          description: ID de usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role:
+                  type: string
+                  description: Rol de usuario
+                  example: "premium"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
       
 
         
