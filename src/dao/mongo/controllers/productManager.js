@@ -117,12 +117,24 @@ export class ProductManager {
                 try {
                     const product = await deleteProduct(id);
                     if (product) {
-                        res.status(200).json(
-                            {
-                                message: `Producto eliminado`,
-                                product: product
-                            }
-                        )
+                        const mail = decodedToken.user;
+                        const response = await fetch(`http://localhost:8080/mail/deletedProduct/${mail}/${product.title}`);
+                        if (response.status === 200) {
+                            res.status(200).json(
+                                {
+                                    message: `Producto eliminado`,
+                                    product: product
+                                }
+                            )
+                        } else {
+                            res.status(500).json(
+                                {
+                                    message: `Error al enviar el mail`,
+                                    error: response.message
+                                }
+                            )
+                        }
+
                     } else {
                         res.status(404).json(
                             {
