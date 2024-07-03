@@ -19,7 +19,9 @@ import {PORT} from "./config/commander.config.js";
 import corsConfig from "./config/cors.config.js";
 import cluster from "node:cluster";
 import os from "node:os";
-import e from "express";
+import swaggerOptions from "./config/swagger.config.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUIExpress from "swagger-ui-express";
 
 // Cluster
 if (cluster.isPrimary) {
@@ -44,6 +46,10 @@ if (cluster.isPrimary) {
     const app = express();
     const server = createServer(app);
 
+    // Swagger    
+    const swaggerSpec = swaggerJSDoc(swaggerOptions);
+    app.use("/api-docs", swaggerUIExpress.serve, swaggerUIExpress.setup(swaggerSpec));
+
     // CORS
     app.use(corsConfig());
 
@@ -53,7 +59,7 @@ if (cluster.isPrimary) {
     // Passport
     initializePassport();
     app.use(passport.initialize());
-    // app.use(passport.session()); Comentado porque sino no funciona
+    // app.use(passport.session());
 
     // Session
     app.use(
