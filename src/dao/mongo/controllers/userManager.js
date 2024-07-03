@@ -6,6 +6,7 @@ import generateJWT from "../../../utils/jwt.js";
 import CustomError from "../../../services/errors/CustomError.js";
 import errors from "../../../services/errors/enums.js";
 import { generateUserErrorInfoSP } from "../../../services/errors/messages/userErrorInfo.js";
+import { verifyJWT } from "../../../utils/jwt.js";
 
 
 const cartManager = new CartManager();
@@ -62,10 +63,13 @@ export class UserManager {
             return res.redirect('/products');
         }
         try {
-            const userExists = await User.findOne({ user: user }).lean();    
+            const userExists = await User.findOne({ user: user });    
             if (!userExists || !await isValidPassword(password, userExists.password)) {
                 return res.status(401).json({ message: 'Invalid username or password' });
             }
+            userExists.lastConnection = new Date();
+            await userExists.save();
+            console.log(`User ${user} logged in with last connection ${userExists.lastConnection}`)
     
             const token = generateJWT({user: userExists.user, role: userExists.role, cart: userExists.cart});
     
@@ -78,6 +82,13 @@ export class UserManager {
     }
 
     async logoutUser(req, res) {
+        const token = req.cookies['jwt'];
+        const decodedToken = verifyJWT(token);
+        const user = decodedToken.user;
+        const userExists = await User.findOne({ user: user });
+        userExists.lastConnection = new Date();
+        await userExists.save();
+        console.log(`User ${user} logged out with last connection ${userExists.lastConnection}`);
         res.clearCookie('jwt');
         res.redirect('/login');
     }

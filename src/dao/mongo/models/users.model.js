@@ -19,6 +19,25 @@ const userSchema = new mongoose.Schema(
         cart: {
             type: String,
             default: ''
+        },
+        documents:  {
+            type: [
+                {
+                    name: {
+                        type: String,
+                        required: true
+                    },
+                    type: {
+                        type: String,
+                        required: true
+                    }
+                }
+            ]
+                    
+        },
+        lastConnection: {
+            type: Date,
+            default: Date.now
         }
     }
     ,{
