@@ -64,7 +64,6 @@ export class ProductManager {
         const { title, description, category, price, thumbnails, code, stock } = req.body;
         const token = req.cookies["jwt"];
         const decodedToken = verifyJWT(token);
-        console.log('decodedToken:', decodedToken)
         const user = decodedToken.user;
         const userId = await userManager.getUserId(user);
         console.log('userId:', userId)

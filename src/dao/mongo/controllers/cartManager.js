@@ -5,6 +5,10 @@ import {
     findCartAndUpdate,
 } from "../../../services/carts.service.js";
 import {findProductById} from "../../../services/products.service.js";
+import { verifyJWT } from "../../../utils/jwt.js";
+import User from "../models/users.model.js";
+
+
 
 export class CartManager {
     
@@ -50,6 +54,18 @@ export class CartManager {
 
     addProductToCart = async (req, res) => {
         const {cid, pid} = req.params;
+        const token = req.cookies["jwt"];
+        const decodedToken = verifyJWT(token);
+        const userRole = decodedToken.role;
+
+        if (userRole === "premium") {
+            const product = await findProductById(pid);
+            const userId = (await User.findOne({user: decodedToken.user}))._id;
+            if (product.owner._id.toString() === userId.toString()) {
+                res.sendFile('src/public/404.html', {root: '.'});
+                return;
+            }
+        }
         let cart = await findCartById(cid);
         const product = await findProductById(pid);
         if (!cart || !product) {
