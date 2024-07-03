@@ -1,11 +1,9 @@
 import { verifyJWT } from "../utils/jwt.js";
 
-export const authRole = (role) => async (req, res, next) => {
-    // const userRole = req.user.role || req.user[0].role;
+export const authRole = (roles) => async (req, res, next) => {
     const userRole = verifyJWT(req.cookies.jwt).role;
-    console.log('userRole:', userRole)
-        if (userRole !== role) {
-        console.log(`No tienes permiso para acceder a esta ruta como ${userRole}.`)
+    if (!roles.includes(userRole)) {
+        console.log(`No tienes permiso para acceder a esta ruta como ${userRole}. Se pasaron los roles ${roles}.`);
         return res.status(403).send(`No tienes permiso para acceder a esta ruta como ${userRole}.`);
     }
     next();

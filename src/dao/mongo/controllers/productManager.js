@@ -103,31 +103,46 @@ export class ProductManager {
 }
 
     deleteProduct = async (req, res) => {
+        // premiumn solo puede borrar los productos que le pertenecen
         const { id } = req.params;
-        try {
-            const product = await deleteProduct(id);
-            if (product) {
-                res.status(200).json(
-                    {
-                        message: `Producto eliminado`,
-                        product: product
-                    }
-                )
+        const token = req.cookies["jwt"];
+        const decodedToken = verifyJWT(token);
+        const role = decodedToken.role;
+
+        if (role !== 'admin') {
+            const userId = await userManager.getUserId(decodedToken.user);
+            const product = await findProductById(id);
+            if (parseInt(product.owner._id) !== parseInt(userId)) {
+                return res.status(403).json({ message: `No tienes permiso para borrar este producto porque no te pertenece` });
             } else {
-                res.status(404).json(
-                    {
-                        message: `Producto no encontrado`
+                try {
+                    const product = await deleteProduct(id);
+                    if (product) {
+                        res.status(200).json(
+                            {
+                                message: `Producto eliminado`,
+                                product: product
+                            }
+                        )
+                    } else {
+                        res.status(404).json(
+                            {
+                                message: `Producto no encontrado`
+                            }
+                        )
                     }
-                )
-            }
-        } catch (error) {
-            res.status(500).json(
-                {
-                    message: `Error al eliminar el producto`,
-                    error: error.message
+                } catch (error) {
+                    res.status(500).json(
+                        {
+                            message: `Error al eliminar el producto`,
+                            error: error.message
+                        }
+                    )
                 }
-            )
+            
+            }
         }
+        
     }
 
     returnAllProducts = async () => {
