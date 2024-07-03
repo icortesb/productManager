@@ -18,5 +18,16 @@ routerUsers.put('/premium/:uid', (req, res) => {
     });
 });
 
+routerUsers.get('/', (req, res) => {
+    userManager.getAllUsers().then((users) => {
+        res.status(200).json({
+            message: 'All users',
+            users: users
+        });
+    });
+})
+
+routerUsers.delete('/', userManager.deleteInactiveUsers);
+
 export default routerUsers;
 

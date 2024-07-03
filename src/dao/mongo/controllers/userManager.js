@@ -35,7 +35,14 @@ export class UserManager {
     getAllUsers = async () => {
         try {
             const users = await User.find().lean();
-            return users;
+            return users.map(user => {
+                return {
+                    _id: user._id,
+                    user: user.user,
+                    role: user.role,
+                };
+            });
+
         } catch (error) {
             console.log(`Error al leer los usuarios: ${error.message}`);
         }
@@ -170,6 +177,38 @@ export class UserManager {
         } catch (error) {
             console.log(`Error al verificar el usuario: ${error.message}`);
             return false;
+        }
+    }
+
+    deleteUser = async (id) => {
+        try {
+            const user = await User.findByIdAndDelete(id);
+            if (!user) {
+                return false;
+            }
+            return true;
+        }
+        catch (error) {
+            console.log(`Error al eliminar el usuario: ${error.message}`);
+            return false;
+        }
+    }
+
+    deleteInactiveUsers = async (req, res) => {
+        try {
+            const users = await User.find({ lastConnection: { $lt: new Date(Date.now() - 172800000) } });
+            if (users.length === 0) {
+                console.log('No hay usuarios inactivos');
+                return res.status(404).json({ message: 'No hay usuarios inactivos' });
+            }
+            users.forEach(async user => {
+                const mail = user.user;
+                this.deleteUser(user._id);
+                console.log(`Usuario ${mail} eliminado por inactividad`);
+                return res.redirect(`/mail/deletedUser/${mail}`);
+            })
+        } catch (error) {
+            console.log(`Error al eliminar los usuarios inactivos: ${error.message}`);
         }
     }
 }

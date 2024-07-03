@@ -16,7 +16,6 @@ export const initializePassport = () => {
             async (req, user, password, done) => {
                 try {
                     const response = await userManager.createUser(req.body);
-                    console.log(`En register passport response: ${response}`);
                     return done(null, response);
                 } catch (error) {
                     console.error(`Error al crear el usuario: ${error}, ${error.cause}, code: ${error.code}`
