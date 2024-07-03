@@ -1,0 +1,39 @@
+ paths:
+  /api/users/getRoles:
+    get:
+      summary: Obtiene los roles de usuario disponibles del schema,
+      description: Obtiene los roles de usuario disponibles del schema,
+      operationId: getRoles
+      tags:
+        - users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    
+      
+
+        
