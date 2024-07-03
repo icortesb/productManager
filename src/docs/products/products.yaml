@@ -1,11 +1,11 @@
 paths:
-  /api/users/getRoles:
+  /api/products:
     get:
-      summary: Obtiene todos los roles de usuario
-      description: Obtiene los roles de usuario disponibles desde el schema
-      operationId: getRoles
+      summary: Obtiene todos los productos
+      description: Obtiene todos los productos de la base de datos
+      operationId: getProducts
       tags:
-        - users
+        - products
       responses:
         '200':
           description: OK
@@ -14,7 +14,35 @@ paths:
               schema:
                 type: array
                 items:
-                  type: string
+                  $ref: '#/components/schemas/Product'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    post:
+      summary: Crea un nuevo producto
+      description: Crea un nuevo producto en la base de datos
+      operationId: createProduct
+      tags:
+        - products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
         '400':
           description: Bad Request
           content:
@@ -33,31 +61,102 @@ paths:
                 properties:
                   message:
                     type: string
-  /api/users/premium/{uid}:
-    put:
-      summary: Actualiza el rol del usuario
-      description: Recibe el ID de usuario y actualiza su rol segun el body
-      operationId: updateRole
+  /api/products/{id}:
+    get:
+      summary: Obtiene un producto
+      description: Obtiene un producto buscando por su id
+      operationId: getProductById
       tags:
-        - users
+        - products
       parameters:
         - in: path
-          name: uid
+          name: id
           required: true
           schema:
             type: string
-          description: ID de usuario
+          description: ID de producto
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    put:
+      summary: Actualiza un producto
+      description: Actualiza un producto buscando por su id
+      operationId: updateProduct
+      tags:
+        - products
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID de producto
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                role:
-                  type: string
-                  description: Rol de usuario
-                  example: "premium"
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    delete:
+      summary: Elimina un producto
+      description: Elimina un producto buscando por su id
+      operationId: deleteProduct
+      tags:
+        - products
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID de producto
       responses:
         '200':
           description: OK
@@ -86,7 +185,7 @@ paths:
                 properties:
                   message:
                     type: string
-      
+  
 components:
   schemas:
     Product:
