@@ -11,18 +11,13 @@ import User from "../models/users.model.js";
 
 
 export class CartManager {
-    
-    getCarts = async (req, res) => {
-        const carts = await findCarts();
-        if (carts) {
-            res.status(200).json({
-                message: `Carritos encontrados`,
-                carts: carts,
-            });
-        } else {
-            res.status(404).json({
-                message: `No se encontraron carritos`,
-            });
+    getCarts = async () => {
+        try {
+            const carts = await findCarts();
+            return carts;
+        } catch (error) {
+            console.error(`Error al obtener los carritos: ${error.message}`);
+            return null;
         }
     };
 
@@ -40,15 +35,13 @@ export class CartManager {
             });
         }
     };
-
-    newCart = async (req, res) => {
-        const cart = await createCart();
-        if (cart) {
-           return cart;
-        } else {
-            res.status(400).json({
-                message: `Error al crear el carrito`,
-            });
+    newCart = async () => {
+        try {
+            const cart = await createCart();
+            return cart;
+        } catch (error) {
+            console.error(`Error al crear el carrito: ${error.message}`);
+            return null;
         }
     };
 
@@ -62,7 +55,7 @@ export class CartManager {
             const product = await findProductById(pid);
             const userId = (await User.findOne({user: decodedToken.user}))._id;
             if (product.owner._id.toString() === userId.toString()) {
-                res.sendFile('src/public/404.html', {root: '.'});
+                res.sendFile("src/public/404.html", {root: "."});
                 return;
             }
         }
@@ -234,7 +227,9 @@ export class CartManager {
             for (const prod of cart.products) {
                 const product = await findProductById(prod.product);
                 if (product.stock < prod.quantity) {
-                    console.log(`No hay stock suficiente del producto ${product.title}`);
+                    console.log(
+                        `No hay stock suficiente del producto ${product.title}`
+                    );
                 } else {
                     product.stock -= prod.quantity;
                     await product.save();
