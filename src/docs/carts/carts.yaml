@@ -1,4 +1,4 @@
- paths:
+paths:
   /api/carts/{cid}:
     get:
       summary: Obtiene el carrito de un usuario
@@ -40,7 +40,8 @@
                 properties:
                   message:
                     type: string
- /api/users/premium/{uid}:
+
+  /api/users/premium/{uid}:
     put:
       summary: Actualiza el rol del usuario
       description: Recibe el ID de usuario y actualiza su rol segun el body
@@ -93,6 +94,3 @@
                 properties:
                   message:
                     type: string
-      
-
-        

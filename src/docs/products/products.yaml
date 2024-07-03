@@ -1,4 +1,4 @@
- paths:
+paths:
   /api/users/getRoles:
     get:
       summary: Obtiene todos los roles de usuario
@@ -33,7 +33,7 @@
                 properties:
                   message:
                     type: string
- /api/users/premium/{uid}:
+  /api/users/premium/{uid}:
     put:
       summary: Actualiza el rol del usuario
       description: Recibe el ID de usuario y actualiza su rol segun el body
@@ -87,5 +87,80 @@
                   message:
                     type: string
       
-
-        
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID autogenerado de Mongo
+        title:
+          type: string
+          description: Nombre del producto
+          unique: true
+          required: true
+        description:
+          type: string
+          description: Descripción del producto
+          required: true
+        category:
+          type: string
+          description: Categoría del producto
+          required: true
+          enum:
+            - Monitores
+            - Periféricos
+            - Procesadores
+            - Memorias RAM
+            - Almacenamiento
+            - Placas de video
+            - Laptops
+        price:
+          type: number
+          description: Precio del producto
+          required: true
+        thumbnails:
+          type: array
+          description: Imágenes del producto
+          items:
+            type: string
+        code:
+          type: string
+          description: Código del producto
+          required: true
+        stock:
+          type: string
+          description: Stock del producto
+          required: true
+        status:
+          type: boolean
+          description: Estado del producto
+          default: true
+        owner:
+          type: mongoose.Schema.Types.ObjectId
+          description: ID del usuario dueño del producto
+          ref: 'User'
+          default: 'admin'
+    Cart:
+      type: object
+      properties:
+        date:
+          type: date
+          description: Fecha de creación del carrito
+          required: true
+        products:
+          type: array
+          description: Productos del carrito
+          items:
+            type: object
+            description: Producto del carrito
+            properties:
+              product:
+                type: mongoose.Schema.Types.ObjectId
+                description: ID del producto
+                ref: 'products'
+              quantity:
+                type: number
+                description: Cantidad del producto
+                default: 1
