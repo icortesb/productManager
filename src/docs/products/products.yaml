@@ -142,6 +142,18 @@ components:
           description: ID del usuario dueño del producto
           ref: 'User'
           default: 'admin'
+      example:
+        title: Monitor 24"
+        description: Monitor de 24 pulgadas
+        category: Monitores
+        price: 20000
+        thumbnails:
+          - https://www.example.com/image1.jpg
+          - https://www.example.com/image2.jpg
+        code: MON24
+        stock: 10
+        status: true
+        owner: 60b6b1b3b3b3b3b3b3b3b3b3
     Cart:
       type: object
       properties:
@@ -164,3 +176,10 @@ components:
                 type: number
                 description: Cantidad del producto
                 default: 1
+      example:
+        date: 2021-06-01
+        products:
+          - product: 60b6b1b3b3b3b3b3b3b3b3b3
+            quantity: 2
+          - product: 60b6b1b3b3b3b3b3b3b3b4
+            quantity: 1
