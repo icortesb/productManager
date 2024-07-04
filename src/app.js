@@ -22,21 +22,21 @@ import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUIExpress from "swagger-ui-express";
 
 // Cluster
-if (cluster.isPrimary) {
-    const numeroDeProcesadores = os.cpus().length;
-    for (let i = 0; i < numeroDeProcesadores; i++) {
-        cluster.fork();
-    }
+// if (cluster.isPrimary) {
+//     const numeroDeProcesadores = os.cpus().length;
+//     for (let i = 0; i < numeroDeProcesadores; i++) {
+//         cluster.fork();
+//     }
 
-    cluster.on("exit", (worker) => {
-        console.log(
-            `Worker ${
-                worker.process.pid
-            } died at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`
-        );
-        cluster.fork();
-    });
-} else {
+//     cluster.on("exit", (worker) => {
+//         console.log(
+//             `Worker ${
+//                 worker.process.pid
+//             } died at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`
+//         );
+//         cluster.fork();
+//     });
+// } else {
       dotenv.config({
         path: `${__dirname}/.env`,
     });
@@ -107,4 +107,4 @@ if (cluster.isPrimary) {
         console.log(`Servidor arriba. Puerto ${PORT}`);
         Database.getInstance();
     });
-}
+// }
