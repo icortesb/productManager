@@ -97,6 +97,7 @@ export class UserManager {
         await userExists.save();
         console.log(`User ${user} logged out with last connection ${userExists.lastConnection}`);
         res.clearCookie('jwt');
+        req.session.destroy();
         res.redirect('/login');
     }
 
