@@ -62,7 +62,7 @@ export const initializePassport = () => {
             {
                 clientID: "Iv1.74e4afe284ae1121",
                 clientSecret: process.env.GITHUB_SECRET,
-                callbackURL: `productmanager-production-6346.up.railway.app/api/sessions/callbackGithub`,
+                callbackURL: `https://productmanager-production-6346.up.railway.app/api/sessions/callbackGithub`,
             },
             async (accesToken, refreshToken, profile, done) => {
                 try {
