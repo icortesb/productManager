@@ -103,7 +103,7 @@ if (cluster.isPrimary) {
         });
     });
 
-    server.listen(PORT, () => {
+    server.listen(PORT || 8080, () => {
         console.log(`Servidor arriba. Puerto ${PORT}`);
         Database.getInstance();
     });
