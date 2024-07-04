@@ -50,9 +50,14 @@
     <h2>Cambiar rol de usuario</h2>
     <form action="api/users/premium/{{user._id}}/" method="POST">
         <input type="hidden" name="_method" value="PUT">
+        <select name="users">
+            {{#each allUsers}}
+                <option value="{{_id}}">{{user}}</option>
+            {{/each}}
+        </select>
         <select name="role">
             {{#each roles}}
-            <option value="{{this}}">{{this}}</option>
+                <option value="{{this}}">{{this}}</option>
             {{/each}}   
         </select>
         <button type="submit" id="change_role">Cambiar rol</button>
@@ -86,8 +91,9 @@
     buttonRole.addEventListener("click", function (event) {
         event.preventDefault();
         const role = document.querySelector('select[name="role"]').value;
+        const user = document.querySelector('select[name="users"]').value;
 
-        fetch(`/api/users/premium/{{user._id}}/`, {
+        fetch(`/api/users/premium/${user}/`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"

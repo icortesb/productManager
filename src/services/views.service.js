@@ -57,16 +57,18 @@ export const sendProfileView = async (req, res) => {
     let cart = null;
     let products = null;
     let roles = null;
+    let allUsers = null;
     if (token) {
         const decodedToken = verifyJWT(token);
         user = await userManager.getUser(decodedToken.user);
         cart = decodedToken.cart;
         products = await productManager.returnAllProducts();
         roles = await userManager.getUserRoles();
+        allUsers = await userManager.getAllUsers();
     } else {
         res.redirect('/login');
     }
-    res.render('profile', {user, cart, products, roles});
+    res.render('profile', {user, cart, products, roles, allUsers});
 }
 
 export const sendTicketView = async (req, res) => {
