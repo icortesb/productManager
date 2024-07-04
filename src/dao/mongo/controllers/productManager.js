@@ -118,7 +118,7 @@ export class ProductManager {
                     const product = await deleteProduct(id);
                     if (product) {
                         const mail = decodedToken.user;
-                        const response = await fetch(`localhost/8080/mail/deletedProduct/${mail}/${product.title}`);
+                        const response = await fetch(`https://productmanager-production-6346.up.railway.app/mail/deletedProduct/${mail}/${product.title}`);
                         if (response.status === 200) {
                             res.status(200).json(
                                 {
