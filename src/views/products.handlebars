@@ -19,7 +19,7 @@
             <p class="product_description">{{this.description}}</p>
             <p>Stock: {{this.stock}}</p>
             <p class="product_price">Price:{{this.price}}</p>
-            <p>Owner: {{this.owner._id}}</p>
+            <p>Owner: {{this.owner}}</p>
             <form action="/api/carts/{{../user.cart}}/products/{{this._id}}" method="POST">
                 <button type="submit">Add to cart</button>
             </form>

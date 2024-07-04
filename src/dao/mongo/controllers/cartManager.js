@@ -218,6 +218,7 @@ export class CartManager {
     purchaseCart = async (req, res) => {
         const {cid} = req.params;
         let cart = await findCartById(cid);
+        const originalCart = await findCartById(cid);
         if (!cart) {
             res.status(404).json({
                 message: `Carrito no encontrado`,
@@ -239,7 +240,9 @@ export class CartManager {
                     await cart.save();
                 }
             }
-            res.status(200).redirect(`/ticket/${cid}`);
+
+            req.session.originalCart = originalCart;
+            res.redirect(`/ticket/${cid}`);
         }
     };
 }

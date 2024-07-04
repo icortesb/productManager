@@ -17,7 +17,7 @@ routerMail.get('/resetPassword/:mail', async (req, res) => {
         html: `
         <h1>Reset Password</h1>
         <p>Para resetear tu contraseña haz click en el siguiente link:</p>
-        <a href="https://productmanager-production-6346.up.railway.app/auth/newPassword/${mail}">Reset Password</a>
+        <a href="https://localhost/8080/auth/newPassword/${mail}">Reset Password</a>
         `
     })
     if(!mensaje.messageId) {

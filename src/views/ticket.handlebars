@@ -3,8 +3,14 @@
     <p>Este es su ticket de compra:</p>
 
     <ul>
-        {{#each cart}}
-        <li>{{@key}}: {{this}}</li>
+        {{#each originalCart.products}}
+        <li>
+            Producto: {{this.product.title}} <br>
+            Descripción: {{this.product.description}} <br>
+            Categoría: {{this.product.category}} <br>
+            Precio: ${{this.product.price}} <br>
+            Cantidad: {{this.quantity}}
+        </li>
         {{/each}}
     </ul>
 

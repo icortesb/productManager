@@ -73,9 +73,9 @@ export const sendProfileView = async (req, res) => {
 
 export const sendTicketView = async (req, res) => {
     const { cid } = req.params;
+    const originalCart = req.session.originalCart;
     let cart = await findCartByIdLean(cid);
-    console.log(cart)
-    res.render('ticket', { cart });
+    res.render('ticket', { cart, originalCart });
 }
 
 export const sendResetPasswordView = (req, res) => {
